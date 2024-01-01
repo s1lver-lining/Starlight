@@ -1,0 +1,1 @@
+This section contains information about different file formats and their structure. It is always good to keep this in mind, especially for forensics investigations.

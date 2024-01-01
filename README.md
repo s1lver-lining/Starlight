@@ -1,9 +1,5 @@
 
 
-<!-- <p align="center">
-  <img src="Introduction/_img/??" />
-</p> -->
-
 StarlightCTF is a repository containing **notes** pointing to ideas and resources. It's purpose is to help the user (usually me) to find solutions to **security-related challenges** and provide some tools to use when offline.
 
 The resources that I use most often are marked with a heart <span style="color:red">❤️</span> symbol.
@@ -36,7 +32,7 @@ This file is auto generated using [build.py](build.py). To update it, update the
 
 ⇨ [ZIP Files](#zip-files)<br>⇨ [File Scanning](#file-scanning)<br>⇨ [Images](#images)<br>⇨ [PDF Files](#pdf-files)<br>
 
-
+This section contains information about different file formats and their structure. It is always good to keep this in mind, especially for forensics investigations.
 
 ## ZIP Files
 
@@ -1950,7 +1946,7 @@ Variations such as [Triple DES](https://en.wikipedia.org/wiki/Triple_DES) (3DES)
 
 ⇨ [Common Exploits](#common-exploits)<br>⇨ [Privilege Escalation](#privilege-escalation)<br>⇨ [Reverse Shell](#reverse-shell)<br>
 
-
+This section describes common techniques used to pentest an infrastructure. As pentesting is not the main focus of this repository, I recommend using [HackTricks](https://book.hacktricks.xyz) for more pentesting-oriented content.
 
 ## Common Exploits
 

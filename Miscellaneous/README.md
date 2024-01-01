@@ -1,0 +1,1 @@
+This section details some miscellaneous topics that are not directly related to security challenges, but are still useful to know as a CTF player.

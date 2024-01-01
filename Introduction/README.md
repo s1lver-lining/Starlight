@@ -1,7 +1,3 @@
-<!-- <p align="center">
-  <img src="./_img/??" />
-</p> -->
-
 StarlightCTF is a repository containing **notes** pointing to ideas and resources. It's purpose is to help the user (usually me) to find solutions to **security-related challenges** and provide some tools to use when offline.
 
 The resources that I use most often are marked with a heart :heart: symbol.
