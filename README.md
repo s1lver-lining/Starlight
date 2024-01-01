@@ -2936,7 +2936,7 @@ Server Side Template Injection (SSTI) is a vulnerability that allows an attacker
 
 ⇨ [Wireless](#wireless)<br>⇨ [Signal processing](#signal-processing)<br>⇨ [Data Science](#data-science)<br>⇨ [Esoteric Languages](#esoteric-languages)<br>
 
-
+This section details some miscellaneous topics that are not directly related to security challenges, but are still useful to know as a CTF player.
 
 ## Wireless
 

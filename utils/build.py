@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import json
 
 """
 This script is used to produce a signle Markdown file from the content of the subdirectories.
@@ -21,22 +22,10 @@ Directories that starts with . or _ will be ignored. The Tools directories will 
 
 # Parameters
 OUTPUT_MD_FILE = "./README.md"
-TOPICS = [
-    "Files",
-    "Network",
-    "Services and Ports",
-    "Reverse Engineering",
-    "Binary Exploitation",
-    "Forensics",
-    "Cryptography",
-    "Pentest",
-    "Steganography",
-    "OSINT",
-    "Jail Break",
-    "Web",
-    "Miscellaneous",
-    "Other Resources"
-]
+
+# Read topics from topics.json
+with open("./topics.json", "r", encoding='utf-8') as topics_fd:
+    TOPICS = json.load(topics_fd)
 
 special_words = {
     ":heart:": "<span style=\"color:red\">❤️</span>"
