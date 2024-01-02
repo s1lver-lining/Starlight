@@ -22,9 +22,10 @@ Directories that starts with . or _ will be ignored. The Tools directories will 
 
 # Parameters
 OUTPUT_MD_FILE = "./README.md"
+TOPICS_FILENAME = "topics.json"
 
 # Read topics from topics.json
-with open("./topics.json", "r", encoding='utf-8') as topics_fd:
+with open(TOPICS_FILENAME, "r", encoding='utf-8') as topics_fd:
     TOPICS = json.load(topics_fd)
 
 special_words = {
@@ -138,7 +139,7 @@ def replace_special_words(content:str, special_words:str={}) -> str:
     return content
 
 
-def add_topic(topic:str, depth:int=0) -> None:
+def add_topic(current_topic:str, depth:int=0) -> None:
     """
     Append the content of a topic to the global output file, OUTPUT_MD_FILE.
     Does not add the title of the topic, it must be added before calling this function.
@@ -148,31 +149,44 @@ def add_topic(topic:str, depth:int=0) -> None:
         depth (int): The depth of the topic in the table of contents
     """
 
-    # Get the content of the topic directory
-    files = os.listdir(topic)
-    directories = [d for d in files if os.path.isdir(os.path.join(topic, d))]
+    # Get the content of the topic directory from topics.json. It it is not present, list the files in the directory
+    files = os.listdir(current_topic)
+    directories = [d for d in files if os.path.isdir(os.path.join(current_topic, d))]
+
+    if TOPICS_FILENAME in files:
+        with open(os.path.join(current_topic, TOPICS_FILENAME), "r", encoding='utf-8') as topics_fd:
+            topics_list = json.load(topics_fd)
+
+        # Remove the topics that are not directories
+        for t in topics_list:
+            if t not in directories:
+                topics_list.remove(t)
+
+    # If there are no topics.json file, use the directories list
+    else:
+        topics_list = directories
 
     # Add links to the subdirectories of the topic
-    for directory in directories:
-        if not directory.startswith(".") and not directory.startswith("_") and not directory == "Tools":
-            output_write("⇨ [" + directory + "](#" + directory.lower().replace(" ", "-") + ")<br>")
+    for subtopic in topics_list:
+        if not subtopic.startswith(".") and not subtopic.startswith("_") and not subtopic == "Tools":
+            output_write("⇨ [" + subtopic + "](#" + subtopic.lower().replace(" ", "-") + ")<br>\n")
     output_write("\n\n")
         
     # If there is a README.md file, add it's content
     if "README.md" in files:
-        dir = "README.md"
-        with open(topic + "/" + dir, "r", encoding='utf-8') as local_readme_fd:
+        readme_filename = "README.md"
+        with open(os.path.join(current_topic, readme_filename), "r", encoding='utf-8') as local_readme_fd:
             content = local_readme_fd.read()
-        content = update_links(content, topic)
+        content = update_links(content, current_topic)
         content = update_titles(content, depth)
         content = replace_special_words(content, special_words)
         output_write(content)
 
     # For each subdirectory, add the title and the content of the subtopic
-    for dir in directories:
-        if not dir.startswith(".") and not dir.startswith("_") and not dir == "Tools":
-            output_write("\n\n##" + "#" * depth + " " + dir + "\n\n")
-            add_topic(topic + "/" + dir, depth=depth+1)
+    for subtopic in topics_list:
+        if not subtopic.startswith(".") and not subtopic.startswith("_") and not subtopic == "Tools":
+            output_write("\n\n##" + "#" * depth + " " + subtopic + "\n\n")
+            add_topic(current_topic + "/" + subtopic, depth=depth+1)
             output_write("\n\n")
 
 def main() -> None:

