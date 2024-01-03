@@ -1,16 +1,16 @@
 [
-    "Files",
     "Network",
     "Services and Ports",
     "Reverse Engineering",
     "Binary Exploitation",
+    "Files",
     "Forensics",
     "Cryptography",
+    "Web",
     "Pentest",
+    "Jail Break",
     "Steganography",
     "OSINT",
-    "Jail Break",
-    "Web",
     "Miscellaneous",
     "Other Resources"
 ]
