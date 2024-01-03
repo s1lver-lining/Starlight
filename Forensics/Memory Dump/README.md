@@ -2,6 +2,7 @@ Memory dumps are captures of the state of the memory at a given time. It contain
 
 Memory dumps can be analyzed using the [Volatility Framework](https://www.volatilityfoundation.org/) :heart: .
 
+## Volatility Framework
 Two versions of the framework are available:
 - [Volatility 2](https://github.com/volatilityfoundation/volatility) (Python 2)
 - [Volatility 3](https://github.com/volatilityfoundation/volatility3) (Python 3)
@@ -23,6 +24,8 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
     | `filescan` | List all files |
     | `filedump` | Dump a file from memory, usually works better with vol2 |
     | `netscan` | List all network connections |
+
+### Volatility common usage
 
 * `Volatility 3 quick start`
 
@@ -103,7 +106,7 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
     sudo vol2 -f $DUMP_NAME --profile=$PROFILE linux_procdump --pid=<pid> --dump-dir=./out # Dump a process
     ```
 
-
+## Other tools
 
 * `bulk_extractor` - [GitHub](https://github.com/simsong/bulk_extractor)
 
@@ -118,7 +121,7 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
 
     It is often a good idea to look at the browser profile to find interesting information, such as bookmarks, history, cookies, stored passwords, etc... 
     
-    See [Browser Forensics](../Browser%20Forensics/README.md) for more information.
+    See `Browser Forensics` in the `Forensics` section.
 
 
 

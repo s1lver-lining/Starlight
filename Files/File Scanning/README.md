@@ -1,3 +1,7 @@
+File scanning is the process of analyzing a, potentially large, file to find information about it. This can be useful to find hidden data, or to simply find the data type and structure of a file.
+
+## Tools
+
 * `file`
 
     Deduce the file type from the headers.
@@ -57,7 +61,9 @@
     yara png.yar <file>  # Scan a file, outputs rule name if match
     yara -s png.yar <file>  # Print the offset and the matched strings
     ```
-    
+
+## File signatures
+
 * `file signatures` - [Wikipedia](https://en.wikipedia.org/wiki/List_of_file_signatures)
 
     File signatures are bytes at the beginning of a file that identify the file type. This header is also called magic numbers.
@@ -70,4 +76,4 @@
     | `89 50 4E 47 0D 0A 1A 0A` (?PNG) | PNG | [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) image |
     | `50 4B` (PK) | ZIP | [ZIP](https://en.wikipedia.org/wiki/Zip_(file_format)) archive |
 
-    The first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'
+    For exemple, the first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'

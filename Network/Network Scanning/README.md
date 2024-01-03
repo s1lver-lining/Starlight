@@ -8,6 +8,7 @@
     | `172.16.0.0/16` | `172.16.0.0` - `172.31.255.255` | 1,048,574 |
     | `192.168.0.0/16` | `192.168.0.0` - `192.168.255.255` | 65,534 |
 
+## NMAP
 
 * `nmap` - [Website](https://nmap.org/)
 
@@ -35,6 +36,8 @@
 	```bash
 	nmap -sV --script dns-* <ip> # Run all dns scripts
 	```
+
+## Tools
 
 * `traceroute` - [Wikipedia](https://en.wikipedia.org/wiki/Traceroute)
 

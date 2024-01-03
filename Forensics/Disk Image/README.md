@@ -1,3 +1,5 @@
+## Tools
+
 * `Autopsy` :heart: - [Website](https://www.autopsy.com/download/)
 
     GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
@@ -16,9 +18,14 @@
 	
     CLI tool to recover deleted files. Works with raw data, so the disk do not need to have a partition system working.
 
+## Techniques
+
 * Extract windows hashes from filesystem (SAM file).
 
     This can be done with `samdump2`. See this [GitHub repository](https://github.com/noraj/the-hacking-trove/blob/master/docs/Tools/extract_windows_hashes.md) for more information.
+
+
+## Data formats
 
 * `WIM` : Windows Imaging Format - [Wikipedia](https://en.wikipedia.org/wiki/Windows_Imaging_Format)
 

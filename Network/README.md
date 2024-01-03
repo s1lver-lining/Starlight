@@ -1,12 +1,13 @@
+This section present some tools to analyse networks and network traffic. The `Services and Ports` section and the `Pentest` section can also be useful for network related tasks.
 
 * `Wireshark` :heart: - [Website](https://www.wireshark.org/)
 	The go-to tool for examining [`.pcap`](https://en.wikipedia.org/wiki/Pcap) files.
 
 
-* `PCAPNG` - [GitHub](https://github.com/pcapng/pcapng) 
-	Not all tools like the [PCAPNG](https://github.com/pcapng/pcapng) file format... so you can convert them with an online tool [http://pcapng.com/](http://pcapng.com/) or from the command-line with the `editcap` command that comes with installing [Wireshark]:
-
-	```
+* `PCAPNG File format` - [GitHub](https://github.com/pcapng/pcapng)
+	Some tools do not support the [PCAPNG](https://github.com/pcapng/pcapng) file format. It can be converted to PCAP with [this online tool](http://pcapng.com/) or with the `editcap` command that comes with [Wireshark](https://www.wireshark.org/).
+	
+	```bash
 	editcap old_file.pcapng new_file.pcap
 	```
 
@@ -18,8 +19,6 @@
 	tcpflow -r my_file.pcap
 	ls -1t | head -5 # see the last 5 recently modified files
 	```
-
-
 
 * `PcapXray` - [GitHub](https://github.com/Srinivas11789/PcapXray) 
 	A GUI tool to visualize network traffic.

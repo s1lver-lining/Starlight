@@ -71,7 +71,17 @@ Here is a list of misc codes. The goal of this section is to help recognize them
 	| [Sheikah Language (Breathe of the Wild)](https://www.dcode.fr/sheikah-language) | Lines in a square |
 	| [Standard Galactic Alphabet](https://www.dcode.fr/standard-galactic-alphabet) | Vertical and horizontal lines |
 
+* Phone-Keypad
 
+	Letters can be encoded with numbers using a phone keypad.
+
+	| | | |
+	|-|-|-|
+	| **1** _ , @ | **2** A B C | **3** D E F |
+	| **4** G H I | **5** J K L | **6** M N O |
+	| **7** P Q R S | **8** T U V | **9** W X Y Z |
+	| **\*** _ | **0** + | **#** _ |
+	
 * `Transposition Cipher` - [Wikipedia](https://en.wikipedia.org/wiki/Transposition_cipher)
 
 	Reorder the letters of the message. The key is the order of the letters.

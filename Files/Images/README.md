@@ -14,7 +14,8 @@
 
 	Utility to try and correct a **PNG** file. 
 
-	Need to press enter to show the file.
+	*Need to press enter to show the file.*
+
 
 * `Reading the specifications` :heart:
 
@@ -25,11 +26,11 @@
 	| PNG | [Summary](https://github.com/corkami/formats/blob/master/image/png.md) | [Full Specification](https://www.w3.org/TR/PNG/) |
 	| JPEG | [Summary](https://github.com/corkami/formats/blob/master/image/jpeg.md) | [Full Specification](https://www.w3.org/Graphics/JPEG/itu-t81.pdf) |
 
+## Online tools
+
 * Repair image online tool
 
     Good low-hanging fruit to throw any image at: [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
-
-
 
 * [Analysis Image] ['https://29a.ch/photo-forensics/#forensic-magnifier']
 
