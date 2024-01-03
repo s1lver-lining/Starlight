@@ -126,7 +126,12 @@ WHEN GIVEN A FILE TO WORK WITH, DO NOT FORGET TO RUN THIS STEGHIDE WITH AN EMPTY
 
 	Letters can be encoded with numbers using a phone keypad.
 
-![https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSySxHjMFv80XWp74LZpfrnAro6a1MLqeF1F3zpguA5PGSW9ov](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSySxHjMFv80XWp74LZpfrnAro6a1MLqeF1F3zpguA5PGSW9ov)
+	| | | |
+	|-|-|-|
+	| **1** _ , @ | **2** A B C | **3** D E F |
+	| **4** G H I | **5** J K L | **6** M N O |
+	| **7** P Q R S | **8** T U V | **9** W X Y Z |
+	| **\*** _ | **0** + | **#** _ |
 
 * `hipshot` - [Website](https://bitbucket.org/eliteraspberries/hipshot)
 

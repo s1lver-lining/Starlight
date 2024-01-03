@@ -3,8 +3,14 @@ Cryptography and Cryptanalysis are the art of creating and breaking codes.
 This section will only explain the most common attacks, as there are too many of them (and would require too much time to write). However, tools and resources will be provided to help you learn more about cryptography and understand the well-known attacks.
 
 Platforms with cryptanalysis challenges:
-- [Cryptohack](https://cryptohack.org/)
-- [CryptoPals](https://cryptopals.com/)
+
+| Name | Description | Website |
+| ---- | ----------- | ------- |
+| [Cryptohack](https://cryptohack.org/) | Cryptanalysis challenges presented in a game-like and competitive (no public solutions) way. | [https://cryptohack.org](https://cryptohack.org/) |
+| [CryptoPals](https://cryptopals.com/) | Sets of hard challenges with public solutions available. | [https://cryptopals.com](https://cryptopals.com/) |
+
+
+## Common tools
 
 * `SageMath` - [Website](https://www.sagemath.org/)
 
@@ -17,6 +23,8 @@ Platforms with cryptanalysis challenges:
 * `Crypto Attacks repository` - [GitHub](https://github.com/jvdsn/crypto-attacks)
 
     A large collection of cryptography attacks.
+
+## Common attacks
 
 * Predictable Pseudo-Random Number Generators
 

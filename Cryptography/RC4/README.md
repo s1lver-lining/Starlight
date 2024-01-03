@@ -1,6 +1,6 @@
 [RC4](https://en.wikipedia.org/wiki/RC4) is a fast stream cipher known to be very insecure.
 
-
+## Attacks
 
 * FMS Attack - [Wikipedia](https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack) [CryptoHack](https://aes.cryptohack.org/oh_snap)
 

@@ -1,10 +1,11 @@
 [AES Galois Counter Mode](https://en.wikipedia.org/wiki/Galois/Counter_Mode) is an authenticated encryption mode. For each encryption it produces a tag that can be used to verify the integrity of the message. It is considered secure and is used in TLS.
 
+## Definition
 
-<!--image -->
 ![AES GCM](./_img/GCM-Galois_Counter_Mode_with_IV-dark.png#gh-dark-mode-only)
 ![AES GCM](./_img/GCM-Galois_Counter_Mode_with_IV.png#gh-light-mode-only)
 
+## Attacks
 
 * Forbidden attack - [CryptoHack](https://aes.cryptohack.org/forbidden_fruit/)
 

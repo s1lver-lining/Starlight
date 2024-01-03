@@ -1,4 +1,6 @@
-* `DCode` - [Website](https://www.dcode.fr)
+## Tools
+
+* `DCode` :heart: - [Website](https://www.dcode.fr)
 
 	Support many crypto algorithms, but also some interesting tools.
 
@@ -14,6 +16,10 @@
 	Requires python version strickly less than 3.10.
 
 	Will be replaced in the future by [Ares](https://github.com/bee-san/Ares)
+
+## Misc Codes
+
+Here is a list of misc codes. The goal of this section is to help recognize them and provide tools to decode them.
 
 * `Keyboard Shift` - [Website](https://www.dcode.fr/keyboard-shift-cipher)
 

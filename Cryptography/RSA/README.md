@@ -1,6 +1,6 @@
 [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem)) is an **asymetric** cryptographic algorithm. A **public key** is used to encrypt data and a **private key** is used to decrypt data.
 
-# Textbook definition
+## Textbook definition
 
 The variables of textbook RSA are:
 
@@ -12,7 +12,7 @@ The variables of textbook RSA are:
 
 The public key is (N, e) and the private key is (N, d).
 
-## Key generation
+### Key generation
 
 1. Choose two large primes $p$ and $q$. Use a cryptographically secure random number generator.
 2. Compute the public modulus:
@@ -28,17 +28,17 @@ The public key is (N, e) and the private key is (N, d).
    
    (for exemple with the [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm))
 
-## Encryption (Textbook RSA)
+### Encryption (Textbook RSA)
 To encrypt a message $m$ with the **public** key $(N, e)$, compute the ciphertext $c$ with:
 
 >$c = m^e \mod N$
 
-## Decryption (Textbook RSA)
+### Decryption (Textbook RSA)
 To decrypt a ciphertext $c$ with the private key $(N, d)$, compute $m = c^d \mod N$.
 
 m is the deciphered message.
 
-# Attacks
+## Attacks
 
 Several attacks exist on RSA depending on the circumstances.
 
@@ -84,7 +84,7 @@ Several attacks exist on RSA depending on the circumstances.
 * Coppersmith's attack - [Wikipedia](https://en.wikipedia.org/wiki/Coppersmith%27s_attack)
 
 
-## Bad parameters attacks
+### Bad parameters attacks
 
 * Wiener's Attack - [Wikipedia](https://en.wikipedia.org/wiki/Wiener%27s_attack) with continued fractions
 
@@ -134,7 +134,7 @@ Several attacks exist on RSA depending on the circumstances.
    See this [Gitlab repository](https://gitlab.com/jix/neca) for an implementation of the attack.
 
 
-## Bad implementations attacks
+### Bad implementations attacks
 
 
 * Chinese Remainder Attack

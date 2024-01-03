@@ -9,3 +9,4 @@ yarascan with vol3
 nikto website scanner
 web3
 Coppersmith's attack
+AES weak sbox: automated generation of weak sbox, automated encryption/decryption from oracle, automated key recovery

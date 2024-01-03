@@ -1,10 +1,13 @@
 [AES Cipher Block Chaining](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_block_chaining_(CBC)) is the most commonly used mode of operation. It uses the previous output to xor the next input.
 
-<!--image -->
+## Definition
+
 ![CBC Encryption](./_img/CBC_encryption.png#gh-light-mode-only)
 ![CBC Encryption](./_img/CBC_encryption-dark.png#gh-dark-mode-only)
 ![CBC Decryption](./_img/CBC_decryption.png#gh-light-mode-only)
 ![CBC Decryption](./_img/CBC_decryption-dark.png#gh-dark-mode-only)
+
+## Attacks
 
 * Bit flipping attack (CPA) - [Wikipedia](https://en.wikipedia.org/wiki/Bit-flipping_attack) [CryptoHack](https://cryptohack.org/courses/symmetric/flipping_cookie/)
 
