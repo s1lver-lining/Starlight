@@ -76,8 +76,7 @@ def update_links(content:str, topic_path:str) -> str:
 
         # Relative link to a local file in the same directory -> Relative link from the root of the repository
         if link[1].startswith("./"):
-            topic_path = topic_path.replace(" ", "%20")
-            new_link = link[1].replace("./", topic_path + "/")
+            new_link = link[1].replace("./", topic_path.replace(" ", "%20") + "/")
             content = content.replace(link[1], link[1].replace("./", topic_path + "/"))
             continue
 

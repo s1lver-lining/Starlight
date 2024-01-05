@@ -1,7 +1,7 @@
 
 * `File scanning`
 
-	Use [this section](../Scanning/File%20Scanning/README.md) to find information about files.
+	Use [this section](../Files/File%20Scanning/README.md) to find information about files.
 
 
 * Keepass

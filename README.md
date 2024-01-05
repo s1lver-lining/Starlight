@@ -131,13 +131,13 @@ DNS can be used to exfiltrate data, for example to bypass firewalls.
 * `iodine` - [GitHub](https://github.com/yarrick/iodine)
 
     Can be identified by the presence of the "Aaahhh-Drink-mal-ein-Jägermeister" or "La flûte naïve française est retirée à Crête".<br>
-    Can be deciphered with [this script](Network/Tools/iodine/exploit.py)<br>
+    Can be deciphered with [this script](Network/DNS Exfiltration/Tools/iodine/exploit.py)<br>
     [Hack.lu CTF WU](http://blog.stalkr.net/2010/10/hacklu-ctf-challenge-9-bottle-writeup.html)
 
 * `DNScat2` - [GitHub](https://github.com/iagox86/dnscat2)
 
     Can be identified when [file signatures](#file-scanning) are present in the DNS queries.
-    Data can be extracted with [this script](Network/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
+    Data can be extracted with [this script](Network/DNS Exfiltration/Tools/dnscat2/exploit.py) and files can be extracted with [binwalk](#file-scanning).
 
 
 
@@ -482,7 +482,7 @@ Reversing binaries can be used to solve keygen (or crackme) challenges, or just 
 
 	Decompiler for binary files, useful for **static** analysis.
 
-	Automatically create a ghidra project from a binary file using [this script](Reverse%20Engineering/Binaries/Tools/ghidra.py):
+	Automatically create a ghidra project from a binary file using [this script](Reverse Engineering/Binaries/Tools/ghidra.py):
 	```bash
 	ghidra.py <file>
 	```
@@ -586,12 +586,12 @@ Different types of exploit exists, the most common are:
 
 | Name | Description |
 | ---- | ----------- |
-| [Format String](/Tools/ELF/6-format_string_vulns/) | Exploits format string functions to read and write in the program memory |
-| [Overwriting stack variables](/Tools/ELF/1-overwriting_stack_variables/) | Change the value of a variable on the stack. |
-| [ret2win](/Tools/ELF/3-ret2win_with_params/) | Overwrite the return address to point to an interesting function of the program |
-| [Shellcode](/Tools/ELF/4-injecting_custom_shellcode/) | Inject shellcode in the program memory and execute it |
-| [ret2libc](/Tools/ELF/5-return_to_libc/) | Overwrite the return address to point to an interesting function in libc |
-| [Overwriting GOT](/Tools/ELF/8-overwriting_got/) | Overwrite the address of a function in the GOT to point to an interesting function |
+| [Format String](Binary Exploitation/Tools/bin_exp/6-format_string_vulns/) | Exploits format string functions to read and write in the program memory |
+| [Overwriting stack variables](Binary Exploitation/Tools/bin_exp/1-overwriting_stack_variables/) | Change the value of a variable on the stack. |
+| [ret2win](Binary Exploitation/Tools/bin_exp/3-ret2win_with_params/) | Overwrite the return address to point to an interesting function of the program |
+| [Shellcode](Binary Exploitation/Tools/bin_exp/4-injecting_custom_shellcode/) | Inject shellcode in the program memory and execute it |
+| [ret2libc](Binary Exploitation/Tools/bin_exp/5-return_to_libc/) | Overwrite the return address to point to an interesting function in libc |
+| [Overwriting GOT](Binary Exploitation/Tools/bin_exp/8-overwriting_got/) | Overwrite the address of a function in the GOT to point to an interesting function |
 
 
 ### Exploit mitigations
@@ -607,11 +607,11 @@ But some security techniques exists and can make exploitation harder:
 
 - Stack canaries<br>
     A random value is stored on the stack and checked before returning from a function.
-    Solution: [Leak the canary](/Tools/ELF/9-bypassing_canaries/) and overwrite it with the correct value.
+    Solution: [Leak the canary](Binary Exploitation/Tools/bin_exp/9-bypassing_canaries/) and overwrite it with the correct value.
 
 - PIE<br>
     Randomization of the memory addresses of the program.
-    Solution: [Leak an address](/Tools/ELF/7-leak_pie_ret2libc/)
+    Solution: [Leak an address](Binary Exploitation/Tools/bin_exp/7-leak_pie_ret2libc/)
 
 
 ### Tools
@@ -637,7 +637,7 @@ Common tools to exploit binaries:
 
     This needs that the binary is **dynamically linked**, and is easier if you know the name of the function you want to extract.
 
-    Code for this library is provided [here](Binary%20Exploitation/Tools/exec_only_dumper).
+    Code for this library is provided [here](Binary Exploitation/Tools/exec_only_dumper).
 
     [CTF time WU](https://ctftime.org/writeup/7670)<br>
     [DGHack 2022 WU](https://remyoudompheng.github.io/ctf/dghack2022/wanna_more_features.html)
@@ -1316,7 +1316,7 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
 
 * `Gesture cracking`
 
-    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
+    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Android Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Android Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
 
 
 
@@ -1621,10 +1621,10 @@ The most common block operation modes are:
 
 ##### Definition
 
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption.png#gh-light-mode-only)
-![CBC Encryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption.png#gh-light-mode-only)
-![CBC Decryption](Cryptography/AES/AES%20-%20CBC%20Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
+![CBC Encryption](Cryptography/AES/AES - CBC Mode/_img/CBC_encryption.png#gh-light-mode-only)
+![CBC Encryption](Cryptography/AES/AES - CBC Mode/_img/CBC_encryption-dark.png#gh-dark-mode-only)
+![CBC Decryption](Cryptography/AES/AES - CBC Mode/_img/CBC_decryption.png#gh-light-mode-only)
+![CBC Decryption](Cryptography/AES/AES - CBC Mode/_img/CBC_decryption-dark.png#gh-dark-mode-only)
 
 ##### Attacks
 
@@ -1634,7 +1634,7 @@ The most common block operation modes are:
     
     **If you want to change the first block of plaintext**, you need to be able to edit the IV, as the first block of plaintext is XORed with the IV. If you don't have access to it, you can try to make the target system ignore the first block and edit the remainder instead. (example: json cookie {admin=False;randomstuff=whatever} -> {admin=False;rando;admin=True} )
 
-    [Custom exploit script](Cryptography/AES/AES%20-%20CBC%20Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
+    [Custom exploit script](Cryptography/AES/AES - CBC Mode/Tools/bit-flipping-cbc.py) from this [Github gist](https://gist.github.com/nil0x42/8bb48b337d64971fb296b8b9b6e89a0d)
 
     [Video explanation](https://www.youtube.com/watch?v=QG-z0r9afIs)
 
@@ -1653,10 +1653,10 @@ The most common block operation modes are:
 
 ##### Definition
 
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
-![ECB Encryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
-![ECB Decryption](Cryptography/AES/AES%20-%20ECB%20Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
+![ECB Encryption](Cryptography/AES/AES - ECB Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
+![ECB Encryption](Cryptography/AES/AES - ECB Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
+![ECB Decryption](Cryptography/AES/AES - ECB Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
+![ECB Decryption](Cryptography/AES/AES - ECB Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
 
 ##### Attacks
 
@@ -1679,10 +1679,10 @@ The most common block operation modes are:
 
 ##### Definition
 
-![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
-![OFB Encryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
-![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
-![OFB Decryption](Cryptography/AES/AES%20-%20OFB%20Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
+![OFB Encryption](Cryptography/AES/AES - OFB Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
+![OFB Encryption](Cryptography/AES/AES - OFB Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
+![OFB Decryption](Cryptography/AES/AES - OFB Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
+![OFB Decryption](Cryptography/AES/AES - OFB Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
 
 
 
@@ -1696,10 +1696,10 @@ The main problem with this mode is that the nonce must be unique for each messag
 
 ##### Definition
 
-![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
-![CTR Encryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
-![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
-![CTR Decryption](Cryptography/AES/AES%20-%20CTR%20Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
+![CTR Encryption](Cryptography/AES/AES - CTR Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
+![CTR Encryption](Cryptography/AES/AES - CTR Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
+![CTR Decryption](Cryptography/AES/AES - CTR Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
+![CTR Decryption](Cryptography/AES/AES - CTR Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
 
 
 
@@ -1712,8 +1712,8 @@ The main problem with this mode is that the nonce must be unique for each messag
 
 ##### Definition
 
-![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV-dark.png#gh-dark-mode-only)
-![AES GCM](Cryptography/AES/AES%20-%20GCM%20Mode/_img/GCM-Galois_Counter_Mode_with_IV.png#gh-light-mode-only)
+![AES GCM](Cryptography/AES/AES - GCM Mode/_img/GCM-Galois_Counter_Mode_with_IV-dark.png#gh-dark-mode-only)
+![AES GCM](Cryptography/AES/AES - GCM Mode/_img/GCM-Galois_Counter_Mode_with_IV.png#gh-light-mode-only)
 
 ##### Attacks
 
@@ -1727,7 +1727,7 @@ The main problem with this mode is that the nonce must be unique for each messag
 
     [GitHub (Crypton)](https://github.com/ashutosh1206/Crypton/tree/master/Authenticated-Encryption/AES-GCM/Attack-Forbidden) - Summary of the attack.
 
-    [This custom python script](Cryptography/AES/AES%20-%20GCM%20Mode/Tools/forbidden_attack.py) gives an example implementation of the attack.
+    [This custom python script](Cryptography/AES/AES - GCM Mode/Tools/forbidden_attack.py) gives an example implementation of the attack.
 
 
 
@@ -1794,8 +1794,8 @@ A point $P$ on an elliptic curve is a pair of coordinates $(x, y)$ that satisfie
 
 The addition of two points $P$ and $Q$ is defined as follows: If $R = P + Q$, then $-R$, the reflection of $R$ over the x-axis, is obtained by drawing a line through $P$ and $Q$ and finding the third point of intersection of this line with the curve. The point $R$ is then defined as $R = -(-R)$.
 
-![Point addition](Cryptography/Elliptic%20Curves/_img/EC_addition.png#gh-light-mode-only)
-![python ./utils/make_dark_mode_png.py -e 50 "Cryptography/Elliptic Curves/_img/EC_addition.png"](Cryptography/Elliptic%20Curves/_img/EC_addition-dark.png#gh-dark-mode-only)
+![Point addition](Cryptography/Elliptic Curves/_img/EC_addition.png#gh-light-mode-only)
+![python ./utils/make_dark_mode_png.py -e 50 "Cryptography/Elliptic Curves/_img/EC_addition.png"](Cryptography/Elliptic Curves/_img/EC_addition-dark.png#gh-dark-mode-only)
 
 #### ECC definition
 
@@ -2467,7 +2467,7 @@ This section describes common techniques used to pentest an infrastructure. As p
 
     Find common misconfigurations and vulnerabilities in Linux and Windows.
 
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/PEAS/) section.
+    Some payload can be found in the [Tools](Pentest/Privilege Escalation/Tools/PEAS/) section.
 
     Send linpeas via ssh
     ```bash	
@@ -2493,7 +2493,7 @@ This section describes common techniques used to pentest an infrastructure. As p
 
     sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
 
-    Some payload can be found in the [Tools](Pentest/Privilege%20Escalation/Tools/CVE-2021-3156/) section.
+    Some payload can be found in the [Tools](Pentest/Privilege Escalation/Tools/CVE-2021-3156/) section.
 
 
 
@@ -2510,8 +2510,8 @@ This is the opposite of a `bind shell`, which is a connection initiated by the a
 Sometimes both types of shells are wrongly called `reverse shell`.
 
 <!--image -->
-![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell.png#gh-light-mode-only)
-![Reverse shell](Pentest/Reverse%20Shell/_img/rev_shell-dark.png#gh-dark-mode-only)
+![Reverse shell](Pentest/Reverse Shell/_img/rev_shell.png#gh-light-mode-only)
+![Reverse shell](Pentest/Reverse Shell/_img/rev_shell-dark.png#gh-dark-mode-only)
 
 
 * `PayloadAllTheThings` - [GitHub](https://github.com/swisskyrepo/PayloadsAllTheThings)
@@ -3115,7 +3115,7 @@ This section details some miscellaneous topics that are not directly related to 
 
     Can be used for signal processing.
 
-    Example is provided in [process_signal.ipynb](Miscellaneous/Signal%20processing/Tools/process_signal.ipynb)
+    Example is provided in [process_signal.ipynb](Miscellaneous/Signal processing/Tools/process_signal.ipynb)
 
 
 
