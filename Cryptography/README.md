@@ -38,3 +38,15 @@ Platforms with cryptanalysis challenges:
 
     This is valid for most of digital signature schemes, including RSA, DSA, ECDSA.
 
+
+* Square root when $p ≡ 3$ mod $4$
+
+    Computing the square root of a number modulo a prime number is easy when the prime is congruent to 3 modulo 4.
+
+    Here is how to do it with SageMath:
+    ```python
+    p = 101
+    F = GF(p)
+    sr = F(71).sqrt()
+    assert sr**2 % p == 71
+    ```
