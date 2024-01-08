@@ -100,7 +100,7 @@ Many steganography implementations exists. Here is a list of some of them.
 
 * Corrupted image files
 
-	See `Images` in the `Forensics` section.
+	See [Images files](../Files/Images/README.md)
 
 ### Text
 

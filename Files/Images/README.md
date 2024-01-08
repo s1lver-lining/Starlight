@@ -28,10 +28,6 @@
 
 ## Online tools
 
-* Repair image online tool
+* [Forensically](https://29a.ch/photo-forensics/#forensic-magnifier)
 
-    Good low-hanging fruit to throw any image at: [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
-
-* [Analysis Image] ['https://29a.ch/photo-forensics/#forensic-magnifier']
-
-	Forensically is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
+	*Forensically* is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
