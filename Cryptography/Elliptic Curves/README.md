@@ -96,3 +96,12 @@ We can now define the **scalar multiplication** of a point $P$ by an integer $k$
 >The **scalar multiplication** is defined by iterating addition: $kP = P + P + \cdots + P$ ($k$ times).
 
 This operation is the *trapdoor function* of ECC, as inversing it is considered to be very hard. This problem is called the **elliptic curve discrete logarithm problem** (ECDLP): given $P$ and $Q$, find $k$ such that $Q = kP$.
+
+
+## Attacks
+
+* Smooth order using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
+
+    If the order of the curve is smooth (i.e have a lot of small factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Consequently, if he order is not prime itself, it must al least contain a large prime factor to prevent this.
+
+    Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes. [This script](./Tools/smooth_number_generator.py) can be used to generate smooth numbers of selected size while [this script](./Tools/ec_pohlig_hellman.py) can be used to compute the discrete logarithm on EC points.
