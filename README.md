@@ -824,6 +824,7 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 
 ## Images
 
+⇨ [PNG](#png)<br>
 
 
 * `pngcheck`
@@ -856,13 +857,26 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 
 #### Online tools
 
-* Repair image online tool
+* [Forensically](https://29a.ch/photo-forensics/#forensic-magnifier)
 
-    Good low-hanging fruit to throw any image at: [https://online.officerecovery.com/pixrecovery/](https://online.officerecovery.com/pixrecovery/)
+	*Forensically* is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
 
-* [Analysis Image] ['https://29a.ch/photo-forensics/#forensic-magnifier']
 
-	Forensically is free online tool to analysis image this tool has many features like  Magnifier, Clone Detection, Error Level analysis, Noise Analysis, level Sweep, Meta Data, Geo tags, Thumbnail Analysis , JPEG Analysis, Strings Extraction.
+### PNG
+
+
+
+[PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) is a raster graphics file format that supports lossless data compression.
+
+
+##### Tools
+
+* PNG data after IEND chunk in cropped image
+
+    Badly cropped PNG image can leave the cropped data after the IEND chunk. This can be spotted when there are two IEND chunks in a file. This can leak data from the original image, such as in the `aCropalypse` (CVE-2023-21036) vulnerability.
+
+    [This github repository](https://github.com/Absenti/acropalypse_png) can help to extract the data. [This GUI tool](https://github.com/frankthetank-music/Acropalypse-Multi-Tool) can also be used.
+
 
 
 
@@ -1386,6 +1400,17 @@ Platforms with cryptanalysis challenges:
     This is valid for most of digital signature schemes, including RSA, DSA, ECDSA.
 
 
+* Square root when $p ≡ 3$ mod $4$
+
+    Computing the square root of a number modulo a prime number is easy when the prime is congruent to 3 modulo 4.
+
+    Here is how to do it with SageMath:
+    ```python
+    p = 101
+    F = GF(p)
+    sr = F(71).sqrt()
+    assert sr**2 % p == 71
+    ```
 
 ## RSA
 
@@ -1782,24 +1807,125 @@ They can now use the shared secret $s$ to derive a symmetric key for [AES](#aes)
 
 #### General definition
 
+As ECC relies on unusual mathematical problems and some concepts are very specific to this, the definition part is more detailed than orther sections.
+
+
+Note: This section was made using the following resources:
+- CryptoHack, [Elliptic Curves course](https://cryptohack.org/courses/elliptic/).
+- [Elliptic Curve notes by Ben Lynn](https://web.archive.org/web/20220412170936/https://crypto.stanford.edu/pbc/notes/elliptic/)
+- An Introduction to Mathematical Cryptography, Jeffrey Hoffstein, Jill Pipher, Joseph H. Silverman.
+
 ##### Elliptic curve
 
-An elliptic curve is a curve defined by the equation: $y^2 = x^3 + ax + b$ where $a$ and $b$ are constants. By convention, the curve also contains a point at infinity $\mathcal{O}$.
+>An [**elliptic curve**](https://en.wikipedia.org/wiki/Elliptic_curve) is a curve defined by the equation: $$Y^2 = X^3 + aX + b$$ where $a$ and $b$ are constants. By convention, the curve also contains a point at infinity $\mathcal{O}$.
+
 
 To be a valid elliptic curve, the discriminant $\Delta = -16(4a^3 + 27b^2)$ must be non-zero, i.e $4a^3 + 27b^2 \neq 0$. Otherwise, the curve is called a singular curve.
 
+>Formally, the curve on a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ is the set of points $(x, y)$, $x, y \in F$ defined by $$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
+
+We can already notice:
+* The curve is symmetric about the $x$-axis, because $y^2 = (-y)^2$
+
 ##### Point adition
 
-A point $P$ on an elliptic curve is a pair of coordinates $(x, y)$ that satisfies the equation of the curve.
+We can now define the addition of two points on an elliptic curve.
 
-The addition of two points $P$ and $Q$ is defined as follows: If $R = P + Q$, then $-R$, the reflection of $R$ over the x-axis, is obtained by drawing a line through $P$ and $Q$ and finding the third point of intersection of this line with the curve. The point $R$ is then defined as $R = -(-R)$.
+>The **addition of two points** $P$ and $Q$ can be defined as follows: Take the line through $P$ and $Q$, and find the third point of intersection with this line. Then reflect this point about the $x$-axis. The result is $P + Q$.
+
+* If $P = Q$, then the line is the tangent to the curve at $P$.
+* If there is no third point of intersection, then the result is $\mathcal{O}$ which can be seen as [the point at infinity](https://en.wikipedia.org/wiki/Projective_geometry).
+
+This figure represents $P + Q = R$:
 
 ![Point addition](Cryptography/Elliptic Curves/_img/EC_addition.png#gh-light-mode-only)
-![python ./utils/make_dark_mode_png.py -e 50 "Cryptography/Elliptic Curves/_img/EC_addition.png"](Cryptography/Elliptic Curves/_img/EC_addition-dark.png#gh-dark-mode-only)
+![Point addition](Cryptography/Elliptic Curves/_img/EC_addition-dark.png#gh-dark-mode-only)
+
+>The following properties can be observed:
+>- If $P$ and $Q$ have rational coordinates, then so does $R$.
+>* $P + \mathcal{O} = \mathcal{O} + P = P$ (The point at infinity is the identity element.)
+>- $P + (-P) = \mathcal{O}$ (The inverse of a point is its reflection about the $x$-axis.)
+>* $P + Q = Q + P$ (Addition is commutative.)
+>- $(P + Q) + R = P + (Q + R)$ (Addition is associative.)
+
+These properties makes the set of points on an elliptic curve coupled with the point addition operation an [abelian group](https://en.wikipedia.org/wiki/Abelian_group).
+
+Point addition can be computed using the following formulas:
+* If $P \neq Q$:
+$$\begin{cases}
+x_R = \lambda^2 - x_P - x_Q \\
+y_R = \lambda(x_P - x_R) - y_P \\
+\end{cases}
+\text{ where } \lambda = \frac{y_Q - y_P}{x_Q - x_P}$$
+
+* If $P = Q$:
+$$\begin{cases}
+x_R = \lambda^2 - 2x_P \\
+y_R = \lambda(x_P - x_R) - y_P \\
+\end{cases}
+\text{ where } \lambda = \frac{3x_P^2 + a}{2y_P}$$
+
 
 #### ECC definition
 
 In ellyptic curve cryptography, the coordinates of points are in a [finite field](https://en.wikipedia.org/wiki/Finite_field) $\mathbb{F}_p$ where $p$ is a prime number.
+
+Because of this, the set of points that verifies the equation of an elliptic curve can no longer be seen as a simple geometric curve. Now, the space can be seen as a **rectangular grid** of points. The left and right **edges of the grid are connected**, as well as the top and bottom edges. This is called a *torus*.
+
+For exemple, here is the set of points of the elliptic curve $Y^2 = X^3 − X$ over $\mathbb{F}_{61}$:
+
+![Elliptic curve over a finite field](Cryptography/Elliptic Curves/_img/Elliptic_curve_on_Z61.png#gh-light-mode-only)
+![Elliptic curve over a finite field](Cryptography/Elliptic Curves/_img/Elliptic_curve_on_Z61-dark.png#gh-dark-mode-only)
+
+We notice that:
+* Point addition as we defined it before still works on this grid. See [this website](https://curves.xargs.org/) for visual examples.
+* $\mathcal{O}$ is now (0, 0)
+* Because the curve is symmetric about the $x$-axis and the space is finite, there is a new symmetry axis at the center of the grid.
+
+
+Here is python sagemath code that defines the elliptic curve $Y^2 = X^3 − X$ over $\mathbb{F}_{61}$ and computes $P + Q$:
+
+```python
+p = 61
+F = GF(p)
+E = EllipticCurve(F, [-1, 0])
+P = E(8, 4)
+Q = E(17, 4)
+R = P + Q # = R(36, 57)
+```
+
+##### Scalar multiplication
+
+We can now define the **scalar multiplication** of a point $P$ by an integer $k$.
+
+>The **scalar multiplication** is defined by iterating addition: $kP = P + P + \cdots + P$ ($k$ times).
+
+This operation is the *trapdoor function* of ECC, as inversing it is considered to be very hard. This problem is called the **elliptic curve discrete logarithm problem** (ECDLP): given $P$ and $Q$, find $k$ such that $Q = kP$.
+
+#### Tricks
+
+* Point from x
+
+    Usually, public and private keys are not given as a point $P$ on the curve but as an integer. It is sometimes easier to work with the $x$ coordinate of the point, as $y$ can be computed from $x$. Indeed there are only two possible values for $y$ for a given $x$ and if $y1$ is a solution, $y2 = $-y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
+
+    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate and the curve $E$:
+    ```python
+    P = E.lift_x(x)
+    ```
+
+#### Attacks
+
+* Smooth order using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
+
+    If the order of the curve is smooth (i.e have a lot of small - under 10**12 - factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Consequently, if he order is not prime itself, it must al least contain a large prime factor to prevent this.
+
+    Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes. [This script](Cryptography/Elliptic Curves/Tools/smooth_order/smooth_number_generator.py) can be used to generate smooth numbers of selected size while [this script](Cryptography/Elliptic Curves/Tools/smooth_order/ec_pohlig_hellman.py) can be used to compute the discrete logarithm on EC points.
+
+* MOV attack - [StackExchange](https://crypto.stackexchange.com/questions/1871/how-does-the-mov-attack-work)
+
+    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
+
+    [This script](Cryptography/Elliptic Curves/Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.
 
 
 
@@ -2904,7 +3030,7 @@ Many steganography implementations exists. Here is a list of some of them.
 
 * Corrupted image files
 
-	See `Images` in the `Forensics` section.
+	See [Images files](#images)
 
 #### Text
 

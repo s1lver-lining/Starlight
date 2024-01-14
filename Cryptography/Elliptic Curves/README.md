@@ -97,11 +97,27 @@ We can now define the **scalar multiplication** of a point $P$ by an integer $k$
 
 This operation is the *trapdoor function* of ECC, as inversing it is considered to be very hard. This problem is called the **elliptic curve discrete logarithm problem** (ECDLP): given $P$ and $Q$, find $k$ such that $Q = kP$.
 
+## Tricks
+
+* Point from x
+
+    Usually, public and private keys are not given as a point $P$ on the curve but as an integer. It is sometimes easier to work with the $x$ coordinate of the point, as $y$ can be computed from $x$. Indeed there are only two possible values for $y$ for a given $x$ and if $y1$ is a solution, $y2 = $-y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
+
+    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate and the curve $E$:
+    ```python
+    P = E.lift_x(x)
+    ```
 
 ## Attacks
 
 * Smooth order using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
 
-    If the order of the curve is smooth (i.e have a lot of small factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Consequently, if he order is not prime itself, it must al least contain a large prime factor to prevent this.
+    If the order of the curve is smooth (i.e have a lot of small - under 10**12 - factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Consequently, if he order is not prime itself, it must al least contain a large prime factor to prevent this.
 
-    Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes. [This script](./Tools/smooth_number_generator.py) can be used to generate smooth numbers of selected size while [this script](./Tools/ec_pohlig_hellman.py) can be used to compute the discrete logarithm on EC points.
+    Sagemath's discrete_log function can be used to compute the discrete logarithm for such primes. [This script](./Tools/smooth_order/smooth_number_generator.py) can be used to generate smooth numbers of selected size while [this script](./Tools/smooth_order/ec_pohlig_hellman.py) can be used to compute the discrete logarithm on EC points.
+
+* MOV attack - [StackExchange](https://crypto.stackexchange.com/questions/1871/how-does-the-mov-attack-work)
+
+    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
+
+    [This script](./Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.

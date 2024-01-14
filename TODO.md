@@ -1,5 +1,7 @@
 ECC
+Find if a curve is vulnerableto any attack  given its parameters
 binary exploitation: explainations and exemple exploit scripts (we dont have copyright on the current ones)
+DSA + ECDSA
 md5 collisions finder (https://github.com/cr-marcstevens/hashclash, https://github.com/corkami/collisions)
 md5 length extension
 AES weak sbox: automated generation of weak sbox, automated encryption/decryption from oracle, automated key recovery
