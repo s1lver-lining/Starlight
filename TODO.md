@@ -1,5 +1,5 @@
 ECC
-Find if a curve is vulnerableto any attack  given its parameters
+Find if a curve is vulnerable to any attack given its parameters
 binary exploitation: explainations and exemple exploit scripts (we dont have copyright on the current ones)
 DSA + ECDSA
 md5 collisions finder (https://github.com/cr-marcstevens/hashclash, https://github.com/corkami/collisions)
@@ -13,4 +13,3 @@ yarascan with vol3
 nikto website scanner
 web3
 Coppersmith's attack
-png resizing (404CTF2023:Notes de bas de page)

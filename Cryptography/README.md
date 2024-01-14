@@ -20,7 +20,7 @@ Platforms with cryptanalysis challenges:
 
     Archive repository of the most common attacks on cryptosystems.
 
-* `Crypto Attacks repository` - [GitHub](https://github.com/jvdsn/crypto-attacks)
+* `Crypto Attacks repository` :heart: - [GitHub](https://github.com/jvdsn/crypto-attacks)
 
     A large collection of cryptography attacks.
 

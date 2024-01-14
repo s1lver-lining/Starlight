@@ -1381,7 +1381,7 @@ Platforms with cryptanalysis challenges:
 
     Archive repository of the most common attacks on cryptosystems.
 
-* `Crypto Attacks repository` - [GitHub](https://github.com/jvdsn/crypto-attacks)
+* `Crypto Attacks repository` <span style="color:red">❤️</span> - [GitHub](https://github.com/jvdsn/crypto-attacks)
 
     A large collection of cryptography attacks.
 
@@ -1801,6 +1801,7 @@ They can now use the shared secret $s$ to derive a symmetric key for [AES](#aes)
 
 ## Elliptic Curves
 
+⇨ [ECDH](#ecdh)<br>
 
 
 [ECC](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is a set of **public-key** cryptographic algorithms based on **elliptic curves** over finite fields. It is used to create **digital signatures** and **key exchanges**.
@@ -1866,9 +1867,9 @@ y_R = \lambda(x_P - x_R) - y_P \\
 \text{ where } \lambda = \frac{3x_P^2 + a}{2y_P}$$
 
 
-#### ECC definition
+#### EC cryptography definition
 
-In ellyptic curve cryptography, the coordinates of points are in a [finite field](https://en.wikipedia.org/wiki/Finite_field) $\mathbb{F}_p$ where $p$ is a prime number.
+In ellyptic curve cryptography, the coordinates of points are usually in a prime [finite field](https://en.wikipedia.org/wiki/Finite_field) $\mathbb{F}_p$ where $p$ is a **prime number**. However, it is also possible to use a **binary fields** $\mathbb{F}_{2^m}$.
 
 Because of this, the set of points that verifies the equation of an elliptic curve can no longer be seen as a simple geometric curve. Now, the space can be seen as a **rectangular grid** of points. The left and right **edges of the grid are connected**, as well as the top and bottom edges. This is called a *torus*.
 
@@ -1915,6 +1916,8 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 #### Attacks
 
+##### Bad parameters
+
 * Smooth order using Pohlig–Hellman - [Wikipedia](https://en.wikipedia.org/wiki/Pohlig%E2%80%93Hellman_algorithm)
 
     If the order of the curve is smooth (i.e have a lot of small - under 10**12 - factors), the Pohlig–Hellman algorithm can be used to compute the discrete logarithm very quickly. Consequently, if he order is not prime itself, it must al least contain a large prime factor to prevent this.
@@ -1926,6 +1929,35 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
     Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
 
     [This script](Cryptography/Elliptic Curves/Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.
+
+* Smart's attack on an anomalous curve
+
+    When the order of the curve is the same as the prime $p$ of the field, the curve is called an *anomalous curve*. In this case, the discrete logarithm can be computed using [smart's attack](https://www.hpl.hp.com/techreports/97/HPL-97-128.pdf) from Lifts and Hensel's Lemma. A description of the attack can be found [here](https://wstein.org/edu/2010/414/projects/novotney.pdf).
+
+    [This github repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/ecc/smart_attack.py) contains an implementation of smart's attack.
+
+##### Bad implementations
+
+* CurveBall (CVE-2020-0601) - [GitHub](https://github.com/IIICTECH/-CVE-2020-0601-ECC---EXPLOIT)
+
+    This attack exploits a vulnerability in the implementation of the [Curve25519](https://en.wikipedia.org/wiki/Curve25519) curve in Windows crypto API. The implementation does not check the provided generator $G$ and uses it for computations, making it possible to forge certificates for any domain.
+
+
+### ECDH
+
+
+
+Elliptic curve Diffie-Hellman ([ECDH](https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman)) is a elliptic curve variant of the [Diffie-Hellman](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange) key exchange protocol. It allows two parties to establish a shared secret over an insecure channel. The shared secret can then be used to encrypt messages between the two parties.
+
+See the [Diffie-Hellman section](#diffie-hellman) for more information on the key exchange protocol.
+
+##### Attacks
+
+###### Bad Parameters
+
+* Small secret - [CryptoHack](https://cryptohack.org/challenges/micro/solutions/)
+
+
 
 
 
