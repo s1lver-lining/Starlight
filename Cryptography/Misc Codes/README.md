@@ -32,7 +32,7 @@ Here is a list of misc codes. The goal of this section is to help recognize them
 	- Encryption: c = m ^ k
 	- Decryption: m = c ^ k
 
-	If the key is repeated, it is a type of **Vigenere cipher**. [This template](../Tools/reapeted_xor.ipynb) helps to crack repeated XOR keys. [`xortools`](https://github.com/hellman/xortool) can also be used for this. This is called `Many time pad`
+	If the key is repeated, it is a type of **Vigenere cipher**. [This template](../Tools/repeated_xor.ipynb) helps to crack repeated XOR keys. [`xortools`](https://github.com/hellman/xortool) can also be used for this. This is called `Many time pad`
 
 * `Many time pad` on images/data
 

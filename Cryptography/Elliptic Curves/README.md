@@ -101,11 +101,11 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 * Point from x
 
-    Usually, public and private keys are not given as a point $P$ on the curve but as an integer. It is sometimes easier to work with the $x$ coordinate of the point, as $y$ can be computed from $x$. Indeed there are only two possible values for $y$ for a given $x$ and if $y1$ is a solution, $y2 = $-y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
+    Usually, public and private keys are not given as a point $P$ on the curve but **as an integer**. It is sometimes easier to work with the $x$ coordinate of the point, as there are only two possible values for $y$ for a given $x$. If $y1$ is a solution, $y2 = -y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
 
-    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate and the curve $E$:
+    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate:
     ```python
-    P = E.lift_x(x)
+    P = E.lift_x(x, all=True)[0]
     ```
 
 ## Attacks
@@ -129,6 +129,13 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
     When the order of the curve is the same as the prime $p$ of the field, the curve is called an *anomalous curve*. In this case, the discrete logarithm can be computed using [smart's attack](https://www.hpl.hp.com/techreports/97/HPL-97-128.pdf) from Lifts and Hensel's Lemma. A description of the attack can be found [here](https://wstein.org/edu/2010/414/projects/novotney.pdf).
 
     [This github repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/ecc/smart_attack.py) contains an implementation of smart's attack.
+
+* Singular curve - [StackExchange](https://crypto.stackexchange.com/questions/70373/why-are-singular-elliptic-curves-bad-for-crypto)
+
+    If the discriminant of the curve $\Delta = -16(4a^3 + 27b^2)$ is zero, the curve is called a *singular curve*. In this case, there is a bijection between the points of the curve and groups where the discrete logarithm is easy to compute. 
+
+    [This repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/ecc/singular_curve.py) contains an implementation of the attack.
+
 
 ### Bad implementations
 

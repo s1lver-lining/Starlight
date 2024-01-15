@@ -376,7 +376,7 @@ RSYNC - 873/tcp
 
 Reverse engineering is the process of analyzing a system, device or program in order to extract knowledge about it. It is a broad field that can be divided into two main categories: **static** and **dynamic** analysis.
 
-The [Binary Exploitation](/Binary%20Exploitation) section, also known as PWN, is dedicated to altering the behavior of a program by exploiting vulnerabilities in it. The 
+The [Binary Exploitation](Binary%20Exploitation) section, also known as PWN, is dedicated to altering the behavior of a program by exploiting vulnerabilities in it. The 
 
 
 
@@ -1907,11 +1907,11 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 * Point from x
 
-    Usually, public and private keys are not given as a point $P$ on the curve but as an integer. It is sometimes easier to work with the $x$ coordinate of the point, as $y$ can be computed from $x$. Indeed there are only two possible values for $y$ for a given $x$ and if $y1$ is a solution, $y2 = $-y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
+    Usually, public and private keys are not given as a point $P$ on the curve but **as an integer**. It is sometimes easier to work with the $x$ coordinate of the point, as there are only two possible values for $y$ for a given $x$. If $y1$ is a solution, $y2 = -y1$ is the other one. In addition, using either $y1$ or $y2$ does not change the result of computations.
 
-    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate and the curve $E$:
+    Here is a python sagemath function that returns the point $P$ from its $x$ coordinate:
     ```python
-    P = E.lift_x(x)
+    P = E.lift_x(x, all=True)[0]
     ```
 
 #### Attacks
@@ -1936,6 +1936,13 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
     [This github repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/ecc/smart_attack.py) contains an implementation of smart's attack.
 
+* Singular curve - [StackExchange](https://crypto.stackexchange.com/questions/70373/why-are-singular-elliptic-curves-bad-for-crypto)
+
+    If the discriminant of the curve $\Delta = -16(4a^3 + 27b^2)$ is zero, the curve is called a *singular curve*. In this case, there is a bijection between the points of the curve and groups where the discrete logarithm is easy to compute. 
+
+    [This repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/ecc/singular_curve.py) contains an implementation of the attack.
+
+
 ##### Bad implementations
 
 * CurveBall (CVE-2020-0601) - [GitHub](https://github.com/IIICTECH/-CVE-2020-0601-ECC---EXPLOIT)
@@ -1956,6 +1963,8 @@ See the [Diffie-Hellman section](#diffie-hellman) for more information on the ke
 ###### Bad Parameters
 
 * Small secret - [CryptoHack](https://cryptohack.org/challenges/micro/solutions/)
+
+    If one of the secret integers is small and the order of the curve is rather smooth (i.e has very few lage, over $10^{12}$, factors), using Pohlig-Hellman to solve the discrete logarithm problem on the subgrups of the small factors can be enough to recover the secret.
 
 
 
@@ -2078,7 +2087,7 @@ Here is a list of misc codes. The goal of this section is to help recognize them
 	- Encryption: c = m ^ k
 	- Decryption: m = c ^ k
 
-	If the key is repeated, it is a type of **Vigenere cipher**. [This template](Cryptography/Tools/reapeted_xor.ipynb) helps to crack repeated XOR keys. [`xortools`](https://github.com/hellman/xortool) can also be used for this. This is called `Many time pad`
+	If the key is repeated, it is a type of **Vigenere cipher**. [This template](Cryptography/Tools/repeated_xor.ipynb) helps to crack repeated XOR keys. [`xortools`](https://github.com/hellman/xortool) can also be used for this. This is called `Many time pad`
 
 * `Many time pad` on images/data
 
@@ -2624,8 +2633,6 @@ This section describes common techniques used to pentest an infrastructure. As p
 * `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
 
     Find common misconfigurations and vulnerabilities in Linux and Windows.
-
-    Some payload can be found in the [Tools](Pentest/Privilege Escalation/Tools/PEAS/) section.
 
     Send linpeas via ssh
     ```bash	

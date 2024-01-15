@@ -43,7 +43,7 @@ def output_write(content:str) -> None:
         output_fd.write(content)
 
 
-def update_links(content:str, topic_path:str) -> str:
+def update_links(content:str, topic_path:str, dead_link_warn=False) -> str:
     """
     Update the links in the content to be valid from the root of the repository
     
@@ -76,6 +76,10 @@ def update_links(content:str, topic_path:str) -> str:
 
         # Relative link to a local file in the same directory -> Relative link from the root of the repository
         if link[1].startswith("./"):
+            if dead_link_warn:
+                path = (link[1].replace("./", topic_path + "/")).split("#")[0].replace("%20", " ")
+                if not os.path.exists(path):
+                    print("WARNING: Dead link to \"" + path + "\" in " + topic_path + "/README.md")
             new_link = link[1].replace("./", topic_path.replace(" ", "%20") + "/")
             content = content.replace(link[1], link[1].replace("./", topic_path + "/"))
             continue
@@ -87,7 +91,14 @@ def update_links(content:str, topic_path:str) -> str:
                     i += 1
                 if i > len(topic_path):
                     i = 0
-                dotdot_path = topic_path[:-i] + "/"
+                dotdot_path = topic_path[:-i]
+                if dotdot_path != "":
+                    dotdot_path = dotdot_path + "/"
+
+                if dead_link_warn:
+                    path = (link[1].replace("../", dotdot_path)).split("#")[0].replace("%20", " ")
+                    if not os.path.exists(path):
+                        print("WARNING: Dead link to \"" + path + "\" in " + topic_path + "/README.md")
                 dotdot_path = dotdot_path.replace(" ", "%20")
                 new_link = link[1].replace("../", dotdot_path)
                 content = content.replace(link[1], new_link)
@@ -176,7 +187,7 @@ def add_topic(current_topic:str, depth:int=0) -> None:
         readme_filename = "README.md"
         with open(os.path.join(current_topic, readme_filename), "r", encoding='utf-8') as local_readme_fd:
             content = local_readme_fd.read()
-        content = update_links(content, current_topic)
+        content = update_links(content, current_topic, dead_link_warn=True)
         content = update_titles(content, depth)
         content = replace_special_words(content, special_words)
         output_write(content)
