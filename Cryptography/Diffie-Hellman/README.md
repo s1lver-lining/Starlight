@@ -7,10 +7,10 @@ Suppose a situation where Alice and Bob want to create a shared secret key. They
 1. They chose a standard prime number $p$ and a generator $g$. $g$ is usually 2 or 5 to make computations easier. $p$ and $g$ are public and $GF(p) = {0, 1, ..., p-1} = {g^0 \mod p, g^1 \mod p, ..., g^{p-1} \mod p}$ is a finite field.
 2. They create private keys $a$ and $b$ respectively. $a, b \in GF(p)$.
 3. They compute the public keys $A$ and $B$ and send them over the public channel.
-    >$A = g^a \mod p$<br>
-    >$B = g^b \mod p$
+    $$A = g^a \mod p$$
+    $$B = g^b \mod p$$
 4. They can now both compute the shared secret key $s$: Alice computes $s = B^a \mod p$ and Bob computes $s = A^b \mod p$.<br> 
-    >$s = B^a \mod p = A^b \mod p = g^{ab} \mod p$
+    $$s = B^a = A^b = g^{ab} \mod p$$
 
 They can now use the shared secret $s$ to derive a symmetric key for [AES](../AES/README.md) for example, and use it to encrypt their messages.
 

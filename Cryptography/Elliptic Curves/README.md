@@ -12,11 +12,15 @@ Note: This section was made using the following resources:
 
 ### Elliptic curve
 
+> *Definition*
+>
 >An [**elliptic curve**](https://en.wikipedia.org/wiki/Elliptic_curve) is a curve defined by the equation: $$Y^2 = X^3 + aX + b$$ where $a$ and $b$ are constants. By convention, the curve also contains a point at infinity $\mathcal{O}$.
 
 
 To be a valid elliptic curve, the discriminant $\Delta = -16(4a^3 + 27b^2)$ must be non-zero, i.e $4a^3 + 27b^2 \neq 0$. Otherwise, the curve is called a singular curve.
 
+> *Definition*
+>
 >Formally, the curve on a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ is the set of points $(x, y)$, $x, y \in F$ defined by $$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
 
 We can already notice:
@@ -26,6 +30,8 @@ We can already notice:
 
 We can now define the addition of two points on an elliptic curve.
 
+> *Definition*
+>
 >The **addition of two points** $P$ and $Q$ can be defined as follows: Take the line through $P$ and $Q$, and find the third point of intersection with this line. Then reflect this point about the $x$-axis. The result is $P + Q$.
 
 * If $P = Q$, then the line is the tangent to the curve at $P$.
@@ -36,6 +42,8 @@ This figure represents $P + Q = R$:
 ![Point addition](./_img/EC_addition.png#gh-light-mode-only)
 ![Point addition](./_img/EC_addition-dark.png#gh-dark-mode-only)
 
+> *Property*
+>
 >The following properties can be observed:
 >- If $P$ and $Q$ have rational coordinates, then so does $R$.
 >* $P + \mathcal{O} = \mathcal{O} + P = P$ (The point at infinity is the identity element.)
@@ -93,6 +101,8 @@ R = P + Q # = R(36, 57)
 
 We can now define the **scalar multiplication** of a point $P$ by an integer $k$.
 
+> *Definition*
+>
 >The **scalar multiplication** is defined by iterating addition: $kP = P + P + \cdots + P$ ($k$ times).
 
 This operation is the *trapdoor function* of ECC, as inversing it is considered to be very hard. This problem is called the **elliptic curve discrete logarithm problem** (ECDLP): given $P$ and $Q$, find $k$ such that $Q = kP$.

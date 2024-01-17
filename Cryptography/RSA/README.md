@@ -16,22 +16,23 @@ The public key is (N, e) and the private key is (N, d).
 
 1. Choose two large primes $p$ and $q$. Use a cryptographically secure random number generator.
 2. Compute the public modulus:
-   >$N = p q$.
+   $$N = p q$$
 3. Compute the "private" modulus:
-   >$\Phi(N) = (p - 1) (q - 1)$
+   $$\Phi(N) = (p - 1) (q - 1)$$
 4. Choose an integer $e$ such that 
-   >$1 < e < \Phi(N)$ and $\gcd(e, \Phi(N)) = 1$.<br>
+   $$1 < e < \Phi(N) \text{ and } \gcd(e, \Phi(N)) = 1$$
+   <br>
    
-   Usually $e = 65537 = 0x10001$.
+   Usually $e = 65537 = 0\text{x}10001$.
 5. Compute $d$ such that $de = 1 \mod \Phi(N)$ <br>
-   >$d = e^-1 \mod \Phi(N)$. 
+   $$d = e^-1 \mod \Phi(N)$$
    
    (for exemple with the [Extended Euclidean algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm))
 
 ### Encryption (Textbook RSA)
 To encrypt a message $m$ with the **public** key $(N, e)$, compute the ciphertext $c$ with:
 
->$c = m^e \mod N$
+$$c = m^e \mod N$$
 
 ### Decryption (Textbook RSA)
 To decrypt a ciphertext $c$ with the private key $(N, d)$, compute $m = c^d \mod N$.
@@ -64,7 +65,7 @@ Several attacks exist on RSA depending on the circumstances.
 * Decipher or signing oracle with blacklist 
 
    A decipher oracle can not control the message that it decrypts. If it blocks the decryption of cipher $c$, you can pass it $c * r^e \mod n$ where $r$ is any number. It will then return 
-   >$(c * r^e)^d = c^d * r = m * r \mod n$
+   $$(c * r^e)^d = c^d * r = m * r \mod n$$
     
    You can then compute $m = c^d$ by dividing by $r$.
 
@@ -126,7 +127,7 @@ Several attacks exist on RSA depending on the circumstances.
 * ROCA vulnerability - [Wikipedia](https://en.wikipedia.org/wiki/ROCA_vulnerability)
 
    The "Return of Coppersmith's attack" vulnerability occurs when generated primes are in the form <br>
-   >$p = k * M * + (65537^a \mod M)$
+   $$p = k * M * + (65537^a \mod M)$$
    where $M$ is the product of $n$ successive primes and $n$.
 
    See this [GitHub gist](https://gist.github.com/zademn/6becc979f65230f70c03e82e4873e3ec) for an explaination of the attack.
@@ -146,7 +147,7 @@ Several attacks exist on RSA depending on the circumstances.
    When there are **multiple public exponents** $e_1, e_2$ for multiple $c_1, c_2$ and the **same moduli** $N$, you can use Bezout's identity to compute $m$.
 
    Using Bezout's algorithm, you can find $a$ and $b$ such that $a e_1 + b e_2 = 1$. Then you can compute $m$ with:
-   > $c_1^a c_2^b = m^{a e_1} m^{b e_2} = m^{a e_1 + b e_2} = m^1 = m \mod N$
+   $$c_1^a c_2^b = m^{a e_1} m^{b e_2} = m^{a e_1 + b e_2} = m^1 = m \mod N$$
 
 * Franklin-Reiter related-message attack
 
