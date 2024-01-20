@@ -4,7 +4,7 @@
 
     GUI for analyzing disk images with Sleuthkit. It can be used to extract files, search for keywords, etc...
 
-* [`mount`]
+* `mount`
 
     Mount a disk image to a filesystem.
     

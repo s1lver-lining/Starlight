@@ -1,10 +1,9 @@
 [
-    "RSA",
-    "AES",
+    "Fundamentals",
+    "Public Key",
+    "Symetric",
     "Diffie-Hellman",
     "Elliptic Curves",
     "Hashes",
-    "RC4",
-    "DES",
     "Misc Codes"
 ]

@@ -14,17 +14,16 @@ Note: This section was made using the following resources:
 
 > *Definition*
 >
->An [**elliptic curve**](https://en.wikipedia.org/wiki/Elliptic_curve) is a curve defined by the equation: $$Y^2 = X^3 + aX + b$$ where $a$ and $b$ are constants. By convention, the curve also contains a point at infinity $\mathcal{O}$.
+>An [**elliptic curve**](https://en.wikipedia.org/wiki/Elliptic_curve) is a curve defined by the following equation where $a$ and $b$ are constants: $$Y^2 = X^3 + aX + b$$ 
+>Formally, the curve on a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ is the set of points $(x, y)$, $x, y \in F$ defined by $$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
 
 
 To be a valid elliptic curve, the discriminant $\Delta = -16(4a^3 + 27b^2)$ must be non-zero, i.e $4a^3 + 27b^2 \neq 0$. Otherwise, the curve is called a singular curve.
 
-> *Definition*
->
->Formally, the curve on a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ is the set of points $(x, y)$, $x, y \in F$ defined by $$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
 
 We can already notice:
 * The curve is symmetric about the $x$-axis, because $y^2 = (-y)^2$
+* The curve contains [a point at infinity](https://en.wikipedia.org/wiki/Projective_geometry) $\mathcal{O}$.
 
 ### Point adition
 
@@ -130,7 +129,7 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 * MOV attack - [StackExchange](https://crypto.stackexchange.com/questions/1871/how-does-the-mov-attack-work)
 
-    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
+    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $ \mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
 
     [This script](./Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.
 
@@ -152,3 +151,7 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 * CurveBall (CVE-2020-0601) - [GitHub](https://github.com/IIICTECH/-CVE-2020-0601-ECC---EXPLOIT)
 
     This attack exploits a vulnerability in the implementation of the [Curve25519](https://en.wikipedia.org/wiki/Curve25519) curve in Windows crypto API. The implementation does not check the provided generator $G$ and uses it for computations, making it possible to forge certificates for any domain.
+
+* Elliptic Curves on Real numbers - [Cryptohack](https://cryptohack.org/challenges/real_curves/solutions/)
+
+    Discrete logarithm on elliptic curves over real numbers can be reduced to SVP using many methods.
