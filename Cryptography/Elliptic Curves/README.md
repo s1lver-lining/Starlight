@@ -6,16 +6,19 @@ As ECC relies on unusual mathematical problems and some concepts are very specif
 
 
 Note: This section was made using the following resources:
-- CryptoHack, [Elliptic Curves course](https://cryptohack.org/courses/elliptic/).
-- [Elliptic Curve notes by Ben Lynn](https://web.archive.org/web/20220412170936/https://crypto.stanford.edu/pbc/notes/elliptic/)
-- An Introduction to Mathematical Cryptography, Jeffrey Hoffstein, Jill Pipher, Joseph H. Silverman.
+
+| Name | Author |
+| ---- | ------ |
+| [Elliptic Curves Challenges](https://cryptohack.org/courses/elliptic/) | CryptoHack |
+| [Elliptic Curve notes](https://web.archive.org/web/20220412170936/https://crypto.stanford.edu/pbc/notes/elliptic/) | Ben Lynn |
+| [An Introduction to Mathematical Cryptography](https://www.math.brown.edu/~jhs/MathCryptoHome.html) | Jeffrey Hoffstein, Jill Pipher, Joseph H. Silverman |
 
 ### Elliptic curve
 
-> *Definition*
+> *Definition:* Elliptic curve
 >
->An [**elliptic curve**](https://en.wikipedia.org/wiki/Elliptic_curve) is a curve defined by the following equation where $a$ and $b$ are constants: $$Y^2 = X^3 + aX + b$$ 
->Formally, the curve on a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ is the set of points $(x, y)$, $x, y \in F$ defined by $$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
+>Given a [field](https://en.wikipedia.org/wiki/Field_(mathematics)) $F$ and two constants $a, b \in F$, an **elliptic curve** $E$ over $F$ is the set of points $(x, y) \in F^2$ that satisfy the equation $Y^2 = X^3 + aX + b$:
+>$$E(F) = \{(x, y) \in F^2 : y^2 = x^3 + ax + b\} \cup \{\mathcal{O}\}$$
 
 
 To be a valid elliptic curve, the discriminant $\Delta = -16(4a^3 + 27b^2)$ must be non-zero, i.e $4a^3 + 27b^2 \neq 0$. Otherwise, the curve is called a singular curve.
@@ -68,7 +71,7 @@ y_R = \lambda(x_P - x_R) - y_P \\
 \text{ where } \lambda = \frac{3x_P^2 + a}{2y_P}$$
 
 
-## EC cryptography definition
+## EC Cryptography
 
 In ellyptic curve cryptography, the coordinates of points are usually in a prime [finite field](https://en.wikipedia.org/wiki/Finite_field) $\mathbb{F}_p$ where $p$ is a **prime number**. However, it is also possible to use a **binary fields** $\mathbb{F}_{2^m}$.
 
@@ -129,7 +132,7 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 * MOV attack - [StackExchange](https://crypto.stackexchange.com/questions/1871/how-does-the-mov-attack-work)
 
-    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $ \mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
+    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
 
     [This script](./Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.
 
