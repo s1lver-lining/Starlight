@@ -1,5 +1,6 @@
 [DSA](https://en.wikipedia.org/wiki/Digital_Signature_Algorithm) A.K.A Digital Signature Algorithm is a signing algorithm similar to [RSA](../RSA/README.md).
 
+This algorithm is based on the [ElGamal encryption system](../ElGamal/README.md).
 
 ## Textbook definition
 
