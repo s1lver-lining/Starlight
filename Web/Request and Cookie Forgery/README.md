@@ -25,17 +25,6 @@
 
     Read [this](https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/07-Input_Validation_Testing/03-Testing_for_HTTP_Verb_Tampering) for more details on how to test it.
 
-* JWT tempering
-
-    JWTs are a way to authenticate users. They are encoded strings that contain the user's information. The server can decode the JWT and use the information to authenticate the user. 
-    
-    [`jwt_tools`](https://github.com/ticarpi/jwt_tool) can help with modifying the JWTs. They also document common vulnerabilities in JWTs [in their wiki page](https://github.com/ticarpi/jwt_tool/wiki)
-    ```bash
-    python jwt_tool.py <jwt>        # Inspect the JWT
-    python jwt_tool.py -T <jwt>     # Modify (temper) the JWT
-    python jwt_tool.py -C -d <jwt>  # Crack the JWT's signature
-    ```
-
 * AES CBC ciphered cookies
 
     See [Bit flipping attack](../../Cryptography/AES/AES%20-%20CBC%20Mode/README.md) for more details.

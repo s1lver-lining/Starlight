@@ -4,5 +4,6 @@
     "PHP",
     "Request and Cookie Forgery",
     "SQL Injection",
-    "XSS"
+    "XSS",
+    "JWT"
 ]
