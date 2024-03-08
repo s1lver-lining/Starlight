@@ -132,7 +132,14 @@ This operation is the *trapdoor function* of ECC, as inversing it is considered 
 
 * MOV attack - [StackExchange](https://crypto.stackexchange.com/questions/1871/how-does-the-mov-attack-work)
 
-    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$, ie $(p^k-1) = 0 \mod E.order$. If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
+    Some curves are vulnerable if they have a *small embedding degree*, such as *supersingular curves*. 
+    
+    > *Definition* Embedding degree
+    >The embedding degree is the smallest integer $k$ such that the curve can be embedded in a field $\mathbb{F}_{p^k}$: 
+    >
+    >$$(p^k-1) = 0 \mod E.order$$
+
+    If $k$ is small, the discrete logarithm can be computed in $\mathbb{F}_{p^k}$.
 
     [This script](./Tools/mov_attack/mov_attack.py) can be used to compute the discrete logarithm on EC points using the MOV attack.
 

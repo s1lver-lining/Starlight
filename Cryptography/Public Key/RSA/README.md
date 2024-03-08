@@ -110,13 +110,17 @@ Several attacks exist on RSA depending on the circumstances.
 
 * Square-free 4p - 1 factorization and it's RSA backdoor viability - [Paper](https://crocs.fi.muni.cz/_media/public/papers/2019-secrypt-sedlacek.pdf)
 
-   If we have<br>
-   >$N = p * q$<br>
-   >$T = 4 * p - 1$<br>
-   >$T = D * s^2$<br>
-   >$D = 3 \mod 8$ (D is a square-free number)<br>
-
-   then $N$ can be factored.
+   > *Definition* Square-free number
+   >If we have  
+   >
+   >$$\begin{cases}
+   >N &= p \cdot q \\
+   >T &= 4 \cdot p - 1 \\
+   >T &= D \cdot s^2 \\
+   >D &= 3 \mod 8
+   >\end{cases}$$
+   >
+   >then $D$ is a square-free number and $N$ can be factored.
 
    See [this GitHub repository](https://github.com/jvdsn/crypto-attacks/blob/master/attacks/factorization/complex_multiplication.py) for an implementation of the attack.
   
