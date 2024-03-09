@@ -13,4 +13,6 @@
 
     MD5 is also vulnerable to length extension attacks. This means that if you have the hash of a message, you can easily compute the hash of a message that has the original message as a prefix.
 
+    See [this script](./Tools/md5_length_ext.py) for a quick implementation of this attack.
+
     See this [GitHub repository](https://github.com/iagox86/hash_extender) for more information.
