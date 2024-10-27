@@ -963,11 +963,9 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 
 	Use [this section](#file-scanning) to find information about files.
 
-
 * Keepass
 
 	`keepassx` can be installed on Ubuntu to open and explore Keepass databases. Keepass databases master passwords can be cracked with `keepass2john`.
-
 
 * `VS Code Hex editor` - [Website](https://marketplace.visualstudio.com/items?itemName=ms-vscode.hexeditor)
 
@@ -2852,7 +2850,8 @@ Where:
 
 * Both asymetic and symetric algorithms
 
-    When both an asymetric and a symetric algorithm are allowed by the server and use the same key, the public key might be used as a secret key in the symetric algorithm. Consequently, the public key can be retrived using the symetric algorithm, and then used to sign/decryot the JWT using the asymetric algorithm.
+    When both an asymetric and a symetric algorithm are allowed by the server and use the same key, the public key might be used as a secret key in the symetric algorithm.
+    Consequently, the public key can be retrived using the symetric algorithm, and then used to sign/decrypt the JWT using the asymetric algorithm.
 
 * Public Key recovery - [GitHub](https://github.com/FlorianPicca/JWT-Key-Recovery)
 
@@ -3355,9 +3354,9 @@ Many steganography implementations exists. Here is a list of some of them.
 
 #### Images
 
-* [`APNG`]
+* `APNG`
 
-	Animated PNG. Use (apngdis)[https://sourceforge.net/projects/apngdis/] to extract the frames and delays.
+	Animated PNG. Use [apngdis](https://sourceforge.net/projects/apngdis/) to extract the frames and delays.
 
 * `SVG Layers`
 

@@ -24,7 +24,8 @@ Where:
 
 * Both asymetic and symetric algorithms
 
-    When both an asymetric and a symetric algorithm are allowed by the server and use the same key, the public key might be used as a secret key in the symetric algorithm. Consequently, the public key can be retrived using the symetric algorithm, and then used to sign/decryot the JWT using the asymetric algorithm.
+    When both an asymetric and a symetric algorithm are allowed by the server and use the same key, the public key might be used as a secret key in the symetric algorithm.
+    Consequently, the public key can be retrived using the symetric algorithm, and then used to sign/decrypt the JWT using the asymetric algorithm.
 
 * Public Key recovery - [GitHub](https://github.com/FlorianPicca/JWT-Key-Recovery)
 

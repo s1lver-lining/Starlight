@@ -83,9 +83,9 @@ Many steganography implementations exists. Here is a list of some of them.
 
 ### Images
 
-* [`APNG`]
+* `APNG`
 
-	Animated PNG. Use (apngdis)[https://sourceforge.net/projects/apngdis/] to extract the frames and delays.
+	Animated PNG. Use [apngdis](https://sourceforge.net/projects/apngdis/) to extract the frames and delays.
 
 * `SVG Layers`
 
