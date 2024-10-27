@@ -1,0 +1,110 @@
+# General definitions
+
+I recommend using a pypy virtual environment to run angr.
+
+
+```python
+# Imports
+import angr
+import claripy
+import logging
+logging.getLogger('angr').setLevel('INFO')
+
+# Parameters
+binary_path = './Exploit_Me(if_you_can)'
+
+useVeritesting = False # Can speed up the analysis when there is a lot of branching, but causes instability
+useUnicorn = True      # Unicorn engine is faster than the default engine, but can cause instability
+
+# (OPTIONAL) address parameters
+base_addr = 0x00
+state_addr = 0x00
+
+# (OPTIONAL) input parameters, when the input length is known
+max_input_len = 0x40
+
+# (OPTIONAL) goal address parameters
+success_addr = 0x00 
+fail_addr = 0x00
+
+# (OPTIONAL) goal strings in stdout
+success_stdout = [b'Well']
+fail_stdout = [b'Try again!']
+
+
+def is_successful(state):
+    stdout_output = state.posix.dumps(1)
+    return any(s in stdout_output for s in success_stdout)
+
+def is_failed(state):
+    stdout_output = state.posix.dumps(1)
+    return any(f in stdout_output for f in fail_stdout)
+
+
+# Create the project
+if base_addr:
+    p = angr.Project(binary_path, main_opts={'base_addr': base_addr})
+else:
+    p = angr.Project(binary_path)
+
+# (OPTIONAL) Hook ptrace to return 0. Avoid detection by anti-debugging techniques with ptrace.
+#p.hook_symbol('ptrace', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'](return_value=0))
+```
+
+# Create the simulation manager and explore
+
+
+```python
+
+argv1_chars = [claripy.BVS('argv1_%d' % i, 8) for i in range(max_input_len)]
+argv1 = claripy.Concat(*argv1_chars + [claripy.BVV(b'\0')])
+
+# Create the simulation manager
+state = p.factory.entry_state(args=[binary_path, argv1], stdin="", add_options=({angr.options.UNICORN} if useUnicorn else {}))
+
+# (OPTIONAL) Conditions on the flag:
+# for c in stdin_chars:
+#     state.add_constraints(c >= ord(' '))
+#     state.add_constraints(c <= ord('~'))
+
+sm = p.factory.simulation_manager(state, veritesting=useVeritesting)
+```
+
+
+```python
+# Explore the binary
+if success_addr and fail_addr:
+    sm.explore(find=success_addr, avoid=fail_addr)
+else:
+    sm.explore(find=is_successful, avoid=is_failed)
+sm
+```
+
+# Parse the results
+
+
+```python
+# Parse the results
+if sm.found:
+    found = sm.found[0]
+    print("FOUND")
+    print("argv1:", found.solver.eval(argv1, cast_to=bytes))
+    print("In:", found.posix.dumps(0))
+    print("Out:", found.posix.dumps(1))
+    print()
+
+if sm.deadended:
+    print("DEADENDED")
+    for deadended in sm.deadended.state:
+        print("In:", deadended.posix.dumps(0))
+        print("Out:", deadended.posix.dumps(1))
+        print()
+
+if sm.errored:
+    print("ERRORED")
+    for errored in sm.errored.state:
+        print(sm.errored)
+        print("In:", errored.posix.dumps(0))
+        print("Out:", errored.posix.dumps(1))
+        print()
+```
