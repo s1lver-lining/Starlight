@@ -31,3 +31,10 @@
 	Windows stores information about the programs that are run in a prefetch file. This information can be used to determine what programs were run on a system. The prefetch files are stored in `C:\Windows\Prefetch\` and have the extension `.pf`. 
 	
 	It can be parsed using `PECmd` from [Eric Zimmerman's tools](https://ericzimmerman.github.io/#!index.md). Win10 prefetch files can only be parsed on Win8+ systems, wine will not work for this.
+
+* `USB capture`
+
+	`Wireshark` can be used to display USB traffic in `.pcap` or `.pcapng` files. Some github repositories can be used to convert it to keyboard keystrokes:
+
+	- [ctf-usb-keyboard-parser](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser)
+	- [CTF-Usb_Keyboard_Parser](https://github.com/TeamRocketIst/ctf-usb-keyboard-parser) :heart:

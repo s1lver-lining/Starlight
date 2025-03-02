@@ -6,8 +6,9 @@
     MD5 is know to have collision issues. For exemple, it is very easy to find two byte strings with a given prefix that have the same MD5 hash.
 
     See these github repositories for more information:
-    - [collisions](https://github.com/corkami/collisions)
-    - [hashclash](https://github.com/cr-marcstevens/hashclash)
+    - [collisions](https://github.com/corkami/collisions) (descriptions of the attacks)
+    - [hashclash](https://github.com/cr-marcstevens/hashclash) (hard to build)
+    - [md5collgen](https://github.com/zhijieshi/md5collgen) (updated version of hashclash)
 
 * MD5 length extension - [GitHub](https://github.com/iagox86/hash_extender)
 

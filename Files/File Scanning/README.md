@@ -77,3 +77,8 @@ File scanning is the process of analyzing a, potentially large, file to find inf
     | `50 4B` (PK) | ZIP | [ZIP](https://en.wikipedia.org/wiki/Zip_(file_format)) archive |
 
     For exemple, the first 16 bytes of PNG are usually b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR'
+
+    This data can be outputed to a file with 
+    ```bash
+    echo -n -e "\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR" > png.sig
+    ```
